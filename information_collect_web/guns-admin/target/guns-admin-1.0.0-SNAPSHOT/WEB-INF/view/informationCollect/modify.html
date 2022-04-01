@@ -1,0 +1,126 @@
+@layout("/common/new_container.html"){
+<style>
+    input::-webkit-input-placeholder{
+        font-size: 12px;
+        color: #000000;
+        font-family: 微软雅黑;
+    }
+    .btn-primary{
+        padding: 5px 20px;
+    }
+    .W25 .th-inner{
+        width: 25px !important;
+    }
+    .split{
+        height: 1px;
+        width:100%;
+        background-color: #BBBBBB;
+        margin-top: 5px;
+        margin-bottom: 25px;
+    }
+    .topBtn{
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 5px;
+    }
+    .chooseBtn{
+        background-color: #15da8f;
+        font-weight: bold;
+    }
+</style>
+
+<div class="ibox float-e-margins" >
+    <div class="ibox-content">
+        <div class="form-horizontal">
+            <div class="row">
+                <div class="col-sm-5" style="padding: 0px;height: 35px;margin-left:15px; display: flex;">
+                    <div id="topSelect" style="display: flex;font-size: 14px;color: #000000;background-color:#ebf9f4;">
+                        <div id="baseBtn" class="topBtn" style="width: 120px;">基本信息</div>
+                        <!--<div id="timeBtn" class="topBtn" style="width: 120px;display:none;">时效</div>-->
+                    </div>
+                </div>
+            </div>
+            <div class="split"></div>
+
+            <div hidden id="topInformation">
+                <#title info="项目信息" />
+                <div class="row" style="margin-top: 20px">
+                    <div class="col-sm-4">
+                        <#label id="" name="项目名称" value="${info.project_name}" disabled="disabled"  />
+                    </div>
+                    <div class="col-sm-4">
+                        <#label id=""  name="DICI系统编号" value="${info.DICI_system_num}" disabled="disabled"  />
+                    </div>
+                    <div class="col-sm-4">
+                        <#label id=""  name="分公司" value="${info.dept}" disabled="disabled"  />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <#label id=""  name="交付经理" value="${info.pay_manager}" disabled="disabled"  />
+                    </div>
+                    <div class="col-sm-4">
+                        <#label id=""  name="交付助理" value="${info.pay_assistant}" disabled="disabled"  />
+                    </div>
+                    <div class="col-sm-4">
+                        <#label id=""  name="项目阶段(省公司)" value="${info.project_stage}" disabled="disabled"  />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <#label id=""  name="时间进度情况" value="${info.time_progress_situation}" disabled="disabled"  />
+                    </div>
+                    <div class="col-sm-4">
+                        <#label id=""  name="项目金额(万元)" value="${info.project_money}" disabled="disabled"  />
+                    </div>
+                </div>
+            </div>
+
+            @include("/informationCollect/modify/baseinfo.html"){}
+        </div>
+
+    </div>
+</div>
+<script>
+    $(function () {
+        var roleName='${roleName}'
+        if(roleName.search("交付经理")!=-1){
+            $('#timeBtn').show()
+        }
+        if(roleName.search("交付助理")!=-1){
+            $('#timeBtn').show()
+        }
+        //页面选择
+        $('#baseBtn').addClass("chooseBtn")
+        $("#baseinfo").show()
+//        if(roleName.search("交付经理")!=-1 || roleName.search("交付助理")!=-1){
+//            $("#timeline").show()
+//            $("#topInformation").show()
+//        }
+    })
+//    $(".topBtn").click(function () {
+//        if ($(this).hasClass("chooseBtn")) {
+//
+//        }else {
+//            $(".topBtn").removeClass("chooseBtn")
+//            $(this).addClass("chooseBtn")
+//            if($(this).text()=='基本信息'){
+//                $("#baseinfo").show()
+//                $("#topInformation").hide()
+//                $("#timeline").hide()
+//
+//            }else if($(this).text()=='时效'){
+//                $("#timeline").show()
+//                $("#topInformation").show()
+//                $("#baseinfo").hide()
+//            }
+//        }
+//    })
+    function go_back(){
+        window.parent.location.reload()
+
+    }
+</script>
+@}

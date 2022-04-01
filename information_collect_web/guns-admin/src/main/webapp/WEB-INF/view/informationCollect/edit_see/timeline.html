@@ -1,0 +1,824 @@
+<link rel="stylesheet" type="text/css" href="/static/css/steps.css">
+<div id="timeline" hidden>
+
+    <div style="height: 20px"></div>
+    <#title info="合同信息" />
+    <div style="height: 20px"></div>
+    <div class="row">
+        <div class="col-sm-4">
+            <#label id="connect_address" name="合同签订时间" value="${prescripti.contract_sign_time}" disabled="disabled"  />
+        </div>
+        <div class="col-sm-4">
+            <#label id="connect_address" name="计划交付时间" value="${prescripti.plan_pay_time}" disabled="disabled"  />
+        </div>
+    </div>
+
+    <div style="height: 20px"></div>
+    <#title info="项目实际时间" />
+
+    <div class="row" style="margin-top: 10px;height: 200px">
+        <div class="steps col-sm-offset-1 col-sm-10" id="project_first_time_step" style="display: flex">
+            <div class="step">
+                <div class="step-text">1</div>
+                <div class="step-main">项目启动</div>
+            </div>
+            <div class="step-line-new"></div>
+            <div class="step-line-new"></div>
+            <div class="step">
+                <div class="step-text">2</div>
+                <div class="step-main" >项目规划</div>
+            </div>
+            <div class="step-line-new"></div>
+            <div class="step-line-new"></div>
+            <div class="step">
+                <div class="step-text">3</div>
+                <div class="step-main">项目实施</div>
+            </div>
+            <div class="step-line-new"></div>
+            <div class="step-line-new"></div>
+            <div class="step ">
+                <div class="step-text">4</div>
+                <div class="step-main" >初验</div>
+            </div>
+            <div class="step-line "></div>
+        </div>
+    </div>
+
+    <div class="row" style="margin-top: 20px;height: 200px">
+        <div class="steps col-sm-10" id="project_second_time_step"  style="display: flex;margin-left: 65px">
+            <div class="step-line"></div>
+            <div class="step">
+                <div class="step-text">5</div>
+                <div class="step-main" >试运行</div>
+            </div>
+            <div class="step-line-new"></div>
+            <div class="step-line-new"></div>
+            <div class="step">
+                <div class="step-text">6</div>
+                <div class="step-main" >终验</div>
+            </div>
+            <div class="step-line-new"></div>
+            <div class="step-line-new"></div>
+            <div class="step">
+                <div class="step-text">7</div>
+                <div class="step-main" >交维与归档</div>
+            </div>
+        </div>
+    </div>
+    <div style="margin-top: 10px;height: 20px"></div>
+    <#title info="工期进度" />
+    <div style="height: 20px"></div>
+
+    <div class="row">
+        <div class="col-sm-3">
+            <#label id="contract_work_day" name="合同工期天数" value="${prescripti.contract_work_day}" disabled="disabled"  />
+        </div>
+        <div class="col-sm-offset-1 col-sm-3">
+            <#label id="worked_day" name="已实施工期天数" value="${prescripti.worked_day}" disabled="disabled"  />
+        </div>
+        <div class="col-sm-offset-1 col-sm-3">
+            <#label id="time_level_compare" name="时间进度差" value="${prescripti.time_level_compare}" disabled="disabled"  />
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div id="time_line" class="steps col-sm-2" style="margin-left: 20px">
+<!--            <div class="step step-completed-h">-->
+<!--                <div class="step-main-h" style="color: #76c474;">2021年9月23日 12：13</div>-->
+<!--            </div>-->
+<!--            <div class="step-line-h step-completed-h"></div>-->
+<!--            <div class="step step-completed-h">-->
+<!--                <div class="step-main-h" style="color: #76c474;">2021年9月21日 12：13</div>-->
+<!--            </div>-->
+<!--            <div class="step-line-h step-completed-h"></div>-->
+
+
+
+        </div>
+        <div id="time_content" class="col-sm-9">
+
+
+
+<!--            <div style="font-weight: bold;margin-top: 35px;margin-left:-190px;border: 2px solid  #76c474;border-radius:2px;width: 100%;height: 165px;">-->
+<!--                <div class="row" style="margin-left: 50px;margin-top: 20px">-->
+<!--                    进度: XXXXXXX-->
+<!--                </div>-->
+<!--                <div class="row" style="margin-left: 50px;margin-top: 15px">-->
+<!--                    分类: XXXXXXX-->
+<!--                </div>-->
+<!--                <div class="row" style="margin-left: 50px;margin-top: 15px">-->
+<!--                    说明: XXXXXXX-->
+<!--                </div>-->
+<!--                <div class="row" style="margin-left: 50px;margin-top: 15px">-->
+<!--                    措施: XXXXXXX-->
+<!--                </div>-->
+<!--            </div>-->
+
+<!--            <div style="font-weight: bold;margin-top: 35px;margin-left:-190px;border: 2px solid  #76c474;border-radius:2px;width: 100%;height: 165px;">-->
+<!--                <div class="row" style="margin-left: 50px;margin-top: 20px">-->
+<!--                    进度: XXXXXXX-->
+<!--                </div>-->
+<!--                <div class="row" style="margin-left: 50px;margin-top: 15px">-->
+<!--                    分类: XXXXXXX-->
+<!--                </div>-->
+<!--                <div class="row" style="margin-left: 50px;margin-top: 15px">-->
+<!--                    说明: XXXXXXX-->
+<!--                </div>-->
+<!--                <div class="row" style="margin-left: 50px;margin-top: 15px">-->
+<!--                    措施: XXXXXXX-->
+<!--                </div>-->
+<!--            </div>-->
+        </div>
+    </div>
+
+</div>
+
+<script>
+    var Timeline= {
+        layerIndex: -2,
+    }
+    let project_start_plan_finish_time='${info.project_start_plan_finish_time}';
+    let project_program_plan_finish_time='${info.project_program_plan_finish_time}';
+    let project_implement_plan_finish_time='${info.project_implement_plan_finish_time}';
+    let initial_plan_finish_time='${info.initial_plan_finish_time}';
+    let run_plan_finish_time='${info.run_plan_finish_time}';
+    let end_plan_finish_time='${info.end_plan_finish_time}';
+    let archive_plan_finish_time='${info.archive_plan_finish_time}';
+    let current_date=getCurrentDate("yyyy-MM-DD");
+
+    function cal(date1,date2){
+        var oDate1 = new Date(date1);
+        var oDate2 = new Date(date2);
+        if(oDate1.getTime() >= oDate2.getTime()){
+            return '正常'
+        } else {
+            return '落后'
+        }
+    }
+    function getIsLuohou(start,end) {
+        return cal(start,end);
+    }
+    function formateDate(d) {
+        d=d.split("-");
+        return d[0]+"-"+d[1]+d[2];
+    }
+    function get_project_stage(){
+        if('${prescripti.project_stage}'!=null && '${prescripti.project_stage}'!=''){
+            var project_stage='${prescripti.project_stage}'.split(',')
+            if(project_stage[project_stage.length-1]=='项目启动'){
+                let html_son=``
+                if('${prescripti.stage_activity}'==null || '${prescripti.stage_activity}'==''){
+                    html_son=``
+                }else {
+                    let stage_activity='${prescripti.stage_activity}'.split(',')
+                    let project_reality_time='${prescripti.project_reality_time}'.split(',')
+
+                    html_son+=` <div class="step-son">`+'计划'+formateDate(project_start_plan_finish_time)+'/实际'+formateDate(current_date)+'/'+getIsLuohou(project_start_plan_finish_time,current_date)+`</div>`;
+
+                    for(let i=0;i<stage_activity.length;i++){
+                        html_son+=` <div class="step-son" style="color: #4ebb4e;">`+stage_activity[i]+`-`+project_reality_time[i]+`</div>`
+                    }
+                }
+                let html=`<div class="step step-completed">
+                <div class="step-text">1</div>
+                <div class="step-main" style="color: #4ebb4e;">项目启动</div>`+html_son+`
+            </div>
+            <div class="step-line-new"></div>
+            <div class="step-line-new"></div>
+            <div class="step">
+                <div class="step-text">2</div>
+                <div class="step-main" >项目规划</div>
+            </div>
+            <div class="step-line-new"></div>
+            <div class="step-line-new"></div>
+            <div class="step">
+                <div class="step-text">3</div>
+                <div class="step-main">项目实施</div>
+            </div>
+            <div class="step-line-new"></div>
+            <div class="step-line-new"></div>
+            <div class="step ">
+                <div class="step-text">4</div>
+                <div class="step-main" >初验</div>
+            </div>
+            <div class="step-line "></div>`
+
+                let html1=`<div class="step-line"></div>
+            <div class="step">
+                <div class="step-text">5</div>
+                <div class="step-main" >试运行</div>
+            </div>
+            <div class="step-line-new"></div>
+            <div class="step-line-new"></div>
+            <div class="step">
+                <div class="step-text">6</div>
+                <div class="step-main" >终验</div>
+            </div>
+            <div class="step-line-new"></div>
+            <div class="step-line-new"></div>
+            <div class="step">
+                <div class="step-text">7</div>
+                <div class="step-main" >交维与归档</div>
+            </div>`
+                $('#project_first_time_step').html(html)
+                $('#project_second_time_step').html(html1)
+            }else if(project_stage[project_stage.length-1]=='项目规划'){
+                let html_son1=``
+                let html_son2=``
+                let index_1=0;
+                if('${prescripti.stage_activity}'==null || '${prescripti.stage_activity}'==''){
+                    html_son1=``
+                    html_son2=``
+                }else {
+                    let stage_activity='${prescripti.stage_activity}'.split(',')
+                    let project_reality_time='${prescripti.project_reality_time}'.split(',')
+
+                    html_son2+=` <div class="step-son">`+'计划'+formateDate(project_program_plan_finish_time)+'/实际'+formateDate(current_date)+'/'+getIsLuohou(project_program_plan_finish_time,current_date)+`</div>`;
+
+                    for(let i=0;i<project_stage.length;i++){
+                        if(project_stage[i]=='项目启动'){
+                            html_son1+=` <div class="step-son" style="color: #4ebb4e;">`+stage_activity[i]+`-`+project_reality_time[i]+`</div>`
+                            index_1=i;
+                        }else if(project_stage[i]=='项目规划'){
+                            html_son2+=` <div class="step-son" style="color: #4ebb4e;">`+stage_activity[i]+`-`+project_reality_time[i]+`</div>`
+                        }
+                    }
+                    html_son1=` <div class="step-son">`+'计划'+formateDate(project_start_plan_finish_time)+'/实际'+formateDate(project_reality_time[index_1].split(" ")[0])+'/'+getIsLuohou(project_start_plan_finish_time,project_reality_time[index_1].split(" ")[0])+`</div>`+html_son1;
+
+
+                }
+                let html=`<div class="step step-completed-h">
+                <div class="step-text">1</div>
+                <div class="step-main" style="color: #4ebb4e;">项目启动</div>`+html_son1+`
+            </div>
+            <div class="step-line-new step-completed-h"></div>
+            <div class="step-line-new step-completed-h"></div>
+            <div class="step step-completed">
+                <div class="step-text">2</div>
+                <div class="step-main" style="color: #4ebb4e;">项目规划</div>`+html_son2+`
+            </div>
+            <div class="step-line-new"></div>
+            <div class="step-line-new"></div>
+            <div class="step">
+                <div class="step-text">3</div>
+                <div class="step-main">项目实施</div>
+            </div>
+            <div class="step-line-new"></div>
+            <div class="step-line-new"></div>
+            <div class="step ">
+                <div class="step-text">4</div>
+                <div class="step-main" >初验</div>
+            </div>
+            <div class="step-line "></div>`
+                let html1=`<div class="step-line"></div>
+            <div class="step">
+                <div class="step-text">5</div>
+                <div class="step-main" >试运行</div>
+            </div>
+            <div class="step-line-new"></div>
+            <div class="step-line-new"></div>
+            <div class="step">
+                <div class="step-text">6</div>
+                <div class="step-main" >终验</div>
+            </div>
+            <div class="step-line-new"></div>
+            <div class="step-line-new"></div>
+            <div class="step">
+                <div class="step-text">7</div>
+                <div class="step-main" >交维与归档</div>
+            </div>`
+                $('#project_first_time_step').html(html)
+                $('#project_second_time_step').html(html1)
+            }else if(project_stage[project_stage.length-1]=='项目实施'){
+                let html_son1=``
+                let html_son2=``
+                let html_son3=``
+                let index_1=0;
+                let index_2=0;
+
+                if('${prescripti.stage_activity}'==null || '${prescripti.stage_activity}'==''){
+                    html_son1=``
+                    html_son2=``
+                    html_son3=``
+                }else {
+                    let stage_activity='${prescripti.stage_activity}'.split(',')
+                    let project_reality_time='${prescripti.project_reality_time}'.split(',')
+                    html_son3+=` <div class="step-son">`+'计划'+formateDate(project_implement_plan_finish_time)+'/实际'+formateDate(current_date)+'/'+getIsLuohou(project_implement_plan_finish_time,current_date)+`</div>`;
+
+                    for(let i=0;i<project_stage.length;i++){
+                        if(project_stage[i]=='项目启动'){
+                            html_son1+=` <div class="step-son" style="color: #4ebb4e;">`+stage_activity[i]+`-`+project_reality_time[i]+`</div>`
+                            index_1=i;
+                        }else if(project_stage[i]=='项目规划'){
+                            html_son2+=` <div class="step-son" style="color: #4ebb4e;">`+stage_activity[i]+`-`+project_reality_time[i]+`</div>`;
+                            index_2=i;
+                        }else if(project_stage[i]=='项目实施'){
+                            html_son3+=` <div class="step-son" style="color: #4ebb4e;">`+stage_activity[i]+`-`+project_reality_time[i]+`</div>`
+                        }
+                    }
+                    html_son1=` <div class="step-son">`+'计划'+formateDate(project_start_plan_finish_time)+'/实际'+formateDate(project_reality_time[index_1].split(" ")[0])+'/'+getIsLuohou(project_start_plan_finish_time,project_reality_time[index_1].split(" ")[0])+`</div>`+html_son1;
+                    html_son2=` <div class="step-son">`+'计划'+formateDate(project_program_plan_finish_time)+'/实际'+formateDate(project_reality_time[index_2].split(" ")[0])+'/'+getIsLuohou(project_start_plan_finish_time,project_reality_time[index_2].split(" ")[0])+`</div>`+html_son2;
+
+                }
+                let html=`<div class="step step-completed-h">
+                <div class="step-text">1</div>
+                <div class="step-main" style="color: #4ebb4e;">项目启动</div>`+html_son1+`
+            </div>
+            <div class="step-line-new step-completed-h"></div>
+            <div class="step-line-new step-completed-h"></div>
+            <div class="step step-completed-h">
+                <div class="step-text">2</div>
+                <div class="step-main" style="color: #4ebb4e;">项目规划</div>`+html_son2+`
+            </div>
+            <div class="step-line-new step-completed-h"></div>
+            <div class="step-line-new step-completed-h"></div>
+            <div class="step step-completed">
+                <div class="step-text">3</div>
+                <div class="step-main" style="color: #4ebb4e;">项目实施</div>`+html_son3+`
+            </div>
+            <div class="step-line-new"></div>
+            <div class="step-line-new"></div>
+            <div class="step ">
+                <div class="step-text">4</div>
+                <div class="step-main" >初验</div>
+            </div>
+            <div class="step-line "></div>`
+                let html1=`<div class="step-line"></div>
+            <div class="step">
+                <div class="step-text">5</div>
+                <div class="step-main" >试运行</div>
+            </div>
+            <div class="step-line-new"></div>
+            <div class="step-line-new"></div>
+            <div class="step">
+                <div class="step-text">6</div>
+                <div class="step-main" >终验</div>
+            </div>
+            <div class="step-line-new"></div>
+            <div class="step-line-new"></div>
+            <div class="step">
+                <div class="step-text">7</div>
+                <div class="step-main" >交维与归档</div>
+            </div>`
+                $('#project_first_time_step').html(html)
+                $('#project_second_time_step').html(html1)
+            }else if(project_stage[project_stage.length-1]=='初验'){
+                let html_son1=``
+                let html_son2=``
+                let html_son3=``
+                let html_son4=``
+                let index_1=0;
+                let index_2=0;
+                let index_3=0;
+                if('${prescripti.stage_activity}'==null || '${prescripti.stage_activity}'==''){
+                    html_son1=``
+                    html_son2=``
+                    html_son3=``
+                    html_son4=``
+                }else {
+                    let stage_activity='${prescripti.stage_activity}'.split(',')
+                    let project_reality_time='${prescripti.project_reality_time}'.split(',')
+                    html_son4+=` <div class="step-son">`+'计划'+formateDate(initial_plan_finish_time)+'/实际'+formateDate(current_date)+'/'+getIsLuohou(initial_plan_finish_time,current_date)+`</div>`;
+                    for(let i=0;i<project_stage.length;i++){
+                        if(project_stage[i]=='项目启动'){
+                            html_son1+=` <div class="step-son" style="color: #4ebb4e;">`+stage_activity[i]+`-`+project_reality_time[i]+`</div>`;
+                            index_1=i;
+                        }else if(project_stage[i]=='项目规划'){
+                            html_son2+=` <div class="step-son" style="color: #4ebb4e;">`+stage_activity[i]+`-`+project_reality_time[i]+`</div>`;
+                            index_2=i;
+                        }else if(project_stage[i]=='项目实施'){
+                            html_son3+=` <div class="step-son" style="color: #4ebb4e;">`+stage_activity[i]+`-`+project_reality_time[i]+`</div>`;
+                            index_3=i;
+                        }else if(project_stage[i]=='初验'){
+                            html_son4+=` <div class="step-son" style="color: #4ebb4e;">`+stage_activity[i]+`-`+project_reality_time[i]+`</div>`
+                        }
+                    }
+                    html_son1=` <div class="step-son">`+'计划'+formateDate(project_start_plan_finish_time)+'/实际'+formateDate(project_reality_time[index_1].split(" ")[0])+'/'+getIsLuohou(project_start_plan_finish_time,project_reality_time[index_1].split(" ")[0])+`</div>`+html_son1;
+                    html_son2=` <div class="step-son">`+'计划'+formateDate(project_program_plan_finish_time)+'/实际'+formateDate(project_reality_time[index_2].split(" ")[0])+'/'+getIsLuohou(project_start_plan_finish_time,project_reality_time[index_2].split(" ")[0])+`</div>`+html_son2;
+                    html_son3=` <div class="step-son">`+'计划'+formateDate(project_implement_plan_finish_time)+'/实际'+formateDate(project_reality_time[index_3].split(" ")[0])+'/'+getIsLuohou(project_implement_plan_finish_time,project_reality_time[index_3].split(" ")[0])+`</div>`+html_son3;
+
+                }
+                let html=`<div class="step step-completed-h">
+                <div class="step-text">1</div>
+                <div class="step-main" style="color: #4ebb4e;">项目启动</div>`+html_son1+`
+            </div>
+            <div class="step-line-new step-completed-h"></div>
+            <div class="step-line-new step-completed-h"></div>
+            <div class="step step-completed-h">
+                <div class="step-text">2</div>
+                <div class="step-main" style="color: #4ebb4e;">项目规划</div>`+html_son2+`
+            </div>
+            <div class="step-line-new step-completed-h"></div>
+            <div class="step-line-new step-completed-h"></div>
+            <div class="step step-completed-h">
+                <div class="step-text">3</div>
+                <div class="step-main" style="color: #4ebb4e;">项目实施</div>`+html_son3+`
+            </div>
+            <div class="step-line-new step-completed-h"></div>
+            <div class="step-line-new step-completed-h"></div>
+            <div class="step step-completed">
+                <div class="step-text">4</div>
+                <div class="step-main" style="color: #4ebb4e;">初验</div>`+html_son4+`
+            </div>
+            <div class="step-line "></div>`
+                let html1=`<div class="step-line"></div>
+            <div class="step">
+                <div class="step-text">5</div>
+                <div class="step-main" >试运行</div>
+            </div>
+            <div class="step-line-new"></div>
+            <div class="step-line-new"></div>
+            <div class="step">
+                <div class="step-text">6</div>
+                <div class="step-main" >终验</div>
+            </div>
+            <div class="step-line-new"></div>
+            <div class="step-line-new"></div>
+            <div class="step">
+                <div class="step-text">7</div>
+                <div class="step-main" >交维与归档</div>
+            </div>`
+                $('#project_first_time_step').html(html)
+                $('#project_second_time_step').html(html1)
+            }else if(project_stage[project_stage.length-1]=='试运行'){
+                let html_son1=``
+                let html_son2=``
+                let html_son3=``
+                let html_son4=``
+                let html_son5=``
+                let index_1=0;
+                let index_2=0;
+                let index_3=0;
+                let index_4=0;
+                if('${prescripti.stage_activity}'==null || '${prescripti.stage_activity}'==''){
+                    html_son1=``
+                    html_son2=``
+                    html_son3=``
+                    html_son4=``
+                    html_son5=``
+                }else {
+                    let stage_activity='${prescripti.stage_activity}'.split(',')
+                    let project_reality_time='${prescripti.project_reality_time}'.split(',')
+                    html_son5+=` <div class="step-son">`+'计划'+formateDate(run_plan_finish_time)+'/实际'+formateDate(current_date)+'/'+getIsLuohou(run_plan_finish_time,current_date)+`</div>`;
+                    for(let i=0;i<project_stage.length;i++){
+                        if(project_stage[i]=='项目启动'){
+                            html_son1+=` <div class="step-son" style="color: #4ebb4e;">`+stage_activity[i]+`-`+project_reality_time[i]+`</div>`;
+                            index_1=i;
+                        }else if(project_stage[i]=='项目规划'){
+                            html_son2+=` <div class="step-son" style="color: #4ebb4e;">`+stage_activity[i]+`-`+project_reality_time[i]+`</div>`;
+                            index_2=i;
+                        }else if(project_stage[i]=='项目实施'){
+                            html_son3+=` <div class="step-son" style="color: #4ebb4e;">`+stage_activity[i]+`-`+project_reality_time[i]+`</div>`
+                            index_3=i;
+                        }else if(project_stage[i]=='初验'){
+                            html_son4+=` <div class="step-son" style="color: #4ebb4e;">`+stage_activity[i]+`-`+project_reality_time[i]+`</div>`
+                            index_4=i;
+                        }else if(project_stage[i]=='试运行'){
+                            html_son5+=` <div class="step-son" style="color: #4ebb4e;">`+stage_activity[i]+`-`+project_reality_time[i]+`</div>`
+                        }
+                    }
+                    html_son1=` <div class="step-son">`+'计划'+formateDate(project_start_plan_finish_time)+'/实际'+formateDate(project_reality_time[index_1].split(" ")[0])+'/'+getIsLuohou(project_start_plan_finish_time,project_reality_time[index_1].split(" ")[0])+`</div>`+html_son1;
+                    html_son2=` <div class="step-son">`+'计划'+formateDate(project_program_plan_finish_time)+'/实际'+formateDate(project_reality_time[index_2].split(" ")[0])+'/'+getIsLuohou(project_start_plan_finish_time,project_reality_time[index_2].split(" ")[0])+`</div>`+html_son2;
+                    html_son3=` <div class="step-son">`+'计划'+formateDate(project_implement_plan_finish_time)+'/实际'+formateDate(project_reality_time[index_3].split(" ")[0])+'/'+getIsLuohou(project_implement_plan_finish_time,project_reality_time[index_3].split(" ")[0])+`</div>`+html_son3;
+                    html_son4=` <div class="step-son">`+'计划'+formateDate(initial_plan_finish_time)+'/实际'+formateDate(project_reality_time[index_4].split(" ")[0])+'/'+getIsLuohou(initial_plan_finish_time,project_reality_time[index_4].split(" ")[0])+`</div>`+html_son4;
+
+                }
+                let html=`<div class="step step-completed-h">
+                <div class="step-text">1</div>
+                <div class="step-main" style="color: #4ebb4e;">项目启动</div>`+html_son1+`
+            </div>
+            <div class="step-line-new step-completed-h"></div>
+            <div class="step-line-new step-completed-h"></div>
+            <div class="step step-completed-h">
+                <div class="step-text">2</div>
+                <div class="step-main" style="color: #4ebb4e;">项目规划</div>`+html_son2+`
+            </div>
+            <div class="step-line-new step-completed-h"></div>
+            <div class="step-line-new step-completed-h"></div>
+            <div class="step step-completed-h">
+                <div class="step-text">3</div>
+                <div class="step-main" style="color: #4ebb4e;">项目实施</div>`+html_son3+`
+            </div>
+            <div class="step-line-new step-completed-h"></div>
+            <div class="step-line-new step-completed-h"></div>
+            <div class="step step-completed-h">
+                <div class="step-text">4</div>
+                <div class="step-main" style="color: #4ebb4e;">初验</div>`+html_son4+`
+            </div>
+            <div class="step-line step-completed-h"></div>`
+                let html1=`<div class="step-line step-completed-h"></div>
+            <div class="step step-completed">
+                <div class="step-text">5</div>
+                <div class="step-main" style="color: #4ebb4e;">试运行</div>`+html_son5+`
+            </div>
+            <div class="step-line-new"></div>
+            <div class="step-line-new"></div>
+            <div class="step">
+                <div class="step-text">6</div>
+                <div class="step-main" >终验</div>
+            </div>
+            <div class="step-line-new"></div>
+            <div class="step-line-new"></div>
+            <div class="step">
+                <div class="step-text">7</div>
+                <div class="step-main" >交维与归档</div>
+            </div>`
+                $('#project_first_time_step').html(html)
+                $('#project_second_time_step').html(html1)
+            }else if(project_stage[project_stage.length-1]=='终验'){
+                let html_son1=``
+                let html_son2=``
+                let html_son3=``
+                let html_son4=``
+                let html_son5=``
+                let html_son6=``
+                let index_1=0;
+                let index_2=0;
+                let index_3=0;
+                let index_4=0;
+                let index_5=0;
+                if('${prescripti.stage_activity}'==null || '${prescripti.stage_activity}'==''){
+                    html_son1=``
+                    html_son2=``
+                    html_son3=``
+                    html_son4=``
+                    html_son5=``
+                    html_son6=``
+                }else {
+                    let stage_activity='${prescripti.stage_activity}'.split(',')
+                    let project_reality_time='${prescripti.project_reality_time}'.split(',');
+                    html_son6+=` <div class="step-son">`+'计划'+formateDate(end_plan_finish_time)+'/实际'+formateDate(current_date)+'/'+getIsLuohou(end_plan_finish_time,current_date)+`</div>`;
+
+                    for(let i=0;i<project_stage.length;i++){
+                        if(project_stage[i]=='项目启动'){
+                            html_son1+=` <div class="step-son" style="color: #4ebb4e;">`+stage_activity[i]+`-`+project_reality_time[i]+`</div>`;
+                            index_1=i;
+                        }else if(project_stage[i]=='项目规划'){
+                            html_son2+=` <div class="step-son" style="color: #4ebb4e;">`+stage_activity[i]+`-`+project_reality_time[i]+`</div>`;
+                            index_2=i;
+                        }else if(project_stage[i]=='项目实施'){
+                            html_son3+=` <div class="step-son" style="color: #4ebb4e;">`+stage_activity[i]+`-`+project_reality_time[i]+`</div>`
+                            index_3=i;
+                        }else if(project_stage[i]=='初验'){
+                            html_son4+=` <div class="step-son" style="color: #4ebb4e;">`+stage_activity[i]+`-`+project_reality_time[i]+`</div>`;
+                            index_4=i;
+                        }else if(project_stage[i]=='试运行'){
+                            html_son5+=` <div class="step-son" style="color: #4ebb4e;">`+stage_activity[i]+`-`+project_reality_time[i]+`</div>`;
+                            index_5=i;
+                        }else if(project_stage[i]=='终验'){
+                            html_son6+=` <div class="step-son" style="color: #4ebb4e;">`+stage_activity[i]+`-`+project_reality_time[i]+`</div>`
+                        }
+                    }
+                    html_son1=` <div class="step-son">`+'计划'+formateDate(project_start_plan_finish_time)+'/实际'+formateDate(project_reality_time[index_1].split(" ")[0])+'/'+getIsLuohou(project_start_plan_finish_time,project_reality_time[index_1].split(" ")[0])+`</div>`+html_son1;
+                    html_son2=` <div class="step-son">`+'计划'+formateDate(project_program_plan_finish_time)+'/实际'+formateDate(project_reality_time[index_2].split(" ")[0])+'/'+getIsLuohou(project_start_plan_finish_time,project_reality_time[index_2].split(" ")[0])+`</div>`+html_son2;
+                    html_son3=` <div class="step-son">`+'计划'+formateDate(project_implement_plan_finish_time)+'/实际'+formateDate(project_reality_time[index_3].split(" ")[0])+'/'+getIsLuohou(project_implement_plan_finish_time,project_reality_time[index_3].split(" ")[0])+`</div>`+html_son3;
+                    html_son4=` <div class="step-son">`+'计划'+formateDate(initial_plan_finish_time)+'/实际'+formateDate(project_reality_time[index_4].split(" ")[0])+'/'+getIsLuohou(initial_plan_finish_time,project_reality_time[index_4].split(" ")[0])+`</div>`+html_son4;
+                    html_son5=` <div class="step-son">`+'计划'+formateDate(run_plan_finish_time)+'/实际'+formateDate(project_reality_time[index_5].split(" ")[0])+'/'+getIsLuohou(run_plan_finish_time,project_reality_time[index_5].split(" ")[0])+`</div>`+html_son5;
+
+                }
+                let html=`<div class="step step-completed-h">
+                <div class="step-text">1</div>
+                <div class="step-main" style="color: #4ebb4e;">项目启动</div>`+html_son1+`
+            </div>
+            <div class="step-line-new step-completed-h"></div>
+            <div class="step-line-new step-completed-h"></div>
+            <div class="step step-completed-h">
+                <div class="step-text">2</div>
+                <div class="step-main" style="color: #4ebb4e;">项目规划</div>`+html_son2+`
+            </div>
+            <div class="step-line-new step-completed-h"></div>
+            <div class="step-line-new step-completed-h"></div>
+            <div class="step step-completed-h">
+                <div class="step-text">3</div>
+                <div class="step-main" style="color: #4ebb4e;">项目实施</div>`+html_son3+`
+            </div>
+            <div class="step-line-new step-completed-h"></div>
+            <div class="step-line-new step-completed-h"></div>
+            <div class="step step-completed-h">
+                <div class="step-text">4</div>
+                <div class="step-main" style="color: #4ebb4e;">初验</div>`+html_son4+`
+            </div>
+            <div class="step-line step-completed-h"></div>`
+                let html1=`<div class="step-line step-completed-h"></div>
+            <div class="step step-completed-h">
+                <div class="step-text">5</div>
+                <div class="step-main" style="color: #4ebb4e;">试运行</div>`+html_son5+`
+            </div>
+            <div class="step-line-new step-completed-h"></div>
+            <div class="step-line-new step-completed-h"></div>
+            <div class="step step-completed">
+                <div class="step-text">6</div>
+                <div class="step-main" style="color: #4ebb4e;">终验</div>`+html_son6+`
+            </div>
+            <div class="step-line-new"></div>
+            <div class="step-line-new"></div>
+            <div class="step">
+                <div class="step-text">7</div>
+                <div class="step-main" >交维与归档</div>
+            </div>`
+                $('#project_first_time_step').html(html)
+                $('#project_second_time_step').html(html1)
+            }else if(project_stage[project_stage.length-1]=='交维与归档'){
+                let html_son1=``
+                let html_son2=``
+                let html_son3=``
+                let html_son4=``
+                let html_son5=``
+                let html_son6=``
+                let html_son7=``
+                let index_1=0;
+                let index_2=0;
+                let index_3=0;
+                let index_4=0;
+                let index_5=0;
+                let index_6=0;
+                if('${prescripti.stage_activity}'==null || '${prescripti.stage_activity}'==''){
+                    html_son1=``
+                    html_son2=``
+                    html_son3=``
+                    html_son4=``
+                    html_son5=``
+                    html_son6=``
+                    html_son7=``
+                }else {
+                    let stage_activity='${prescripti.stage_activity}'.split(',')
+                    let project_reality_time='${prescripti.project_reality_time}'.split(',');
+                    html_son7+=` <div class="step-son">`+'计划'+formateDate(archive_plan_finish_time)+'/实际'+formateDate(current_date)+'/'+getIsLuohou(archive_plan_finish_time,current_date)+`</div>`;
+
+                    for(let i=0;i<project_stage.length;i++){
+                        if(project_stage[i]=='项目启动'){
+                            html_son1+=` <div class="step-son" style="color: #4ebb4e;">`+stage_activity[i]+`-`+project_reality_time[i]+`</div>`
+                            index_1=i;
+                        }else if(project_stage[i]=='项目规划'){
+                            html_son2+=` <div class="step-son" style="color: #4ebb4e;">`+stage_activity[i]+`-`+project_reality_time[i]+`</div>`
+                            index_2=i;
+                        }else if(project_stage[i]=='项目实施'){
+                            html_son3+=` <div class="step-son" style="color: #4ebb4e;">`+stage_activity[i]+`-`+project_reality_time[i]+`</div>`
+                            index_3=i;
+                        }else if(project_stage[i]=='初验'){
+                            html_son4+=` <div class="step-son" style="color: #4ebb4e;">`+stage_activity[i]+`-`+project_reality_time[i]+`</div>`
+                            index_4=i;
+                        }else if(project_stage[i]=='试运行'){
+                            html_son5+=` <div class="step-son" style="color: #4ebb4e;">`+stage_activity[i]+`-`+project_reality_time[i]+`</div>`
+                            index_5=i;
+                        }else if(project_stage[i]=='终验'){
+                            html_son6+=` <div class="step-son" style="color: #4ebb4e;">`+stage_activity[i]+`-`+project_reality_time[i]+`</div>`
+                            index_6=i;
+                        }else if(project_stage[i]=='交维与归档'){
+                            html_son7+=` <div class="step-son" style="color: #4ebb4e;">`+stage_activity[i]+`-`+project_reality_time[i]+`</div>`
+                        }
+                    }
+                    html_son1=` <div class="step-son">`+'计划'+formateDate(project_start_plan_finish_time)+'/实际'+formateDate(project_reality_time[index_1].split(" ")[0])+'/'+getIsLuohou(project_start_plan_finish_time,project_reality_time[index_1].split(" ")[0])+`</div>`+html_son1;
+                    html_son2=` <div class="step-son">`+'计划'+formateDate(project_program_plan_finish_time)+'/实际'+formateDate(project_reality_time[index_2].split(" ")[0])+'/'+getIsLuohou(project_start_plan_finish_time,project_reality_time[index_2].split(" ")[0])+`</div>`+html_son2;
+                    html_son3=` <div class="step-son">`+'计划'+formateDate(project_implement_plan_finish_time)+'/实际'+formateDate(project_reality_time[index_3].split(" ")[0])+'/'+getIsLuohou(project_implement_plan_finish_time,project_reality_time[index_3].split(" ")[0])+`</div>`+html_son3;
+                    html_son4=` <div class="step-son">`+'计划'+formateDate(initial_plan_finish_time)+'/实际'+formateDate(project_reality_time[index_4].split(" ")[0])+'/'+getIsLuohou(initial_plan_finish_time,project_reality_time[index_4].split(" ")[0])+`</div>`+html_son4;
+                    html_son5=` <div class="step-son">`+'计划'+formateDate(run_plan_finish_time)+'/实际'+formateDate(project_reality_time[index_5].split(" ")[0])+'/'+getIsLuohou(run_plan_finish_time,project_reality_time[index_5].split(" ")[0])+`</div>`+html_son5;
+                    html_son6=` <div class="step-son">`+'计划'+formateDate(end_plan_finish_time)+'/实际'+formateDate(project_reality_time[index_6].split(" ")[0])+'/'+getIsLuohou(end_plan_finish_time,project_reality_time[index_6].split(" ")[0])+`</div>`+html_son6;
+
+                }
+                let html=`<div class="step step-completed-h">
+                <div class="step-text">1</div>
+                <div class="step-main" style="color: #4ebb4e;">项目启动</div>`+html_son1+`
+            </div>
+            <div class="step-line-new step-completed-h"></div>
+            <div class="step-line-new step-completed-h"></div>
+            <div class="step step-completed-h">
+                <div class="step-text">2</div>
+                <div class="step-main" style="color: #4ebb4e;">项目规划</div>`+html_son2+`
+            </div>
+            <div class="step-line-new step-completed-h"></div>
+            <div class="step-line-new step-completed-h"></div>
+            <div class="step step-completed-h">
+                <div class="step-text">3</div>
+                <div class="step-main" style="color: #4ebb4e;">项目实施</div>`+html_son3+`
+            </div>
+            <div class="step-line-new step-completed-h"></div>
+            <div class="step-line-new step-completed-h"></div>
+            <div class="step step-completed-h">
+                <div class="step-text">4</div>
+                <div class="step-main" style="color: #4ebb4e;">初验</div>`+html_son4+`
+            </div>
+            <div class="step-line step-completed-h"></div>`
+                let html1=`<div class="step-line step-completed-h"></div>
+            <div class="step step-completed-h">
+                <div class="step-text">5</div>
+                <div class="step-main" style="color: #4ebb4e;">试运行</div>`+html_son5+`
+            </div>
+            <div class="step-line-new step-completed-h"></div>
+            <div class="step-line-new step-completed-h"></div>
+            <div class="step step-completed-h">
+                <div class="step-text">6</div>
+                <div class="step-main" style="color: #4ebb4e;">终验</div>`+html_son6+`
+            </div>
+            <div class="step-line-new step-completed-h"></div>
+            <div class="step-line-new step-completed-h"></div>
+            <div class="step step-completed">
+                <div class="step-text">7</div>
+                <div class="step-main" style="color: #4ebb4e;">交维与归档</div>`+html_son7+`
+            </div>`
+                $('#project_first_time_step').html(html)
+                $('#project_second_time_step').html(html1)
+            }
+        }else {
+            let html=`<div class="step">
+                <div class="step-text">1</div>
+                <div class="step-main">项目启动</div>
+            </div>
+            <div class="step-line-new"></div>
+            <div class="step-line-new"></div>
+            <div class="step">
+                <div class="step-text">2</div>
+                <div class="step-main" >项目规划</div>
+            </div>
+            <div class="step-line-new"></div>
+            <div class="step-line-new"></div>
+            <div class="step">
+                <div class="step-text">3</div>
+                <div class="step-main">项目实施</div>
+            </div>
+            <div class="step-line-new"></div>
+            <div class="step-line-new"></div>
+            <div class="step ">
+                <div class="step-text">4</div>
+                <div class="step-main" >初验</div>
+            </div>
+            <div class="step-line "></div>`
+            let html1=`<div class="step-line"></div>
+            <div class="step">
+                <div class="step-text">5</div>
+                <div class="step-main" >试运行</div>
+            </div>
+            <div class="step-line-new"></div>
+            <div class="step-line-new"></div>
+            <div class="step">
+                <div class="step-text">6</div>
+                <div class="step-main" >终验</div>
+            </div>
+            <div class="step-line-new"></div>
+            <div class="step-line-new"></div>
+            <div class="step">
+                <div class="step-text">7</div>
+                <div class="step-main" >交维与归档</div>
+            </div>`
+            $('#project_first_time_step').html(html)
+            $('#project_second_time_step').html(html1)
+        }
+
+    }
+
+    var progress_write=JSON.parse('${prescripti.progress_write}')
+    $(function (){
+        get_project_stage()
+        if('${prescripti.progress_write}'!=null && '${prescripti.progress_write}'!=''){
+            var progress_write=JSON.parse('${prescripti.progress_write}')
+            // console.log(progress_write.add_time)
+
+            var html_time=``
+            for(let i=progress_write.length-1;i>=0;i--){
+                var time= progress_write[i].add_time
+                html_time+=`<div class="step step-completed-h">
+                <div class="step-main-h" style="color: #76c474;">`+time+`</div>
+            </div>
+            <div class="step-line-h step-completed-h"></div>`
+            }
+            html_time+=`<div class="step"></div>`
+            $("#time_line").html(html_time)
+
+            var html_content=`<div style="height: 20px"></div>`
+            for(let i=progress_write.length-1;i>=0;i--){
+                html_content+=`<div style="font-weight: bold;margin-top: 35px;margin-left:-190px;border: 2px solid  #76c474;border-radius:2px;width: 100%;height: 165px;">
+                <div class="row" style="margin-left: 50px;margin-top: 15px">
+                    进度: `+progress_write[i].progress.replaceAll("n","").substr(0,65)+`
+                </div>
+                <div class="row" style="margin-left: 50px;margin-top: 10px">
+                    分类: `+progress_write[i].classify.replaceAll("n","").substr(0,65)+`
+                </div>
+                <div class="row" style="margin-left: 50px;margin-top: 10px">
+                    说明: `+progress_write[i].declare.replaceAll("n","").substr(0,65)+`
+                </div>
+                <div class="row" style="margin-left: 50px;margin-top: 10px">
+                    措施: `+progress_write[i].act.replaceAll("n","").substr(0,65)+`
+                </div>
+                <div class="row" style="margin-left: 90%;margin-top: 10px"><a href="javascript:void(0)" onclick="see_timeline(`+i+`)">查看详情</a></div>
+            </div>`
+            }
+            $("#time_content").html(html_content)
+        }
+
+
+    })
+    function see_timeline(i){
+        var index = layer.open({
+            type: 2,
+            title: '进度详情',
+            area: ['1000px', '500px'], //宽高
+            fix: false, //不固定
+            maxmin: true,
+            content: Feng.ctxPath + '/informationCollect/see_timeline?current_timeline='+i
+        });
+        Timeline.layerIndex = index;
+        // Weekly.layerIndex = index;
+    }
+    // $("#project_time_step").html()
+</script>

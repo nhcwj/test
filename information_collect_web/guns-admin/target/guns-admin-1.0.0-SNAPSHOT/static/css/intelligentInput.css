@@ -1,0 +1,10 @@
+.searchResultPanel ul li{
+    padding: 3px;
+    font-size: 14px;
+    line-height: 25px;
+    cursor: pointer;
+}
+.searchResultPanel ul li:hover{
+    text-decoration: underline;
+    background-color: #e5e5e5;
+}

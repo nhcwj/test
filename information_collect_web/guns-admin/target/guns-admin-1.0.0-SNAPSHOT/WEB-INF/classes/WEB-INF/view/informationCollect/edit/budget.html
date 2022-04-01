@@ -1,0 +1,505 @@
+<div id="budget" hidden>
+
+    <div style="height: 20px"></div>
+    <#title info="预算情况" />
+    <div style="height: 20px"></div>
+
+    <div class="row">
+        <div class="col-sm-3">
+            <#commonInput name="ICT系统项目编码:" id="ict_no" labelWidth="4" inputWidth="8" placeholder="手动填写"/>
+        </div>
+        <div class="col-sm-offset-1 col-sm-3">
+            <#commonSelect id="is_apply_budget" name="是否申请预算:" labelWidth="4" inputWidth="8">
+                <option value="">请选择</option>
+                <option value="是">是</option>
+                <option value="否">否</option>
+            </#commonSelect>
+        </div>
+        <div class="col-sm-offset-1 col-sm-3">
+            <#commonInput name="预算编号:" id="budget_no" labelWidth="4" inputWidth="8" placeholder="手动填写"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-3">
+            <#commonSelect id="is_out_account" name="是否出账:" labelWidth="4" inputWidth="8">
+                <option value="">请选择</option>
+                <option value="是">是</option>
+                <option value="否">否</option>
+            </#commonSelect>
+        </div>
+        <div class="col-sm-offset-1 col-sm-3">
+            <#commonInput name="出账金额(万元):" type="number" id="out_account_price" labelWidth="4" inputWidth="8" placeholder="数字"/>
+        </div>
+        <div class="col-sm-offset-1 col-sm-3">
+            <#commonInput name="业主合同编号:" id="owner_contract_no" labelWidth="4" inputWidth="8" placeholder="手动填写"/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-offset-1 col-ms-3">
+            <button type="button" class="btn btn-primary" id="supplierBtn" onclick="addSupplier()">新增供应商</button>
+        </div>
+    </div>
+    <div class="row" id="contract_div" style="margin-top: 20px">
+        <div class="col-sm-3">
+            <#commonInput name="供应商1合同编号:" id="contract_number_1" labelWidth="4" inputWidth="8" placeholder="手动填写"/>
+        </div>
+    </div>
+
+    <div style="height: 20px"></div>
+    <#title info="收款条件" />
+    <div style="height: 20px"></div>
+    <div class="row">
+        <div class="col-sm-3">
+            <button onclick="add_condition(this)" type="button" class="btn btn-primary " style="background-color: #20BE84" >
+                新增条件
+            </button>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12" id="condition_info"></div>
+    </div>
+
+    <div style="height: 20px"></div>
+    <#title info="收款进度" />
+    <div style="height: 20px"></div>
+    <div class="row">
+        <div class="col-sm-3">
+            <button onclick="add_income(this)" type="button" class="btn btn-primary " style="background-color: #20BE84" >
+                新增进度
+            </button>
+        </div>
+    </div>
+
+    <div class="row" id="income_price_total_div">
+        <div class="col-sm-10" style="margin-left:-195px;display: flex;justify-content: flex-end;color: #76c474;font-weight: bold;font-size: 18px;" id="income_price_div">
+            总计：<span id="income_price_total">0</span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="steps col-sm-2" style="margin-left: 20px" id="income_date_div"></div>
+        <div class="col-sm-8" id="income_content_div">
+            <div style="height: 20px"></div>
+        </div>
+    </div>
+
+
+    <div style="height: 20px"></div>
+    <#title info="出账情况" />
+    <div style="height: 20px"></div>
+    <div class="row">
+        <div class="col-sm-3">
+            <#commonInput name="出账产品名称:" id="bill_product_name" labelWidth="4" inputWidth="8" placeholder="手动填写"/>
+        </div>
+        <div class="col-sm-offset-1 col-sm-3">
+            <#commonInput name="出账金额:" id="bill_price" labelWidth="4" inputWidth="8" placeholder="手动填写"/>
+        </div>
+        <div class="col-sm-offset-1 col-sm-3">
+            <div class="form-group" style="display: flex;align-items: center;">
+                <label class="col-sm-4 control-label" style="font-size: 12px;
+            color: #4C4B4B;
+            font-family: 微软雅黑;
+            padding: 0;margin: 0px 0px ;text-align: right">
+                    <text style="margin: 0;padding: 0">出账日期:</text>
+
+                </label>
+                <div class="col-sm-8">
+                    <input class="form-control"  placeholder="开始月份" type="text" name="bill_date" id="bill_date" onclick="laydate({istime: false, format: 'YYYY-MM-DD'})" class="input" onfocus=this.blur()>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group" style="display:flex;align-items: center">
+                <label class="col-sm-2 control-label" style="font-size: 12px;
+		color: #4C4B4B;
+		font-family: 微软雅黑;
+		padding: 0;margin: 0;text-align: right">
+                    备注
+                </label>
+                <div class="col-sm-10">
+                    <textarea class="form-control" value=""  id="remark" name="remark" rows="5"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div style="height: 20px"></div>
+    <#title info="付款进度" />
+    <div style="height: 20px"></div>
+    <div class="row">
+        <div class="col-sm-3">
+            <button onclick="add_pay(this)" type="button" class="btn btn-primary " style="background-color: #20BE84" >
+                新增进度
+            </button>
+        </div>
+    </div>
+
+    <div style="height: 20px"></div>
+    <div class="row" id="pay_price_total_div">
+        <div class="col-sm-10" style="margin-left:-195px;display: flex;justify-content: flex-end;color: #76c474;font-weight: bold;font-size: 18px;" id="pay_price_div">
+            总计：<span id="pay_price_total">0</span>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="steps col-sm-2" style="margin-left: 20px" id="pay_date_div"></div>
+        <div class="col-sm-8" id="pay_content_div">
+            <div style="height: 20px"></div>
+        </div>
+    </div>
+
+
+    <div style="height: 20px"></div>
+    <#title info="欠款情况" />
+    <div style="height: 20px"></div>
+    <div class="row">
+        <div class="col-sm-6">
+            <#commonSelect id="is_owe" name="是否欠费:" labelWidth="2" inputWidth="4">
+                <option value="">请选择</option>
+                <option value="是">是</option>
+                <option value="否">否</option>
+            </#commonSelect>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group" style="display:flex;align-items: center">
+                <label class="col-sm-2 control-label" style="font-size: 12px;
+		color: #4C4B4B;
+		font-family: 微软雅黑;
+		padding: 0;margin: 0;text-align: right">
+                    欠费原因
+                </label>
+                <div class="col-sm-10">
+                    <textarea class="form-control" value=""  id="owe_reason" name="owe_reason" rows="5"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="margin-top: 40px; font-size: 14px;">
+        <div class="col-sm-4"></div>
+        <div class="col-sm-1">
+            <button type="button" class="btn btn-primary" id="budgetBtn" onclick="saveBudgetInfo()">保存</button>
+        </div>
+        <div class="col-sm-1">
+        </div>
+        <div class="col-sm-1">
+            <button type="button" onclick="go_back()" class="btn btn-primary">取消</button>
+        </div>
+        <div class="col-sm-5">
+        </div>
+    </div>
+</div>
+
+<script>
+    let supplier_num=1;
+
+    var budget_info={}
+    var information_id='${info.id}';
+    let income_price_total=0;
+    let pay_price_total=0;
+    getBudgetInfo();
+    function getBudgetInfo() {
+        var ajax = new $ax(Feng.ctxPath + "/informationCollect/getBudgetInfo", function (data) {
+            if(data.id!=''){
+                //非首次编辑
+                budget_info=data;
+                initData();
+                budget_info.collection_condition=JSON.parse(budget_info.collection_condition)
+                budget_info.collection_progress=JSON.parse(budget_info.collection_progress)
+                budget_info.payment_progress=JSON.parse(budget_info.payment_progress)
+                drawCondition();
+                drawIncome();
+                drawPay();
+            }else{
+                //首次编辑
+                budget_info.collection_condition=[];
+                budget_info.collection_progress=[];
+                budget_info.payment_progress=[];
+            }
+
+        }, function (data) {
+
+        });
+        ajax.set("information_id",information_id);
+        ajax.start();
+    }
+    var Budget={
+        layerIndex:-2
+    }
+    function add_condition(){
+        var index = layer.open({
+            type: 2,
+            title: '新建',
+            area: ['1000px', '550px'], //宽高
+            fix: false, //不固定
+            maxmin: true,
+            content: Feng.ctxPath + '/informationCollect/add_condition'
+        });
+        Budget.layerIndex = index;
+    }
+    function add_income(){
+        var index = layer.open({
+            type: 2,
+            title: '新建',
+            area: ['1000px', '550px'], //宽高
+            fix: false, //不固定
+            maxmin: true,
+            content: Feng.ctxPath + '/informationCollect/add_income'
+        });
+        Budget.layerIndex = index;
+    }
+    function add_pay(){
+        var index = layer.open({
+            type: 2,
+            title: '新建',
+            area: ['1000px', '550px'], //宽高
+            fix: false, //不固定
+            maxmin: true,
+            content: Feng.ctxPath + '/informationCollect/add_pay'
+        });
+        Budget.layerIndex = index;
+    }
+    function drawCondition() {
+        $("#condition_info").html('<div style="height: 20px"></div>');
+        for(let i=budget_info.collection_condition.length-1;i>=0;i--){
+            let current_progress=budget_info.collection_condition[i];
+            let contract_account_condition=current_progress.contract_account_condition;
+            let contract_account_scale=current_progress.contract_account_scale;
+            let Progress_Html='<div class="" style="border: 1px solid #a1a1a1;margin-left: 5%;width: 60%;display: flex;align-items:center;margin-bottom: 15px;padding: 15px;color: #4C4B4B;\n' +
+                'font-family: 微软雅黑;font-weight: bold">\n' +
+                '<div class="" style="width: 50%">合同收款条件：<span style="margin-left: 5px"><br>'+contract_account_condition.replaceAll("n","").replaceAll("& #41;","）").replaceAll("& #40;","（")+'</span></div>'+'<div class="" style="margin-left: 10%;width: 40%">收款比例：<span style="margin-left: 5px">'+contract_account_scale+'%</span></div></div>'
+            $("#condition_info").append(Progress_Html);
+        }
+    }
+    function drawIncome() {
+        $("#income_date_div").html('');
+        $("#income_content_div").html('<div style="height: 20px"></div>');
+        if(budget_info.collection_progress!=''){
+            if(budget_info.collection_progress.length>0){
+                for(let i=budget_info.collection_progress.length-1;i>=0;i--) {
+                    let obj=budget_info.collection_progress[i];
+                    let income_name=obj.income_name;
+                    let income_date=obj.income_date;
+                    let income_scale=obj.income_scale
+                    let income_price=obj.income_price;
+                    let income_remark=obj.income_remark;
+                    let add_time=obj.add_time;
+                    let html='<div class="step step-completed-h">\n' +
+                        '<div class="step-main-h" style="color: #76c474;">'+add_time+'</div>\n' +
+                        '</div>';
+                    let endTag='<div class="step-line-h step-completed-h"></div>'
+                    $("#income_date_div").append(html);
+                    $("#income_date_div").append(endTag);
+                    html='<div style="font-weight: bold;margin-top: 35px;margin-left:-190px;border: 2px solid  #76c474;border-radius:2px;width: 100%;height: 165px;">\n' +
+                        '                <div class="row" style="margin-left: 50px;margin-top: 15px">\n' +
+                        '                    收款名称: '+income_name.replaceAll("n","")+'\n' +
+                        '                </div>\n' +
+                        '                <div class="row" style="margin-left: 50px;margin-top: 10px">\n' +
+                        '                    收款日期: '+income_date+'\n' +
+                        '                </div>\n' +
+                        '                <div class="row" style="margin-left: 50px;margin-top: 10px">\n' +
+                        '                    收款比例: '+income_scale+'%\n' +
+                        '                </div>\n' +
+                        '                <div class="row" style="margin-left: 50px;margin-top: 10px">\n' +
+                        '                    收款金额: '+income_price+'(万元)\n' +
+                        '                </div>\n' +
+                        '                <div class="row" style="margin-left: 50px;margin-top: 10px">\n' +
+                        '                    备注: '+income_remark.replaceAll("n","").substr(0,80)+'\n' +
+                        '                </div>\n' +
+                        '            </div>'
+                    $("#income_content_div").append(html);
+                    income_price_total=Number(income_price_total)+parseFloat(income_price);
+                }
+                income_price_total=income_price_total.toFixed(2);
+                $("#income_date_div").append('<div class="step"></div>');
+                $("#income_price_total").text(income_price_total+"万元");
+            }else{
+                $("#income_price_total_div").css("display","none");
+            }
+        }else{
+            $("#income_price_total_div").css("display","none");
+        }
+    }
+    function drawPay() {
+        $("#pay_date_div").html('');
+        $("#pay_content_div").html('<div style="height: 20px"></div>');
+        if(budget_info.payment_progress!=''){
+            if(budget_info.payment_progress.length>0){
+                for(let i=budget_info.payment_progress.length-1;i>=0;i--) {
+                    let obj=budget_info.payment_progress[i];
+                    let pay_name=obj.pay_name;
+                    let pay_date=obj.pay_date;
+                    let pay_scale=obj.pay_scale
+                    let pay_price=obj.pay_price;
+                    let pay_remark=obj.pay_remark;
+                    let add_time=obj.add_time;
+                    let html='<div class="step step-completed-h">\n' +
+                        '<div class="step-main-h" style="color: #76c474;">'+add_time+'</div>\n' +
+                        '</div>';
+                    let endTag='<div class="step-line-h step-completed-h"></div>'
+                    $("#pay_date_div").append(html);
+                    $("#pay_date_div").append(endTag);
+                    html='<div style="font-weight: bold;margin-top: 35px;margin-left:-190px;border: 2px solid  #76c474;border-radius:2px;width: 100%;height: 165px;">\n' +
+                        '                <div class="row" style="margin-left: 50px;margin-top: 15px">\n' +
+                        '                    付款名称: '+pay_name.replaceAll("n","")+'\n' +
+                        '                </div>\n' +
+                        '                <div class="row" style="margin-left: 50px;margin-top: 10px">\n' +
+                        '                    付款日期: '+pay_date+'\n' +
+                        '                </div>\n' +
+                        '                <div class="row" style="margin-left: 50px;margin-top: 10px">\n' +
+                        '                    付款比例: '+pay_scale+'%\n' +
+                        '                </div>\n' +
+                        '                <div class="row" style="margin-left: 50px;margin-top: 10px">\n' +
+                        '                    付款金额: '+pay_price+'(万元)\n' +
+                        '                </div>\n' +
+                        '                <div class="row" style="margin-left: 50px;margin-top: 10px">\n' +
+                        '                    备注: '+pay_remark.replaceAll("n","").substr(0,80)+'\n' +
+                        '                </div>\n' +
+                        '            </div>'
+                    $("#pay_content_div").append(html);
+                    pay_price_total=Number(pay_price_total)+parseFloat(pay_price);
+                }
+                pay_price_total=pay_price_total.toFixed(2);
+                $("#pay_price_total").text(pay_price_total+"万元");
+                $("#pay_date_div").append('<div class="step"></div>');
+            }else{
+                $("#pay_price_total_div").css("display","none");
+            }
+        }else{
+            $("#pay_price_total_div").css("display","none");
+        }
+    }
+    let submitBudgetFlag=false;
+
+    function saveBudgetInfo() {
+        Feng.confirm("确认保存吗",function () {
+            if(!submitBudgetFlag) {
+                submitBudgetFlag=true;
+                budget_info.information_collect_id = information_id;
+                budget_info.ict_no = $("#ict_no").val();
+                budget_info.is_apply_budget = $("#is_apply_budget").val();
+                budget_info.is_out_account = $("#is_out_account").val();
+                budget_info.out_account_price = $("#out_account_price").val();
+                budget_info.is_owe = $("#is_owe").val();
+                budget_info.owe_reason = $("#owe_reason").val();
+                budget_info.collection_condition = JSON.stringify(budget_info.collection_condition).replace(/[\\]/g, '');
+                budget_info.collection_progress = JSON.stringify(budget_info.collection_progress).replace(/[\\]/g, '');
+                budget_info.payment_progress = JSON.stringify(budget_info.payment_progress).replace(/[\\]/g, '');
+
+                //新增字段
+                budget_info.budget_no = $("#budget_no").val();
+                budget_info.owner_contract_no = $("#owner_contract_no").val();
+                let supplier_contract_no=[];
+                c(supplier_num)
+                for(let i=1;i<=supplier_num;i++){
+                    let tmp=$("#contract_number_"+i).val();
+                    if(tmp!=''){
+                        supplier_contract_no.push(tmp);
+                    }
+                }
+                budget_info.supplier_contract_no = supplier_contract_no.join(",");
+                budget_info.bill_product_name = $("#bill_product_name").val();
+                budget_info.bill_price = $("#bill_price").val();
+                budget_info.bill_date = $("#bill_date").val();
+                budget_info.remark = $("#remark").val();
+                c(budget_info);
+                var ajax = new $ax(Feng.ctxPath + "/informationCollect/editBudgetInfo", function (data) {
+                    if (data.code == 200) {
+                        $("#budgetBtn").attr("disabled", false);
+                        Feng.success("保存成功");
+                        go_back();
+//                setTimeout(function () {
+//                    window.parent.location.reload();
+//                },1000)
+
+//                budget_info.id=data.data.id;
+//                resetInfo();
+//                         window.parent.refreshTable()
+//                window.parent.go_back()
+                    }
+                }, function (data) {
+                    submitBudgetFlag=false;
+                });
+                ajax.set(budget_info);
+                ajax.start();
+            }
+        })
+
+
+    }
+    function initData() {
+        $("#ict_no").val(budget_info.ict_no);
+        $("#is_apply_budget").val(budget_info.is_apply_budget);
+        $("#is_out_account").val(budget_info.is_out_account);
+        $("#out_account_price").val(budget_info.out_account_price);
+        $("#is_owe").val(budget_info.is_owe);
+        $("#owe_reason").val(budget_info.owe_reason);
+
+        $("#budget_no").val(budget_info.budget_no);
+        $("#owner_contract_no").val(budget_info.owner_contract_no);
+        $("#bill_product_name").val(budget_info.bill_product_name);
+        $("#bill_price").val(budget_info.bill_price);
+        $("#bill_date").val(budget_info.bill_date);
+        $("#remark").val(budget_info.remark);
+
+        let supplier_contract_no=budget_info.supplier_contract_no;
+        if(supplier_contract_no!=''){
+            supplier_contract_no=supplier_contract_no.split(",");
+            supplier_num=supplier_contract_no.length
+            if(supplier_contract_no.length>1){
+                $("#contract_number_1").val(supplier_contract_no[0]);
+
+                for(let i=2;i<=supplier_contract_no.length;i++){
+                    if((i-1)%3==0){
+                        html='<div class="col-sm-3"><div class="form-group" style="display: flex;align-items: center;"><label class="col-sm-4 control-label" style="font-size: 12px;\n' +
+                            '\t\tcolor: #4C4B4B;\n' +
+                            '\t\tfont-family: 微软雅黑;\n' +
+                            '\t\tpadding: 0;margin: 0;text-align: right"> <text style="margin: 0;padding: 0">供应商'+i+'合同编号</text></label>' +
+                            '<div class="col-sm-8" style="margin:0;"><input class="form-control" value="'+supplier_contract_no[i-1]+'" id="contract_number_'+i+'" name="contract_number_'+i+'" placeholder="手动填写"</div></div></div>'
+
+                    }else{
+                        html='<div class="col-sm-offset-1 col-sm-3"><div class="form-group" style="display: flex;align-items: center;"><label class="col-sm-4 control-label" style="font-size: 12px;\n' +
+                            '\t\tcolor: #4C4B4B;\n' +
+                            '\t\tfont-family: 微软雅黑;\n' +
+                            '\t\tpadding: 0;margin: 0;text-align: right"> <text style="margin: 0;padding: 0">供应商'+i+'合同编号</text></label>' +
+                            '<div class="col-sm-8" style="margin:0;"><input class="form-control" value="'+supplier_contract_no[i-1]+'" id="contract_number_'+i+'" name="contract_number_'+i+'" placeholder="手动填写"</div></div></div>'
+                    }
+                    $("#contract_div").append(html);
+                }
+            }else{
+                $("#contract_number_1").val(supplier_contract_no[0]);
+            }
+        }
+
+    }
+    function resetInfo() {
+        budget_info.collection_condition=JSON.parse(budget_info.collection_condition)
+        budget_info.collection_progress=JSON.parse(budget_info.collection_progress)
+        budget_info.payment_progress=JSON.parse(budget_info.payment_progress)
+    }
+
+    function addSupplier() {
+        supplier_num=supplier_num+1;
+        let html=''
+        if((supplier_num-1)%3==0){
+            html='<div class="col-sm-3"><div class="form-group" style="display: flex;align-items: center;"><label class="col-sm-4 control-label" style="font-size: 12px;\n' +
+                '\t\tcolor: #4C4B4B;\n' +
+                '\t\tfont-family: 微软雅黑;\n' +
+                '\t\tpadding: 0;margin: 0;text-align: right"> <text style="margin: 0;padding: 0">供应商'+supplier_num+'合同编号</text></label>' +
+                '<div class="col-sm-8" style="margin:0;"><input class="form-control" id="contract_number_'+supplier_num+'" name="contract_number_'+supplier_num+'" placeholder="手动填写"</div></div></div>'
+
+        }else{
+            html='<div class="col-sm-offset-1 col-sm-3"><div class="form-group" style="display: flex;align-items: center;"><label class="col-sm-4 control-label" style="font-size: 12px;\n' +
+                '\t\tcolor: #4C4B4B;\n' +
+                '\t\tfont-family: 微软雅黑;\n' +
+                '\t\tpadding: 0;margin: 0;text-align: right"> <text style="margin: 0;padding: 0">供应商'+supplier_num+'合同编号</text></label>' +
+                '<div class="col-sm-8" style="margin:0;"><input class="form-control" id="contract_number_'+supplier_num+'" name="contract_number_'+supplier_num+'" placeholder="手动填写"</div></div></div>'
+        }
+        $("#contract_div").append(html);
+    }
+</script>

@@ -1,0 +1,105 @@
+@layout("/common/_container.html"){
+
+<style>
+    .changeColor{
+        background-color: #31b0d5  !important;
+        color: white;
+    }
+</style>
+<link  rel="stylesheet" href="${ctxPath}/static/css/plugins/bootstrap-select/bootstrap-select.min.css">
+<script src="${ctxPath}/static/js/plugins/bootstrap-select/bootstrap-select.min.js"></script>
+<script src="${ctxPath}/static/js/plugins/bootstrap-select/defaults-zh_CN.min.js"></script>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5></h5>
+            </div>
+            <div class="ibox-content">
+                <div class="row row-lg">
+                    <div class="col-sm-12">
+
+                        <div class="col-sm-12" style="">
+                            <button type="button" class="btn btn-primary " style="background-color: #20BE84" onclick="more_other()" id="more">
+                                <span>导入</span>
+                            </button>
+                            <button type="button" class="btn btn-primary " style="background-color: #20BE84;margin-left: 10px" id="query">
+                                修改
+                            </button>
+
+                        </div>
+                        <!--<#table id="SelfHomeTable"/>-->
+                        <table id="SelfHomeTable" data-mobile-responsive="true" class="text-nowrap table" data-click-to-select="true" style="table-layout: fixed;">
+                            <thead>
+                            <tr>
+                                <th  data-field="selectItem" data-checkbox="true"></th>
+                            </tr>
+                            </thead>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+    let floorId='${floor_id}'
+    var SelfHome = {
+        id: "SelfHomeTable",	//表格id
+        seItem: null,		//选中的条目
+        table: null,
+    };
+
+    var layerIndex=-1;
+    /**
+     * 初始化表格的列
+     */
+    SelfHome.initColumn = function () {
+        return [
+            {field: 'selectItem', radio: false,width:10},
+
+            {title: '工商登记企业名称', field: 'register_company_name', width:10,visible: true, align: 'center', valign: 'middle',sortable:true,formatter: function(value, row, index) {
+                if(value=='' || value==null){
+                    return '<span style="color:red">--</span>';
+                }else{
+                    return value;
+                }
+            }},
+            {title: '客户法人代表', field: 'cial_person', width:10,visible: true, align: 'center', valign: 'middle',sortable:true,formatter: function(value, row, index) {
+                if(value=='' || value==null){
+                    return '<span style="color:red">--</span>';
+                }else{
+                    return value;
+                }
+            }},
+            {title: '所在楼层', field: 'floor', width:10,visible: true, align: 'center', valign: 'middle',sortable:true,formatter: function(value, row, index) {
+                if(value=='' || value==null){
+                    return '<span style="color:red">--</span>';
+                }else{
+                    return value;
+                }
+            }},
+            {title: '地址', field: 'address', width:20,visible: true, align: 'center', valign: 'middle',sortable:true,formatter: function(value, row, index) {
+                if(value=='' || value==null){
+                    return '无图片';
+                }else{
+                    return value;
+                }
+            }},
+        ];
+    };
+
+    $(function () {
+        var defaultColunms = SelfHome.initColumn();
+        var table = new BSTable(SelfHome.id, "/qyw/FloorInfo/floor_detail_info_data?floorId="+floorId, defaultColunms);
+        table.setPaginationType("client");
+        SelfHome.table = table.init();
+
+    });
+
+</script>
+
+
+@}

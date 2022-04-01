@@ -1,0 +1,82 @@
+<div id="skConfirm" hidden>
+    <div style="height: 15px"></div>
+    <#title info="首款/全款信息" />
+    <div class="row" style="margin-top: 20px;">
+        <div class="col-sm-4">
+            <#label id="is_pay_all" name="是否支付全款" value="${orderInfo_plus.is_pay_all}" />
+        </div>
+        <div class="col-sm-4">
+            <#label id="buy_name" name="购买方名称" value="${orderInfo_plus.buy_name}" />
+        </div>
+        <div class="col-sm-4">
+            <#label id="buy_tax_payer_no" name="购买方纳税人识别号" value="${orderInfo_plus.buy_tax_payer_no}" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+            <#label id="buy_address" name="购买方地址" value="${orderInfo_plus.buy_address}" />
+        </div>
+        <div class="col-sm-4">
+            <#label id="buy_phone" name="购买方电话" value="${orderInfo_plus.buy_phone}" />
+        </div>
+        <div class="col-sm-4">
+            <#label id="buy_open_hang" name="购买方开户行" value="${orderInfo_plus.buy_open_hang}" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+            <#label id="buy_account" name="购买方账号" value="${orderInfo_plus.buy_account}" />
+        </div>
+        <div class="col-sm-4">
+            <div class="col-sm-11 col-sm-offset-1" style="display: flex;margin-top: 5px;">
+                <div style=""><strong><span style="font-size: 12px;color: #4C4B4B;
+		font-family: 微软雅黑;">收款证明：</span></strong></div>
+                <div id="client_pay_files">
+
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="col-sm-11 col-sm-offset-1" style="display: flex;margin-top: 5px;">
+                <div style=""><strong><span style="font-size: 12px;color: #4C4B4B;
+		font-family: 微软雅黑;">客户工单协议：</span></strong></div>
+                <div id="sk_client_order_protocol">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="height: 15px"></div>
+    <#title info="首款/全款审核" />
+    <div class="row" style="margin-top: 20px">
+        <div class="col-sm-4">
+                <#label id="first_is_pass" name="是否通过" value="${orderInfo_plus.first_is_pass}" />
+        </div>
+        <div class="col-sm-4">
+            <#label id="first_suggest" name="意见" value="${orderInfo_plus.first_suggest}" />
+        </div>
+    </div>
+</div>
+<script>
+    let sk_client_order_protocols='${client_order_protocols}';
+    let sk_client_order_protocol_html='';
+    if(sk_client_order_protocols!=''){
+        sk_client_order_protocols=JSON.parse(sk_client_order_protocols);
+        for(let i=0;i<sk_client_order_protocols.length;i++){
+            sk_client_order_protocol_html+='<div data-file="'+sk_client_order_protocols[i].file_path+'" data-name="'+sk_client_order_protocols[i].file_name+'"><strong><span class="text-danger">'+sk_client_order_protocols[i].file_name+'</span></strong>' +
+                '&nbsp;&nbsp;<i style="color: blue;cursor: pointer" alt="下载" onclick="download(this)" class="fa fa-download"></i></div>'
+        }
+        $("#sk_client_order_protocol").append(sk_client_order_protocol_html);
+    }
+
+    let client_pay_files='${client_pay_files}';
+    let sk_client_pay_file_html="";
+    if(client_pay_files!=''){
+        client_pay_files=JSON.parse(client_pay_files);
+        for(let i=0;i<client_pay_files.length;i++){
+            sk_client_pay_file_html+='<div data-file="'+client_pay_files[i].file_path+'" data-name="'+client_pay_files[i].file_name+'"><strong><span class="text-danger">'+client_pay_files[i].file_name+'</span></strong>' +
+                '&nbsp;&nbsp;<i style="color: blue;cursor: pointer" alt="下载" onclick="download(this)" class="fa fa-download"></i></div>'
+        }
+        $("#client_pay_files").append(sk_client_pay_file_html);
+    }
+</script>

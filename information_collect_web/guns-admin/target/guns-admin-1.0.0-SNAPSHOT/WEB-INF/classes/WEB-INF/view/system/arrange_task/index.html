@@ -1,0 +1,50 @@
+@layout("/common/_container.html"){
+<div class="row">
+	<div class="col-sm-12">
+		<div class="ibox float-e-margins">
+			<div class="ibox-title">
+				<h5>指派任务</h5>
+			</div>
+			<div class="ibox-content">
+				<div class="row row-lg">
+					<div class="col-sm-12">
+						<div class="row">
+							<div class="col-lg-3 col-sm-3">
+								<div class="panel panel-default">
+									<div class="panel-heading">组织机构</div>
+									<div class="panel-body dept-tree">
+										<ul id="deptTree" class="ztree"></ul>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-9 col-sm-9">
+								<div class="row">
+									<div class="col-lg-4 col-sm-4">
+										<div class="row">
+											<div class="col-lg-12 col-sm-12">
+												<#NameCon id="name" name="收集员名称" placeholder="姓名"/>
+											</div>
+										</div>
+									</div>
+									<div class="col-lg-8 col-sm-8">
+										<div class="row">
+											<div class="col-lg-12 col-sm-12">
+												<#button name="搜索" icon="fa-search" clickFun="MgrUser.search()"/>
+												<#button name="重置" icon="fa-trash" clickFun="MgrUser.resetSearch()" space="true"/>
+												<#button name="指派" icon="fa-trash" clickFun="MgrUser.arrange()" space="true"/>
+
+											</div>
+										</div>
+									</div>
+								</div>
+								<#table id="SysUserTable"/>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script src="${ctxPath}/static/modular/system/arrange_task/user.js"></script>
+@}

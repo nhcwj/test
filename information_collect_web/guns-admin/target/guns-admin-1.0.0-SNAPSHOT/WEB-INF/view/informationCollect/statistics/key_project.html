@@ -1,0 +1,304 @@
+<div class="row">
+    <div class="col-sm-offset-1 col-sm-6">
+        <label class="control-label" style="font-size: 16px;
+            color: #4C4B4B;
+            font-family: 微软雅黑;
+            padding: 0;margin: 5px 0px 5px 0px;text-align: right">重点项目</label>
+    </div>
+</div>
+<div style="height: 20px"></div>
+<div id="key_project_main" style="width: 100%;height:500px;"></div>
+<div style="height: 80px"></div>
+<div class="row">
+    <div class="col-sm-4">
+        <#commonSelect id="project_stage" name="情况" labelWidth="4" inputWidth="8">
+        <option value="">请选择</option>
+        <option value="启动及实施阶段">启动及实施阶段</option>
+        <option value="验收阶段">验收阶段</option>
+        <option value="工期进度落后">工期进度落后</option>
+        <option value="非客观原因落后">非客观原因落后</option>
+    </#commonSelect>
+</div>
+<div class="col-sm-4">
+    <#commonSelect id="time_progress_situation" name="公司:" labelWidth="4" inputWidth="8">
+    <option value="">请选择</option>
+    <option value="市属">市属</option>
+    <option value="禅城">禅城</option>
+    <option value="三水">三水</option>
+    <option value="高明">高明</option>
+    <option value="顺德">顺德</option>
+    <option value="南海">南海</option>
+</#commonSelect>
+</div>
+<div class="col-sm-1">
+    <button type="button" class="btn btn-primary " style="background-color: #20BE84;margin-left: 10px" id="query" >
+        查询
+    </button>
+</div>
+</div>
+<#table id="key_project_table"/>
+<script>
+    var key_project_information = {
+        id: "key_project_table",	//表格id
+        seItem: null,		//选中的条目
+        table: null,
+        layerIndex: -1,
+        name:"重点项目",
+    };
+    key_project_information.initColumn = function () {
+        return [
+            {field: 'selectItem',visible:false,radio:true},
+            {title: '进度', field: 'time', visible: true, align: 'center',sortable:true , valign: 'middle',formatter:function(value){
+                    if(value==""||value==null){
+                        return '<span style="color:red;">--</span>'
+                    }else{
+                        return value;
+                    }
+                }},
+
+            {title: '项目名称', field: 'user_name', visible: true, align: 'center',sortable:true , valign: 'middle',formatter:function(value){
+                    if(value==""||value==null){
+                        return '<span style="color:red;">--</span>'
+                    }else{
+                        return value;
+                    }
+                }},
+            {title: '所在阶段', field: 'user_phone', visible: true, align: 'center',sortable:true , valign: 'middle',formatter:function(value,row){
+                    if(value==""||value==null){
+                        return '<span style="color:red;">--</span>'
+                    }else{
+                        return value;
+                    }
+                }},
+            {title: '交付经理', field: 'operate', visible: true, align: 'center',sortable:true , valign: 'middle',formatter:function(value){
+                    if(value==""||value==null){
+                        return '<span style="color:red;">--</span>'
+                    }else{
+                        return value
+                    }
+                }},
+            {title: '项目金额', field: 'content', visible: true, align: 'center',sortable:true , valign: 'middle',formatter:function(value){
+                    if(value==""||value==null){
+                        return '<span style="color:red;">--</span>'
+                    }else{
+                        return value;
+                    }
+                }},
+
+        ];
+    };
+    var defaultColunms1 = key_project_information.initColumn();
+    var table1 = new BSTable(key_project_information.id, "",defaultColunms1,500);
+    table1.setPaginationType("client");
+    key_project_information.table = table1.init();
+</script>
+<script>
+    var app = {};
+    var key_project_data=['市属','顺德','南海','禅城','三水','高明'];
+    var key_project_count1=[2,10,10,12,1,1];
+    var key_project_count2=[0,7,5,5,0,0];
+    var key_project_count3=[1,1,5,4,0,0];
+    var key_project_count4=[0,0,0,0,1,0];
+    var key_project_count5=[2,17,15,17,1,2];
+    var key_project_itemStyle1={
+        normal: {
+            //柱形图圆角，初始化效果
+            barBorderRadius:[3, 3, 0, 0],
+            color: function(params) {
+                var colorList =  ['#0fafb7','#0fafb7','#0fafb7','#0fafb7','#0fafb7','#0fafb7','#0fafb7'];
+                return colorList[params.dataIndex]
+            }
+        },
+    };
+
+
+    var key_project_itemStyle2={
+        normal: {
+            //柱形图圆角，初始化效果
+            barBorderRadius:[3, 3, 0, 0],
+            color: function(params) {
+                var colorList = ['#11d3d3','#11d3d3','#11d3d3','#11d3d3','#11d3d3','#11d3d3','#11d3d3'];
+                return colorList[params.dataIndex]
+            }
+        },
+    };
+    var key_project_itemStyle3={
+        normal: {
+            //柱形图圆角，初始化效果
+            barBorderRadius:[3, 3, 0, 0],
+            color: function(params) {
+                var colorList = ['#4ceae6','#4ceae6','#4ceae6','#4ceae6','#4ceae6','#4ceae6','#4ceae6']
+                return colorList[params.dataIndex]
+            }
+        },
+    };
+    var key_project_itemStyle4={
+        normal: {
+            //柱形图圆角，初始化效果
+            barBorderRadius:[3, 3, 0, 0],
+            color: function(params) {
+                var colorList = ['#97fffc','#97fffc','#97fffc','#97fffc','#97fffc','#97fffc','#97fffc']
+                return colorList[params.dataIndex]
+            }
+        },
+    };
+    var key_project_pie_itemStyle={
+        normal: {
+            color: function(params) {
+                var colorList = ['#0e4d92','#0066cc','#1779c9','#0091e2',
+                    '#44a2ff','#7ac0ff','#aedcff']
+                return colorList[params.dataIndex]
+            }
+        },
+    }
+    var key_project_pie_itemStyle1={
+        normal: {
+            color: function(params) {
+                var colorList = ['#7486a1']
+                return colorList[params.dataIndex]
+            }
+        },
+    }
+    var key_project_chartDom = document.getElementById('key_project_main');
+    var key_project_Chart = echarts.init(key_project_chartDom);
+    var key_project_option;
+
+    key_project_option = {
+        color:['#0fafb7','#11d3d3','#4ceae6','#97fffc','#2eccc0','#97fffc'],
+        title: {
+            // text: '集团专线服开归档情况',
+            // subtext: '数据来源.....'
+        },
+        tooltip: {
+            // trigger: 'axis',
+            // axisPointer: {            // Use axis to trigger tooltip
+            //     type: 'shadow'        // 'shadow' as default; can also be 'line' or 'shadow'
+            // }
+        },
+        legend: {
+            left: 'center',
+            data: ['启动及实施', '验收阶段','工期进度落后','非客观原因落后','售中交付支撑','合同金额','落后率']
+        },
+        grid: {
+            top:'15%',
+            left: '8%',
+            right: '8%',
+            bottom: '3%',
+            containLabel: true
+        },
+        yAxis: [{
+            type: 'value'
+
+        },{
+            type: 'value',
+            name: '售中交付支撑',
+            splitLine: {show: false}
+        }],
+        xAxis: [{
+            type: 'category',
+            data: key_project_data
+        }],
+        series: [
+            {
+                name: '启动及实施',
+                type: 'bar',
+                itemStyle:key_project_itemStyle1,
+                label: {
+                    show: true
+                },
+                emphasis: {
+                    focus: 'series'
+                },
+                data: key_project_count1
+            },
+            {
+                name: '验收阶段',
+                type: 'bar',
+                itemStyle:key_project_itemStyle2,
+                label: {
+                    show: true
+                },
+                emphasis: {
+                    focus: 'series'
+                },
+                data: key_project_count2
+            },
+            {
+                name: '工期进度落后',
+                type: 'bar',
+                itemStyle:key_project_itemStyle3,
+                label: {
+                    show: true
+                },
+                emphasis: {
+                    focus: 'series'
+                },
+                data: key_project_count3
+            },
+            {
+                name: '非客观原因落后',
+                type: 'bar',
+                itemStyle:key_project_itemStyle4,
+                label: {
+                    show: true
+                },
+                emphasis: {
+                    focus: 'series'
+                },
+                data: key_project_count4
+            },
+            {
+                name: '售中交付支撑',
+                type: 'line',
+                yAxisIndex: 1,
+                label: {
+                    position: 'top',
+                    show: true,
+                    formatter:'{c}'
+                },
+                emphasis: {
+                    focus: 'series'
+                },
+                data: key_project_count5
+            },
+            {
+                name: '项目金额',
+                type: 'pie',
+                center: ['75%', '20%'],
+                radius: ['15%','25%'],
+                itemStyle:key_project_pie_itemStyle,
+                z: 100,
+                label: {
+                    show: true,
+                    formatter:'{b}-{c}'
+                },
+                data: [
+                    {name: '市属', value: 2715.4},
+                    {name: '禅城', value: 20206},
+                    {name: '三水', value: 921},
+                    {name: '高明', value: 559},
+                    {name: '顺德', value: 8168.1},
+                    {name: '南海', value: 36997.81},
+                ]
+            },
+            {
+                name: '项目金额',
+                type: 'pie',
+                center: ['75%', '20%'],
+                radius: '15%',
+                itemStyle:key_project_pie_itemStyle1,
+                z: 100,
+                label: {
+                    show: true,
+                    position: 'center',
+                    formatter:'合计\n{c}\n万元'
+                },
+                data: [
+                    {name: '项目金额总数', value: 69567.31},
+                ]
+            },
+        ]
+    };
+
+    key_project_option && key_project_Chart.setOption(key_project_option);
+</script>

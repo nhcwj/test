@@ -1,0 +1,39 @@
+<div id="firstStep" hidden>
+    <div style="height: 25px"></div>
+    <#title info="联系人信息" />
+    <div class="row" style="margin-top: 20px">
+        <div class="col-sm-4">
+            <#label id="pre_people" name="前勘人员" value="${orderInfo.pre_people}" disabled="disabled"/>
+        </div>
+        <div class="col-sm-4">
+            <#label id="pre_people_phone" name="前勘人员联系方式" value="${orderInfo.pre_people_phone}" disabled="disabled"/>
+        </div>
+        <div class="col-sm-4">
+            <#label id="order_type" name="集团类型" value="${orderInfo.order_type}" disabled="disabled"/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+            <#label id="order_no" name="集团编码" value="${orderInfo.order_no}" disabled="disabled"/>
+        </div>
+        <div class="col-sm-4">
+            <#label id="fgs" name="集团所属网格/区域" value="${orderInfo.fgs}-${orderInfo.wg}" disabled="disabled"/>
+        </div>
+        <div class="col-sm-4">
+            <#label id="is_add_records_client" name="是否新建档客户" value="${orderInfo.is_add_records_client}" disabled="disabled"/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+            <#label id="client_manager" name="客户经理" value="${orderInfo.client_manager}" disabled="disabled"/>
+        </div>
+        <div class="col-sm-4" >
+            <#label id="client_manager_phone" name="客户经理联系方式" value="${orderInfo.client_manager_phone}" disabled="disabled"/>
+        </div>
+    </div>
+
+</div>
+
+<script>
+
+</script>

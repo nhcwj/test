@@ -1,0 +1,232 @@
+@layout("/common/_container.html"){
+<link rel="stylesheet" href="${ctxPath}/static/css/plugins/bootstrap-select/bootstrap-select.min.css">
+<script src="${ctxPath}/static/js/plugins/bootstrap-select/bootstrap-select.min.js"></script>
+<script src="${ctxPath}/static/js/plugins/bootstrap-select/defaults-zh_CN.min.js"></script>
+<div id="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>
+                    订单报障
+                </h5>
+            </div>
+            <div class="ibox-content">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="col-sm-3">
+                            <#commonInput name="订单编号:" id="order_num" labelWidth="4" inputWidth="8"
+                            placeholder="请输入"/>
+                        </div>
+                        <div class="col-sm-3">
+                            <#commonInput name="联系人:" id="appler_name" labelWidth="4" inputWidth="8"
+                            placeholder="请输入"/>
+                        </div>
+                        <div class="col-sm-3">
+                            <#commonInput name="联系电话:" id="appler_phone" labelWidth="4" inputWidth="8"
+                            placeholder="请输入"/>
+                        </div>
+                        <div class="col-sm-3" style="text-align: center">
+                            <button type="button" class="btn btn-primary "
+                                    style="background-color: #20BE84;margin-left: 10px" id="search" onclick="search()">
+                                查询
+                            </button>
+                            <button type="button" class="btn btn-primary "
+                                    style="background-color: #20BE84;margin-left: 10px" id="reset" onclick="reset()">
+                                重置
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="col-sm-3">
+                            <div class="form-group" style="display: flex;align-items: center">
+                                <label class="col-sm-4 control-label" style="text-align: right">
+                                    报障类型:
+                                </label>
+                                <div class="col-sm-8">
+                                    <select class="form-control selectpicker" multiple data-live-search="true"
+                                            id="type" name="type" style="" onchange="change(this)">
+                                        <option value="类型1">类型1</option>
+                                        <option value="类型2">类型2</option>
+                                        <option value="类型3">类型3</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <br>
+                <#table id="warrantyTable"/>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    input::-webkit-input-placeholder {
+        font-size: 12px;
+        color: #4C4B4B;
+        font-family: 微软雅黑;
+    }
+
+    .control-label {
+        font-size: 12px;
+        color: #4C4B4B;
+        font-family: 微软雅黑;
+        padding: 0 0;
+    }
+
+    .top {
+        margin-top: 5px;
+    }
+
+    .form-control {
+        font-size: 12px;
+        color: #4C4B4B;
+        font-family: 微软雅黑;
+    }
+
+    .light_colour {
+        background: #e0e9ff
+    }
+
+    .btn-default {
+        color: #6f6c6c;
+        background-color: #fffdfd;
+    }
+</style>
+
+<script>
+    var warranty = {
+        id: "warrantyTable",
+        setItem: null,
+        table: null,
+        layerIndex: -1,
+    }
+    var queryData = {};
+    warranty.initColumn = function () {
+        return [
+            {field: 'selectItem', visible: true, radio: true},
+            {
+                title: '序号',
+                field: 'id',
+                visible: true,
+                align: 'center',
+                sortable: true,
+                valign: 'middle',
+                formatter: function (value) {
+                    return value;
+                }
+            },
+            {
+                title: '订单编号',
+                field: 'order_num',
+                visible: true,
+                align: 'center',
+                sortable: true,
+                valign: 'middle',
+                formatter: function (value, row, index) {
+                    if (value == "" || value == null) {
+                        return '<span style="color:red;">--</span>'
+                    } else {
+                        return '<a href="javascript:void(0)" onclick="openDetail(\'' + row.order_num + '\')">' + value + '</a>';
+                    }
+                }
+            },
+            {
+                title: '报障类型',
+                field: 'type',
+                visible: true,
+                align: 'center',
+                sortable: true,
+                valign: 'middle',
+                formatter: function (value) {
+                    if (value == "" || value == null) {
+                        return '<span style="color:red;">--</span>'
+                    } else {
+                        return value;
+                    }
+                }
+            },
+            {
+                title: '联系人',
+                field: 'appler_name',
+                visible: true,
+                align: 'center',
+                sortable: true,
+                valign: 'middle',
+                formatter: function (value) {
+                    if (value == "" || value == null) {
+                        return '<span style="color:red;">--</span>'
+                    } else {
+                        return value;
+                    }
+                }
+            },
+            {
+                title: '联系电话',
+                field: 'appler_phone',
+                visible: true,
+                align: 'center',
+                sortable: true,
+                valign: 'middle',
+                formatter: function (value) {
+                    if (value == "" || value == null) {
+                        return '<span style="color:red;">--</span>'
+                    } else {
+                        return value;
+                    }
+                }
+            },
+        ]
+    }
+    var defaultColumn = warranty.initColumn();
+    var table = new BSTable(warranty.id, "/warrantyOrder/getWarrantyOrderList", defaultColumn, 600);
+
+    $(function () {
+        table.setPaginationType("client");
+        warranty.table = table.init();
+    })
+
+    function search() {
+        queryData['type'] = $.trim($("#type").val());
+        queryData['orderNum'] = $.trim($("#order_num").val());
+        queryData['applerName'] = $.trim($("#appler_name").val());
+        queryData['applerPhone'] = $.trim($("#appler_phone").val());
+        c(queryData)
+        table.setQueryParams(queryData);
+        table.refresh();
+    }
+
+    function reset() {
+        clear('order_num');
+        clear('appler_name');
+        clear('appler_phone');
+        $("#type").val("").trigger("change");
+        queryData = {};
+        table.setQueryParams(queryData);
+        table.refresh();
+    }
+
+    function openDetail(orderNum) {
+        warranty.layerIndex = openWindow("报障详情", 1200, 600, "/warrantyOrder/getWarrantyDetail?orderNum=" + orderNum);
+        layer.full(warranty.layerIndex);
+    }
+
+    function clear(key) {
+        $("#" + key).val(null)
+    }
+
+    function change(e) {
+        if ($(e).val() !== null) {
+            $(e).next().find(".filter-option").css('color', '#0d8ddb')
+        } else {
+            $(e).next().find(".filter-option").css('color', '#999999')
+        }
+    }
+
+</script>
+
+@}

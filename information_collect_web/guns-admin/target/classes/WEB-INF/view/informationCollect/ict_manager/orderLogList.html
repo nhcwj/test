@@ -1,0 +1,234 @@
+@layout("/common/_container.html"){
+<link rel="stylesheet" href="${ctxPath}/static/css/plugins/bootstrap-select/bootstrap-select.min.css">
+<script src="${ctxPath}/static/js/plugins/bootstrap-select/bootstrap-select.min.js"></script>
+<script src="${ctxPath}/static/js/plugins/bootstrap-select/defaults-zh_CN.min.js"></script>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>订单日志列表</h5>
+            </div>
+            <div class="ibox-content">
+                <div class="row">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="col-sm-3">
+                                <#commonInput name="客经/中台名称:" id="name" labelWidth="4" inputWidth="8"
+                                placeholder="请输入"/>
+                            </div>
+                            <div class="col-sm-8" style="display: flex;;height: 20px;">
+                                <div style="height: 100%;" class="col-sm-4">
+                                    <#commonInput readonly="true" labelWidth="0" inputWidth="12" name=""
+                                    placeholder="选择起始时间"
+                                    id="start_time" clickFun="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"/>
+                                </div>
+                                <div style="height: 100%;display: flex;align-items: center;" class="">
+                                    <text>--</text>
+                                </div>
+                                <div style="height: 100%;" class="col-sm-4">
+                                    <#commonInput readonly="true" labelWidth="0" inputWidth="12" name=""
+                                    placeholder="选择结束时间"
+                                    id="end_time" clickFun="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"/>
+                                </div>
+                                <div class="col-sm-3" style="text-align: right">
+                                    <button type="button" class="btn btn-primary "
+                                            style="background-color: #20BE84;margin-left: 10px" onclick="search()"
+                                            id="search">
+                                        查询
+                                    </button>
+                                    <button type="button" class="btn btn-primary "
+                                            style="background-color: #20BE84;margin-left: 10px" onclick="reset()"
+                                            id="reset">
+                                        重置
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <#table id="orderLogTable"/>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    var queryData = {};
+
+    var OrderLog = {
+        id: "orderLogTable",
+        setItem: null,
+        table: null,
+    };
+
+    initOrderLogColumn = function () {
+        return [
+            {field: 'selectItem', radio: true},
+            <!-- 工单基本信息-->
+            {
+                title: '序号',
+                field: '',
+                visible: true,
+                align: 'center',
+                valign: 'middle',
+                formatter: function (value, row, index) {
+                    return index + 1;
+                }
+            },
+            {
+                title: '客经/中台名称',
+                field: 'name',
+                visible: true,
+                align: 'center',
+                valign: 'middle',
+                formatter: function (value, row, index) {
+                    if (value == '' || value == null) {
+                        return '<span >--</span>';
+                    } else {
+                        return value;
+                    }
+                }
+            },
+            {
+                title: '客经/中台电话',
+                field: 'phone',
+                visible: true,
+                align: 'center',
+                valign: 'middle',
+                formatter: function (value, row, index) {
+                    if (value == '' || value == null) {
+                        return '<span >--</span>';
+                    } else {
+                        return value;
+                    }
+                }
+            },
+            {
+                title: '客户电话',
+                field: 'client_phone',
+                visible: true,
+                align: 'center',
+                valign: 'middle',
+                formatter: function (value, row, index) {
+                    if (value == '' || value == null) {
+                        return '<span >--</span>';
+                    } else {
+                        return value;
+                    }
+                }
+            },
+            {
+                title: '当前环节',
+                field: 'process',
+                visible: true,
+                align: 'center',
+                valign: 'middle',
+                formatter: function (value, row, index) {
+                    if (value == '' || value == null) {
+                        return '<span >--</span>';
+                    } else {
+                        return value;
+                    }
+                }
+            },
+            {
+                title: '操作内容',
+                field: 'content',
+                visible: true,
+                align: 'center',
+                valign: 'middle',
+                formatter: function (value, row, index) {
+                    if (value == '' || value == null) {
+                        return '<span >--</span>';
+                    } else {
+                        return value;
+                    }
+                }
+            },
+            {
+                title: '操作时间',
+                field: 'operate_time',
+                visible: true,
+                align: 'center',
+                valign: 'middle',
+                formatter: function (value, row, index) {
+                    if (value == '' || value == null) {
+                        return '<span >--</span>';
+                    } else {
+                        return value;
+                    }
+                }
+            },
+            {
+                title: '订单编号',
+                field: 'order_no',
+                visible: true,
+                align: 'center',
+                valign: 'middle',
+                formatter: function (value, row, index) {
+                    if (value == '' || value == null) {
+                        return '<span >--</span>';
+                    } else {
+                        return value;
+                    }
+                }
+            },
+        ]
+    }
+
+    $(function () {
+        var defaultColumn = initOrderLogColumn();
+        var table = new BSTable(OrderLog.id, "/IctManager/getOrderLogList", defaultColumn);
+        table.setPaginationType("client");
+        OrderLog.table = table.init();
+    })
+
+    function search() {
+        queryData = {};
+        queryData['name'] = $("#name").val();
+        queryData['startTime'] = $("#start_time").val();
+        queryData['endTime'] = $("#end_time").val();
+        if (!check()) {
+            Feng.error("结束时间小于开始时间，请重新选择");
+            console.log("sssss");
+        } else {
+            OrderLog.table.setQueryParams(queryData);
+            OrderLog.table.refresh();
+        }
+
+    }
+
+    function check() {
+        let startTime = $("#start_time").val();
+        let endTime = $("#end_time").val();
+        if (startTime != null && endTime != null) {
+            let sTime = new Date(startTime);
+            let eTime = new Date(endTime);
+            if (sTime.getTime() > eTime.getTime()) {
+                return false;
+            } else {
+                return true;
+            }
+        }else{
+            return true;
+        }
+    }
+
+    function clear(key) {
+        $("#" + key).val('');
+    }
+
+    function reset() {
+        clear("name");
+        clear("start_time");
+        clear("end_time");
+        queryData = {};
+        OrderLog.table.setQueryParams(queryData);
+        OrderLog.table.refresh();
+    }
+
+</script>
+
+
+@}

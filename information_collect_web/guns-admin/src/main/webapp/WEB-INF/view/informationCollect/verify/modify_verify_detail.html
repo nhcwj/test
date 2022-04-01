@@ -1,0 +1,196 @@
+@layout("/common/new_container.html"){
+<div id="baseinfo">
+
+    <#title info="项目信息" />
+    <div style="height: 20px"></div>
+    <div class="row">
+        <div class="col-sm-4">
+            <#label id="project_name" name="项目名称:" value="${info.project_name}" disabled="disabled"  />
+        </div>
+        <div class="col-sm-4">
+            <#label id="DICI_system_num" name="DICI系统编号:" value="${info.DICI_system_num}" disabled="disabled"  />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+            <#label id="dept" name="分公司/部门:" value="${info.dept}" disabled="disabled"  />
+        </div>
+        <div class="col-sm-4">
+            <#label id="is_important" name="是否重点项目:" value="${info.is_important}" disabled="disabled"  />
+        </div>
+        <div class="col-sm-4">
+            <#label id="time_progress_situation" name="时间进度情况:" value="${info.time_progress_situation}" disabled="disabled"  />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+            <#label id="contract_num" name="合同编号:" value="${info.contract_num}" disabled="disabled"  />
+        </div>
+        <div class="col-sm-4">
+            <#label id="project_money" name="项目金额(万元):" value="${info.project_money}" disabled="disabled"  />
+        </div>
+        <div class="col-sm-4">
+            <#label id="pay_manager" name="交付经理:" value="${info.pay_manager}" disabled="disabled"  />
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-4">
+            <#label id="pay_assistant" name="交付助理:" value="${info.pay_assistant}" disabled="disabled"  />
+        </div>
+    </div>
+
+    <div style="height: 20px"></div>
+    <#title info="联系人信息" />
+    <div style="height: 20px"></div>
+
+    <div class="row">
+        <div class="col-sm-4">
+            <#label id="project_manager_name" name="项目经理姓名" value="${info.project_manager_name}" disabled="disabled"  />
+        </div>
+        <div class="col-sm-4">
+            <#label id="part_leader" name="分管领导" value="${info.part_leader}" disabled="disabled"  />
+        </div>
+        <div class="col-sm-4">
+            <#label id="project_manager_phone" name="项目经理联系电话" value="${info.project_manager_phone}" disabled="disabled"  />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+            <#label id="net_ICT_hold_specialist" name="网格ICT支撑专员" value="${info.net_ICT_hold_specialist}" disabled="disabled"  />
+        </div>
+    </div>
+
+    <div style="height: 20px"></div>
+    <#title info="基本信息" />
+    <div style="height: 20px"></div>
+
+    <div class="row">
+        <div class="col-sm-4">
+            <#label id="is_deep_integration" name="是否深度自主集成:" value="${info.is_deep_integration}" disabled="disabled"  />
+        </div>
+        <div class="col-sm-4">
+            <#label id="hurry_level" name="紧急程度" value="${info.hurry_level}" disabled="disabled"  />
+        </div>
+        <div class="col-sm-4">
+            <#label id="profession" name="行业" value="${info.profession}" disabled="disabled"  />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+            <#label id="is_select" name="是否已甄选" value="${info.is_select}" disabled="disabled"  />
+        </div>
+        <div class="col-sm-4">
+            <#label id="money_mode" name="资金模式:" value="${info.money_mode}" disabled="disabled"  />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+            <#label id="integration_name" name="集成商名称:" value="${info.integration_name}" disabled="disabled"  />
+        </div>
+        <div class="col-sm-4">
+            <#label id="manage_unit" name="监理单位:" value="${info.manage_unit}" disabled="disabled"  />
+        </div>
+    </div>
+    <div class="row" style="display:flex;align-items: center">
+        <label class="col-sm-1 control-label" style="font-size: 12px;color: #4C4B4B;font-family: 微软雅黑;
+                  padding: 0;margin-top: 5px;text-align: right">
+            <text>审核意见</text>
+        </label>
+        <div class="col-sm-6">
+            <textarea class="form-control" style="padding: 5px;height: 90px;font-size: 12px;color: black;font-family:微软雅黑;resize: none;border: 1px solid #d0d0d0" placeholder="多行输入"  id="verify_idea" name="verify_idea" rows="5" onresize="false"></textarea>
+        </div>
+    </div>
+
+    <div class="row" style="margin-top: 40px; font-size: 14px;">
+        <div class="col-sm-4"></div>
+        <div class="col-sm-1">
+            <button type="button" class="btn btn-primary" onclick="pass()">通过</button>
+        </div>
+        <div class="col-sm-1">
+        </div>
+        <div class="col-sm-1">
+            <button type="button" class="btn btn-primary" onclick="unpass()">不通过</button>
+        </div>
+        <div class="col-sm-5">
+        </div>
+    </div>
+</div>
+
+<script>
+    c("aaaaa");
+    let InformationCollects = {
+        id:'InformationCollectTable',
+        seItem: null,		//选中的条目
+        table: null,
+        layerIndex:-1,
+        orderInfo:{},
+    }
+
+    InformationCollects.clearData = function () {
+        this.orderInfo = {};
+    };
+    InformationCollects.set = function (key, value) {
+        this.orderInfo[key] = (typeof value == "undefined") ? $("#" + key).val() : value;
+        return this;
+    };
+    InformationCollects.get = function (key) {
+        return $("#" + key).val();
+    };
+    InformationCollects.collectData = function () {
+        this.set('verify_idea')
+    };
+
+    $(function () {
+        $("#choose_dept").val("${info.choose_dept}")
+        $("#pay_manager").val("${info.pay_manager}")
+        $("#pay_assistant").val("${info.pay_assistant}")
+    });
+
+    function pass() {
+        if(checkInput){
+            Feng.confirm("确认通过吗",function () {
+                InformationCollects.clearData();
+                InformationCollects.collectData();
+                InformationCollects.orderInfo.id="${info.id}"
+                var ajax = new $ax(Feng.ctxPath + "/informationCollect/pass_modify_verify", function (data) {
+                    Feng.success("提交成功");
+                    setInterval(function () {
+                        window.parent.location.reload();
+                    }, 800)
+                }, function (data) {
+                    Feng.error("网络丢失，提交失败");
+                });
+                ajax.set({type:1,id:'${info.id}',modify_idea:InformationCollects.orderInfo.verify_idea})
+                ajax.start();
+            })
+        }
+    }
+
+    function unpass() {
+        Feng.confirm("确认不通过吗",function () {
+            InformationCollects.clearData();
+            InformationCollects.collectData();
+            InformationCollects.orderInfo.id="${info.id}"
+            var ajax = new $ax(Feng.ctxPath + "/informationCollect/pass_modify_verify", function (data) {
+                Feng.success("提交成功");
+                setInterval(function () {
+                    window.parent.location.reload();
+                }, 800)
+            }, function (data) {
+                Feng.error("网络丢失，提交失败");
+            });
+            ajax.set({type:2,id:'${info.id}',modify_idea:InformationCollects.orderInfo.verify_idea})
+            ajax.start();
+        })
+    }
+
+    function checkInput(){
+        if($("#pay_manager").val()==null||$("#pay_manager").val()==""){
+            Feng.error("请选择交付经理!")
+            return false;
+        }
+        return true
+    }
+</script>
+@}

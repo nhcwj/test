@@ -1,0 +1,36 @@
+@layout("/common/new_container.html"){
+<div style="margin-top: 20px" class="row">
+    <label style="margin-bottom: 2px"   class="col-sm-offset-1 col-sm-10 control-label "><p class="text-left "><strong><span class="text-primary" style="font-size: 12px;
+		color: #4C4B4B;
+		font-family: 微软雅黑;
+		padding: 0;margin: 0;text-align: right">进度</span> : <span class="text-danger" id="progress"></span></strong></p></label>
+</div>
+<div style="margin-top: 10px" class="row">
+    <label style="margin-bottom: 2px"   class="col-sm-offset-1 col-sm-10 control-label "><p class="text-left "><strong><span class="text-primary" style="font-size: 12px;
+		color: #4C4B4B;
+		font-family: 微软雅黑;
+		padding: 0;margin: 0;text-align: right">分类</span> : <span class="text-danger" id="classify"></span></strong></p></label>
+</div>
+<div style="margin-top: 10px" class="row">
+    <label style="margin-bottom: 2px"   class="col-sm-offset-1 col-sm-10 control-label "><p class="text-left "><strong><span class="text-primary" style="font-size: 12px;
+		color: #4C4B4B;
+		font-family: 微软雅黑;
+		padding: 0;margin: 0;text-align: right">说明</span> : <span class="text-danger" id="declare"></span></strong></p></label>
+</div>
+<div style="margin-top: 10px" class="row">
+    <label style="margin-bottom: 2px"   class="col-sm-offset-1 col-sm-10 control-label "><p class="text-left "><strong><span class="text-primary" style="font-size: 12px;
+		color: #4C4B4B;
+		font-family: 微软雅黑;
+		padding: 0;margin: 0;text-align: right">措施</span> : <span class="text-danger" id="act"></span></strong></p></label>
+</div>
+<script>
+    $(function (){
+            $('#progress').html(parent.progress_write[Number('${current_timeline}')].progress.replaceAll("n","<br>"))
+            $('#classify').html(parent.progress_write[Number('${current_timeline}')].classify.replaceAll("n","<br>"))
+            $('#declare').html(parent.progress_write[Number('${current_timeline}')].declare.replaceAll("n","<br>"))
+            $('#act').html(parent.progress_write[Number('${current_timeline}')].act.replaceAll("n","<br>"))
+
+
+    })
+</script>
+@}

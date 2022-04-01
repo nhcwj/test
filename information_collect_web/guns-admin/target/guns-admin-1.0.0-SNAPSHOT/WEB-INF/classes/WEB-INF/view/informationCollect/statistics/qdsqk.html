@@ -1,0 +1,370 @@
+<div class="row">
+    <div class="col-sm-offset-1 col-sm-6">
+        <label class="control-label" style="font-size: 16px;
+            color: #4C4B4B;
+            font-family: 微软雅黑;
+            padding: 0;margin: 5px 0px 5px 0px;text-align: right">全大市落后情况</label>
+    </div>
+</div>
+<div style="height: 20px"></div>
+<div id="qdsqk_main" style="width: 100%;height:500px;"></div>
+<div style="height: 80px"></div>
+<div class="row">
+    <div class="col-sm-4">
+        <#commonSelect id="project_stage" name="情况" labelWidth="4" inputWidth="8">
+            <option value="">请选择</option>
+            <option value="客户原因">客户原因</option>
+            <option value="我司原因">我司原因</option>
+            <option value="第三方原因">第三方原因</option>
+            <option value="综合原因">综合原因</option>
+        </#commonSelect>
+    </div>
+    <div class="col-sm-4">
+        <#commonSelect id="time_progress_situation" name="公司:" labelWidth="4" inputWidth="8">
+            <option value="">请选择</option>
+            <option value="市属">市属</option>
+            <option value="系统集成">系统集成</option>
+            <option value="禅城">禅城</option>
+            <option value="三水">三水</option>
+            <option value="高明">高明</option>
+            <option value="顺德">顺德</option>
+            <option value="南海">南海</option>
+        </#commonSelect>
+    </div>
+    <div class="col-sm-1">
+        <button type="button" class="btn btn-primary " style="background-color: #20BE84;margin-left: 10px" id="query" >
+            查询
+        </button>
+    </div>
+</div>
+<#table id="qdsqk_table"/>
+<script>
+    var qdsqk_information = {
+        id: "qdsqk_table",	//表格id
+        seItem: null,		//选中的条目
+        table: null,
+        layerIndex: -1,
+        name:"全大市落后情况",
+    };
+    qdsqk_information.initColumn = function () {
+        return [
+            {field: 'selectItem',visible:false,radio:true},
+            {title: '进度', field: 'time', visible: true, align: 'center',sortable:true , valign: 'middle',formatter:function(value){
+                    if(value==""||value==null){
+                        return '<span style="color:red;">--</span>'
+                    }else{
+                        return value;
+                    }
+                }},
+
+            {title: '项目名称', field: 'user_name', visible: true, align: 'center',sortable:true , valign: 'middle',formatter:function(value){
+                    if(value==""||value==null){
+                        return '<span style="color:red;">--</span>'
+                    }else{
+                        return value;
+                    }
+                }},
+            {title: '所在阶段', field: 'user_phone', visible: true, align: 'center',sortable:true , valign: 'middle',formatter:function(value,row){
+                    if(value==""||value==null){
+                        return '<span style="color:red;">--</span>'
+                    }else{
+                        return value;
+                    }
+                }},
+            {title: '交付经理', field: 'operate', visible: true, align: 'center',sortable:true , valign: 'middle',formatter:function(value){
+                    if(value==""||value==null){
+                        return '<span style="color:red;">--</span>'
+                    }else{
+                        return value
+                    }
+                }},
+            {title: '项目金额', field: 'content', visible: true, align: 'center',sortable:true , valign: 'middle',formatter:function(value){
+                    if(value==""||value==null){
+                        return '<span style="color:red;">--</span>'
+                    }else{
+                        return value;
+                    }
+                }},
+
+        ];
+    };
+    var defaultColunms = qdsqk_information.initColumn();
+    var table = new BSTable(qdsqk_information.id, "",defaultColunms,500);
+    table.setPaginationType("client");
+    qdsqk_information.table = table.init();
+</script>
+<script>
+    var app = {};
+    var qdsqk_data=['市属','系统集成','禅城','三水','高明','顺德','南海'];
+    // var x_init_data=['1月','2月','3月','4月','5月','6月','7月','8月','9月'];
+    var qdsqk_count1=[2,3,3,0,7,5,12];
+    // var gc_init_count=[432,17,237,309,203,198,349,1093,987];
+    var qdsqk_count2=[0,0,0,0,0,0,0];
+    var qdsqk_count3=[1,0,1,0,0,0,1];
+    // var zw_init_count=[159,30,148,306,162,172,95,117,212];
+    var qdsqk_count4=[0,0,1,0,0,0,0];
+    var qdsqk_count5=[3,3,5,0,7,5,13];
+    var qdsqk_count6=[1.57,1.57,2.62,0,3.66,2.62,6.81]
+    // var zh_init_count=[591,47,385,615,365,369,444,1210,1199]
+    var qdsqk_itemStyle1={
+        normal: {
+        //柱形图圆角，初始化效果
+        barBorderRadius:[3, 3, 0, 0],
+            color: function(params) {
+            var colorList =  ['#0fafb7','#0fafb7','#0fafb7','#0fafb7','#0fafb7','#0fafb7','#0fafb7'];
+            return colorList[params.dataIndex]
+        }
+    },
+    };
+
+
+    var qdsqk_itemStyle2={
+        normal: {
+            //柱形图圆角，初始化效果
+            barBorderRadius:[3, 3, 0, 0],
+            color: function(params) {
+                var colorList = ['#11d3d3','#11d3d3','#11d3d3','#11d3d3','#11d3d3','#11d3d3','#11d3d3'];
+                return colorList[params.dataIndex]
+            }
+        },
+    };
+    var qdsqk_itemStyle3={
+        normal: {
+            //柱形图圆角，初始化效果
+            barBorderRadius:[3, 3, 0, 0],
+            color: function(params) {
+                var colorList = ['#4ceae6','#4ceae6','#4ceae6','#4ceae6','#4ceae6','#4ceae6','#4ceae6']
+                return colorList[params.dataIndex]
+            }
+        },
+    };
+    var qdsqk_itemStyle4={
+        normal: {
+            //柱形图圆角，初始化效果
+            barBorderRadius:[3, 3, 0, 0],
+            color: function(params) {
+                var colorList = ['#97fffc','#97fffc','#97fffc','#97fffc','#97fffc','#97fffc','#97fffc']
+                return colorList[params.dataIndex]
+            }
+        },
+    };
+    var pie_itemStyle={
+        normal: {
+            color: function(params) {
+                var colorList = ['#0e4d92','#0066cc','#1779c9','#0091e2',
+                    '#44a2ff','#7ac0ff','#aedcff']
+                return colorList[params.dataIndex]
+            }
+        },
+    }
+    var pie_itemStyle1={
+        normal: {
+            color: function(params) {
+                var colorList = ['#7486a1']
+                return colorList[params.dataIndex]
+            }
+        },
+    }
+    var qdsqk_chartDom = document.getElementById('qdsqk_main');
+    var qdsqk_Chart = echarts.init(qdsqk_chartDom);
+    var qdsqk_option;
+
+    qdsqk_option = {
+        color:['#0fafb7','#11d3d3','#4ceae6','#97fffc','#2eccc0','#97fffc'],
+        title: {
+            // text: '集团专线服开归档情况',
+            // subtext: '数据来源.....'
+        },
+        tooltip: {
+            // trigger: 'axis',
+            // axisPointer: {            // Use axis to trigger tooltip
+            //     type: 'shadow'        // 'shadow' as default; can also be 'line' or 'shadow'
+            // }
+        },
+        legend: {
+            left: 'center',
+            data: ['客户原因', '我司原因','第三方原因','综合原因','总和','项目数目','合同金额','落后率']
+        },
+        grid: {
+            top:'15%',
+            left: '8%',
+            right: '8%',
+            bottom: '3%',
+            containLabel: true
+        },
+        yAxis: [{
+            type: 'value'
+
+        },{
+            type: 'value',
+            name: '落后率',
+            // max:100,
+            // min:0,
+            splitLine: {show: false}
+        }],
+        xAxis: [{
+            type: 'category',
+            data: qdsqk_data
+        }],
+        series: [
+            {
+                name: '客户原因',
+                type: 'bar',
+                stack: 'total',
+                barWidth:50,
+                itemStyle:qdsqk_itemStyle1,
+                label: {
+                    show: true
+                },
+                emphasis: {
+                    focus: 'series'
+                },
+                data: qdsqk_count1
+            },
+            {
+                name: '我司原因',
+                type: 'bar',
+                stack: 'total',
+                barWidth:50,
+                itemStyle:qdsqk_itemStyle2,
+                label: {
+                    show: true
+                },
+                emphasis: {
+                    focus: 'series'
+                },
+                data: qdsqk_count2
+            },
+            {
+                name: '第三方原因',
+                type: 'bar',
+                stack: 'total',
+                barWidth:50,
+                itemStyle:qdsqk_itemStyle3,
+                label: {
+                    show: true
+                },
+                emphasis: {
+                    focus: 'series'
+                },
+                data: qdsqk_count3
+            },
+            {
+                name: '综合原因',
+                type: 'bar',
+                stack: 'total',
+                barWidth:50,
+                itemStyle:qdsqk_itemStyle4,
+                label: {
+                    show: true
+                },
+                emphasis: {
+                    focus: 'series'
+                },
+                data: qdsqk_count4
+            },
+            {
+                name: '总和',
+                type: 'scatter',
+                label: {
+                    position: 'top',
+                    show: true
+                },
+                emphasis: {
+                    focus: 'series'
+                },
+                data: qdsqk_count5
+            },
+            {
+                name: '落后率',
+                type: 'line',
+                yAxisIndex: 1,
+                label: {
+                    position: 'top',
+                    show: true,
+                    formatter:'{c}%'
+                },
+                emphasis: {
+                    focus: 'series'
+                },
+                data: qdsqk_count6
+            },
+            {
+                name: '数量',
+                type: 'pie',
+                center: ['70%', '20%'],
+                radius: ['15%','25%'],
+                itemStyle:pie_itemStyle,
+                z: 100,
+                label: {
+                    show: true,
+                    formatter:'{b}-{c}'
+                },
+                data: [
+                    {name: '市属', value: 30},
+                    {name: '系统集成', value: 4},
+                    {name: '禅城', value: 32},
+                    {name: '三水', value: 10},
+                    {name: '高明', value: 22},
+                    {name: '顺德', value: 54},
+                    {name: '南海', value: 39},
+                ]
+            },
+            {
+                name: '数量',
+                type: 'pie',
+                center: ['70%', '20%'],
+                radius: '15%',
+                itemStyle:pie_itemStyle1,
+                z: 100,
+                label: {
+                    show: true,
+                    position: 'center',
+                    formatter:'合计\n{c}\n个'
+                },
+                data: [
+                    {name: '项目数量总数', value: 191},
+                ]
+            },
+            {
+                name: '金额',
+                type: 'pie',
+                center: ['25%', '20%'],
+                radius: ['15%','25%'],
+                itemStyle:pie_itemStyle,
+                z: 100,
+                label: {
+                    show: true,
+                    formatter:'{b}-{c}'
+                },
+                data: [
+                    {name: '市属', value: 13544.77},
+                    {name: '系统集成', value: 4779.65},
+                    {name: '禅城', value: 15243.73},
+                    {name: '三水', value: 1685.61},
+                    {name: '高明', value: 2221.88},
+                    {name: '顺德', value: 12301.92},
+                    {name: '南海', value: 33104.75},
+                ]
+            },
+            {
+                name: '金额',
+                type: 'pie',
+                center: ['25%', '20%'],
+                radius: '15%',
+                itemStyle:pie_itemStyle1,
+                z: 100,
+                label: {
+                    show: true,
+                    position: 'center',
+                    formatter:'合计\n{c}\n万元'
+                },
+                data: [
+                    {name: '项目金额总数', value: 82882.31},
+                ]
+            }
+        ]
+    };
+
+    qdsqk_option && qdsqk_Chart.setOption(qdsqk_option);
+</script>

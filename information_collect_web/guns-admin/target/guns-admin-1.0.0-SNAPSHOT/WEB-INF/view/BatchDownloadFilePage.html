@@ -1,0 +1,635 @@
+@layout("/common/new_container.html"){
+<script type="text/javascript" src="${ctxPath}/static/js/count.js"></script>
+
+<style lang="scss">
+
+    .example {
+        margin: auto;
+        position: absolute;
+        top: 0; left: 0; bottom: 0; right: 0;
+        width: 200px;
+        height: 200px;
+        /*background-color: lightskyblue;*/
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .tab{
+        width: 30%;
+        height: 180px;
+        display: flex;
+        /*align-items: center;*/
+        justify-content: center;
+        flex-direction: column;
+        color: white;
+        font-weight: bold;
+        font-size: 25px;
+        border-radius: 10px;
+        padding-left: 50px;
+        box-sizing: border-box;
+    }
+    .problem{
+        margin: 20px;
+        border: 1px solid #EAEAEA;
+        border-radius: 6px;
+        box-shadow: 2px 2px 2px #EAEAEA;
+    }
+    .log_info{
+        padding: 20px;
+        border: 1px solid #EAEAEA;
+        border-radius: 10px;
+        box-shadow: 2px 2px 2px #EAEAEA;
+    }
+    .problem_list{
+        padding: 20px;
+        border: 1px solid #EAEAEA;
+        border-radius: 10px;
+        box-shadow: 2px 2px 2px #EAEAEA;
+    }
+    .problem_list_item{
+        border: 1px solid #EAEAEA;
+        padding: 15px;
+        margin-top: 10px;
+        box-shadow: 2px 2px 2px #EAEAEA;
+    }
+    .problem_list_item_content{
+        display: flex;
+        justify-content: space-around;
+    }
+    .log_info_item{
+        border: 1px solid #EAEAEA;
+        padding: 15px;
+        margin-top: 10px;
+        box-shadow: 2px 2px 2px #EAEAEA;
+    }
+    .warning_item{
+        margin-top: 10px;
+        display: flex;
+        align-items: center;
+    }
+    .reason{
+        margin-top: 5px;
+    }
+    .deal_info{
+        margin-top: 5px;
+        display: flex;
+    }
+    .title{
+        color: #86c9ed;
+    }
+    .btn_div{
+        border-bottom: 1px solid #959595;
+    }
+    .btn_div_click{
+        border-bottom: 2px solid #86c9ed;
+        color: #4ea7ed;
+    }
+</style>
+<div class="modal fade" id="loadingModal">
+    <div class="example">
+        <div class="sk-chase">
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+        </div>
+        <div style="font-weight: bold;font-size: 18px;color: white;margin-top: 10px">数据加载中...</div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-content">
+
+                <div class="row">
+                    <div class="problem">
+                        <div style="height: 50px;width:260px;display: flex;">
+                            <div class="btn_div" onclick="changeTitle(0)" style="width: 80px;margin-left:10px;height: 100%;font-size: 18px;display: flex;align-items: center;justify-content: center;">图片</div>
+                            <div class="btn_div" onclick="changeTitle(1)" style="width: 80px;height: 100%;font-size: 18px;display: flex;align-items: center;justify-content: center;">附件</div>
+                        </div>
+                        <div class="order_log_div" style="padding: 20px">
+                            <div class="noImg">
+                                暂无图片
+                            </div>
+                            <div class="scene" style="display: none">
+                                <!--<h2 class="scene_title">铁通现场资源准备工单</h2>-->
+                                <div class="title" style="display: flex;">
+                                    <div style="width: 3px;background-color: #00ee00"></div>
+                                    <div class="scene_title"
+                                         style="
+            margin-left:10px;
+            font-weight: bold;
+            font-size: 14px;
+            color: #525151;
+            font-family: 微软雅黑;
+            font-weight:bold;
+         ">
+                                        铁通现场资源准备工单
+                                    </div>
+                                </div>
+                                <div class="scene_galary">
+
+                                </div>
+                            </div>
+                            <div class="local" style="display: none">
+                                <hr>
+                                <!--<h2 class="local_title">本地网现场资源准备工单</h2>-->
+                                <div class="title" style="display: flex;">
+                                    <div style="width: 3px;background-color: #00ee00"></div>
+                                    <div class="local_title"
+                                         style="
+            margin-left:10px;
+            font-weight: bold;
+            font-size: 14px;
+            color: #525151;
+            font-family: 微软雅黑;
+            font-weight:bold;
+         ">
+                                        本地网现场资源准备工单
+                                    </div>
+                                </div>
+                                <div class="local_galary">
+
+                                </div>
+                            </div>
+
+                            <div class="fibre" style="display: none">
+                                <hr>
+                                <!--<h2 class="fibre_title">跳纤</h2>-->
+                                <div class="title" style="display: flex;">
+                                    <div style="width: 3px;background-color: #00ee00"></div>
+                                    <div class="fibre_title"
+                                         style="
+            margin-left:10px;
+            font-weight: bold;
+            font-size: 14px;
+            color: #525151;
+            font-family: 微软雅黑;
+            font-weight:bold;
+         ">
+                                        跳纤
+                                    </div>
+                                </div>
+
+                                <div class="fibre_galary">
+
+                                </div>
+                            </div>
+
+
+                            <div class="end" style="display: none">
+                                <hr>
+                                <!--<h2 class="end_title">末端施工</h2>-->
+                                <div class="title" style="display: flex;">
+                                    <div style="width: 3px;background-color: #00ee00"></div>
+                                    <div class="end_title"
+                                         style="
+            margin-left:10px;
+            font-weight: bold;
+            font-size: 14px;
+            color: #525151;
+            font-family: 微软雅黑;
+            font-weight:bold;
+         ">
+                                        末端施工
+                                    </div>
+                                </div>
+                                <div class="end_galary">
+
+                                </div>
+                            </div>
+
+                            <div class="device_install" style="display: none">
+                                <hr>
+                                <!--<h2 class="device_title">安装设备</h2>-->
+                                <div class="title" style="display: flex;">
+                                    <div style="width: 3px;background-color: #00ee00"></div>
+                                    <div class="device_title"
+                                         style="
+            margin-left:10px;
+            font-weight: bold;
+            font-size: 14px;
+            color: #525151;
+            font-family: 微软雅黑;
+            font-weight:bold;
+         ">
+                                        安装设备
+                                    </div>
+                                </div>
+                                <div class="device_galary">
+
+                                </div>
+                            </div>
+                            <div class="download" style="display: flex;justify-content: center;margin-top: 50px">
+                                <button onclick="download()"  type="button" class="btn btn-primary " style="background-color: #20BE84" >
+                                    批量下载
+                                </button>
+                            </div>
+
+
+                        </div>
+                        <div class="warning_div problem_list" style="display: none;">
+                            <div style="display: flex;justify-content: flex-end">
+                                <button onclick="downloadTwo()"  type="button" class="btn btn-primary " style="background-color: #20BE84" >
+                                    批量下载
+                                </button>
+                            </div>
+                            <#table id="FileTable"/>
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script src="${ctxPath}/static/js/viewer.min.js"></script>
+
+<script>
+
+    let orderId='${orderId}'
+    let type='${type}';
+
+    var File = {
+        id: "FileTable",	//表格id
+        seItem: null,		//选中的条目
+        table: null,
+    };
+    initColumn = function () {
+        return [
+            {field: 'selectItem', radio: false},
+            {title: '序号', field: '', visible: true, align: 'center', valign: 'middle',formatter: function(value, row, index) {
+                return index+1;
+            }},
+            {title: '上传环节', field: 'process', visible: true, align: 'center', valign: 'middle',formatter: function(value, row, index) {
+                if(value=='' || value==null){
+                    return '<span >--</span>';
+                }else{
+                    return value;
+                }
+            }},
+            {title: '附件名称', field: 'filename', visible: true, align: 'center', valign: 'middle',formatter: function(value, row, index) {
+                if(row.status===1){
+                    return '<span style="color:#20BE84 ">'+value+'</span>';
+                }else{
+                    return value;
+
+                }
+            }},
+            {title: '上传时间', field: 'add_time', visible: true, align: 'center', valign: 'middle',formatter: function(value, row, index) {
+                if(value=='' || value==null){
+                    return '<span >--</span>';
+                }else{
+                    return value;
+                }
+            }},
+        ];
+    };
+    $(function(){
+        var defaultColunms = initColumn();
+        var table = new BSTable(File.id,"/qyw/common/getEnclosureList?orderId="+orderId+"&type="+type, defaultColunms);
+        table.setPaginationType("client");
+        File.table = table.init();
+
+        $(".warning_div").hide()
+        $(".trouble_gatter").hide()
+        let groupx = $(".btn_div")
+        $(groupx[0]).addClass("btn_div_click")
+    })
+
+    function changeTitle(index){
+        if (index == 0){
+            $(".warning_div").hide()
+            $(".order_log_div").show()
+        }else if(index == 1){
+            $(".order_log_div").hide()
+            $(".warning_div").show()
+        }
+        $(".btn_div").removeClass("btn_div_click")
+        let groupx = $(".btn_div")
+        $(groupx[index]).addClass("btn_div_click")
+
+    }
+
+    let layerIndex='';
+    $(".problem_list_item").click(function () {
+       layerIndex=openWindow("问题详情",1200,600,"/flowInfo/ProblemDetail");
+       layer.full(layerIndex);
+    })
+    var delay_count = new CountUp('delay_count', 0, 69, 0, 1,{})
+    function start() {
+        delay_count.start();
+    }
+    start();
+
+    let needDownloadFiles=[];
+    let local=[];
+    let site=[];
+    let fibre=[];
+    let end=[];
+    let device=[];
+    var ajax = new $ax(Feng.ctxPath + "/qyw/common/getOrderFileList?orderId="+orderId+"&type="+type, function (data) {
+        c(data);
+        let have_img=false;
+        local=data[0]["本地网现场资源工单"];
+        site=data[1]["铁通现场资源工单"];
+        fibre=data[2]["跳纤"];
+        end =data[3]["末端施工"];
+        device=data[4]["安装设备"];
+       if(local.length>0){
+           have_img=true;
+           $(".local_title").html("本地网资源准备工单（共"+local.length+"张）")
+           $(".local").css("display","");
+           $(".local_galary").html('');
+           let html="";
+           html+='<div class="imgBox" id="imgBox" style="display: flex;align-items: center;height: 150px;">'
+           for(var i=0;i<local.length;i++){
+               if(i>4){
+                   break;
+               }
+               html+='<div style="width:15%;margin-right: 20px;height: 100px;" id='+local[i].fileId+'>\n' +
+                   '<img class="local_img" style="width: 100%;height: 100%;" data-original="/base/showImg?fileId='+local[i].fileId+'&imgType=originImg" src="/base/showImg?fileId='+local[i].fileId+'&imgType=thumb">\n' +
+                   '  </div>'
+           }
+           if(local.length>4){
+               html+='<div id="seeLocalMore" style="color: black;cursor: pointer;font-size:14px">更多</div>'
+           }
+           html+='<div style="margin-left: 20px;font-size: 14px;display: flex;align-items: center;"><input style="margin:0;width: 20px;height: 20px" type="checkbox" id="local_confirm" value=""><div style="margin-left: 5px">全选</div></div>'
+           html+='</div>'
+           $(".local_galary").html(html);
+           let ids=[];
+           local.map(item=>{
+               ids.push(item.id);
+           })
+           $("#seeLocalMore").click(function () {
+               //跳过去。
+               openWindow("图片列表",1200,600,"/qyw/common/photographList?ids="+ids.join(","));
+           })
+//           $(".local_img").click(function () {
+//               //跳过去。
+//               openWindow("图片列表",1200,600,"/qyw/common/photographList?ids="+ids.join(","));
+//           })
+           $(".imgBox").viewer({
+               url:'data-original',
+               navbar:false,
+               toolbar:true,
+               title:false
+           })
+       }
+        if(site.length>0){
+            have_img=true;
+            $(".scene_title").html("铁通资源准备工单（共"+site.length+"张）")
+            $(".scene").css("display","");
+            $(".scene_galary").html('');
+            let html="";
+            html+='<div class="imgBox" id="imgBox" style="display: flex;align-items: center;height: 150px;">'
+            for(var i=0;i<site.length;i++){
+                if(i>4){
+                    break;
+                }
+                html+='<div style="width:15%;margin-right: 20px;height: 100px;" id='+site[i].fileId+'>\n' +
+                    '<img class="site_img" style="width: 100%;height: 100%;" data-original="/base/showImg?fileId='+site[i].fileId+'&imgType=originImg" src="/base/showImg?fileId='+site[i].fileId+'&imgType=thumb">\n' +
+                    '  </div>'
+            }
+            if(site.length>4){
+                html+='<div id="seeSiteMore" style="color: black;cursor: pointer;font-size:14px ">更多</div>'
+            }
+            html+='<div style="margin-left: 20px;font-size: 14px;display: flex;align-items: center"><input style="margin:0;width: 20px;height: 20px" type="checkbox" id="site_confirm" value=""><div style="margin-left: 5px">全选</div></div>'
+            html+='</div>'
+            $(".scene_galary").html(html);
+            let ids=[];
+            site.map(item=>{
+                ids.push(item.id);
+            })
+            $("#seeSiteMore").click(function () {
+                openWindow("图片列表",1200,600,"/qyw/common/photographList?ids="+ids.join(","));
+            })
+//            $(".site_img").click(function () {
+//                //跳过去。
+//                openWindow("图片列表",1200,600,"/qyw/common/photographList?ids="+ids.join(","));
+//            })
+            $(".imgBox").viewer({
+                url:'data-original',
+                navbar:false,
+                toolbar:true,
+                title:false
+            })
+            $(".imgBox").viewer({
+                url:'data-original',
+                navbar:false,
+                toolbar:true,
+                title:false
+            })
+        }
+        if(fibre.length>0){
+            have_img=true;
+            $(".fibre_title").html("跳纤（共"+fibre.length+"张）")
+            $(".fibre").css("display","");
+            $(".fibre_galary").html('');
+            let html="";
+            html+='<div class="imgBox" id="imgBox" style="display: flex;align-items: center;height: 150px;">'
+            for(var i=0;i<fibre.length;i++){
+                if(i>4){
+                    break;
+                }
+                html+='<div style="width:15%;margin-right: 20px;height: 100px;" id='+fibre[i].fileId+'>\n' +
+                    '<img class="fibre_img" style="width: 100%;height: 100%;" data-original="/base/showImg?fileId='+fibre[i].fileId+'&imgType=originImg" src="/base/showImg?fileId='+fibre[i].fileId+'&imgType=thumb">\n' +
+                    '  </div>'
+            }
+            if(fibre.length>4){
+                html+='<div id="seeFibreMore" style="color: black;cursor: pointer;font-size:14px">更多</div>'
+            }
+            html+='<div style="margin-left: 20px;font-size: 14px;display: flex;align-items: center;"><input style="margin:0;width: 20px;height: 20px" type="checkbox" id="fibre_confirm" value=""/><div style="margin-left: 5px">全选</div></div>'
+            html+='</div>'
+            $(".fibre_galary").html(html);
+            let ids=[];
+            fibre.map(item=>{
+                ids.push(item.id);
+            })
+            $("#seeFibreMore").click(function () {
+                //跳过去。
+                openWindow("图片列表",1200,600,"/qyw/common/photographList?ids="+ids.join(","));
+            })
+//            $(".fibre_img").click(function () {
+//                //跳过去。
+//                openWindow("图片列表",1200,600,"/qyw/common/photographList?ids="+ids.join(","));
+//            })
+            $(".imgBox").viewer({
+                url:'data-original',
+                navbar:false,
+                toolbar:true,
+                title:false
+            })
+        }
+        if(end.length>0){
+            have_img=true;
+            $(".end_title").html("末端施工（共"+end.length+"张）")
+            $(".end").css("display","");
+            $(".end_galary").html('');
+            let html="";
+            html+='<div class="imgBox" id="imgBox" style="display: flex;align-items: center;height: 150px;">'
+            for(var i=0;i<end.length;i++){
+                if(i>4){
+                    break;
+                }
+                html+='<div style="width:15%;margin-right: 20px;height: 100px;" id='+end[i].fileId+'>\n' +
+                    '<img class="end_img" style="width: 100%;height: 100%;" data-original="/base/showImg?fileId='+end[i].fileId+'&imgType=originImg" src="/base/showImg?fileId='+end[i].fileId+'&imgType=thumb">\n' +
+                    '  </div>'
+            }
+            if(end.length>4){
+                html+='<div id="seeEndMore" style="color: black;cursor: pointer;font-size:14px">更多</div>'
+            }
+            html+='<div style="margin-left: 20px;font-size: 14px;display: flex;align-items: center"><input style="margin:0;width: 20px;height: 20px" type="checkbox" id="end_confirm" value=""><div style="margin-left: 5px" >全选</div></div>'
+            html+='</div>'
+            $(".end_galary").html(html);
+            let ids=[];
+            end.map(item=>{
+                ids.push(item.id);
+            })
+            $("#seeEndMore").click(function () {
+                //跳过去。
+                openWindow("图片列表",1200,600,"/qyw/common/photographList?ids="+ids.join(","));
+            })
+//            $(".end_img").click(function () {
+//                //跳过去。
+//                openWindow("图片列表",1200,600,"/qyw/common/photographList?ids="+ids.join(","));
+//            })
+            $(".imgBox").viewer({
+                url:'data-original',
+                navbar:false,
+                toolbar:true,
+                title:false
+            })
+        }
+        if(device.length>0){
+            have_img=true;
+            $(".device_title").html("安装设备（共"+device.length+"张）")
+            $(".device_install").css("display","");
+            $(".device_galary").html('');
+            let html="";
+            html+='<div class="imgBox" id="imgBox" style="display: flex;align-items: center;height: 150px;">'
+            for(var i=0;i<device.length;i++){
+                if(i>4){
+                    break;
+                }
+                html+='<div style="width:15%;margin-right: 20px;height: 100px;" id='+device[i].fileId+'>\n' +
+                    '<img class="device_img" style="width: 100%;height: 100%;" data-original="/base/showImg?fileId='+device[i].fileId+'&imgType=originImg" src="/base/showImg?fileId='+device[i].fileId+'&imgType=thumb">\n' +
+                    '  </div>'
+            }
+            if(device.length>4){
+                html+='<div id="seeDeviceMore" style="color: black;cursor: pointer;font-size:14px">更多</div>'
+            }
+            html+='<div style="margin-left: 20px;font-size: 14px;display: flex;align-items: center"><input style="margin:0;width: 20px;height: 20px" type="checkbox" id="device_confirm" value=""><div style="margin-left: 5px">全选</div></div>'
+            html+='</div>'
+            $(".device_galary").html(html);
+            let ids=[];
+            device.map(item=>{
+                ids.push(item.id);
+            })
+            $("#seeDeviceMore").click(function () {
+                //跳过去。
+                openWindow("图片列表",1200,600,"/qyw/common/photographList?ids="+ids.join(","));
+            })
+//            $(".device_img").click(function () {
+//                //跳过去。
+//                openWindow("图片列表",1200,600,"/qyw/common/photographList?ids="+ids.join(","));
+//            })
+            $(".imgBox").viewer({
+                url:'data-original',
+                navbar:false,
+                toolbar:true,
+                title:false
+            })
+        }
+        if(have_img){
+            $(".noImg").css("display","none");
+        }else{
+            $(".download").css("display","none");
+        }
+    }, function (data) {
+        Feng.error("获取失败");
+    });
+    ajax.start();
+    function download() {
+        needDownloadFiles=[];
+        if(site.length>0){
+            let check=$("#site_confirm").prop("checked")
+            if(check){
+                for(let i=0;i<site.length;i++){
+                    if(!needDownloadFiles.includes(site[i].id)){
+                        needDownloadFiles.push(site[i].id);
+                    }
+                }
+            }
+        }
+        if(local.length>0){
+            let check=$("#local_confirm").prop("checked")
+            if(check){
+                for(let i=0;i<local.length;i++){
+                    if(!needDownloadFiles.includes(local[i].id)){
+                        needDownloadFiles.push(local[i].id);
+                    }
+                }
+            }
+        }
+        if(fibre.length>0){
+            let check=$("#fibre_confirm").prop("checked")
+            if(check){
+                for(let i=0;i<fibre.length;i++){
+                    if(!needDownloadFiles.includes(fibre[i].id)){
+                        needDownloadFiles.push(fibre[i].id);
+                    }
+                }
+            }
+        }
+        if(end.length>0){
+            let check=$("#end_confirm").prop("checked")
+            if(check){
+                for(let i=0;i<end.length;i++){
+                    if(!needDownloadFiles.includes(end[i].id)){
+                        needDownloadFiles.push(end[i].id);
+                    }
+                }
+            }
+        }
+        if(device.length>0){
+            let check=$("#device_confirm").prop("checked")
+            if(check){
+                for(let i=0;i<device.length;i++){
+                    if(!needDownloadFiles.includes(device[i].id)){
+                        needDownloadFiles.push(device[i].id);
+                    }
+                }
+            }
+        }
+        let downloadFileList=needDownloadFiles.join(",");
+        if(downloadFileList==""){
+            Feng.info("请选中需要批量下载的图片");
+        }else{
+            Feng.confirm("是否确认批量下载",function () {
+                window.location.href="/qyw/common/downloadBatchFile?fileList="+downloadFileList;
+            })
+        }
+    }
+    function downloadTwo() {
+        let selectData=$("#"+File.id).bootstrapTable("getSelections");
+        if(selectData.length>0){
+            Feng.confirm("是否确认批量下载",function () {
+                let ids=[];
+                selectData.map(item=>{
+                    ids.push(item.id);
+                })
+                window.location.href="/qyw/common/downloadBatchFile?fileList="+ids.join(",");
+            })
+        }else{
+            Feng.info("请选中需要下载的附件");
+        }
+    }
+</script>
+@}

@@ -1,0 +1,104 @@
+@layout("/common/_container.html"){
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>统计</h5>
+            </div>
+
+
+            <div class="ibox-content">
+                <#table id="AllCountTable"/>
+                <#table id="CountTable"/>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+<script>
+    var Count = {
+        id: "CountTable",	//表格id
+        seItem: null,		//选中的条目
+        table: null,
+    };
+    var AllCount = {
+        id: "AllCountTable",	//表格id
+        seItem: null,		//选中的条目
+        table: null,
+    };
+    $(function(){
+        var defaultColunms = initColumn();
+        var table = new BSTable(Count.id,"/informationCollect/get_ict_count", defaultColunms);
+        table.setPaginationType("client");
+        Count.table = table.init();
+
+        var defaultColunms1 = initColumn1();
+        var table1 = new BSTable(AllCount.id,"/informationCollect/get_ict_count_all", defaultColunms1,200);
+        table1.setPaginationType("client");
+        AllCount.table = table1.init();
+    })
+
+    initColumn = function () {
+        return [
+            {field: 'selectItem', radio: true,visible:false},
+            {title: '日期', field: 'enter_time', visible: true, align: 'center', valign: 'middle',formatter: function(value, row, index) {
+                if(value=='' || value==null){
+                    return '<span >--</span>';
+                }else{
+                    return value;
+                }
+            }},
+            {title: '客户登录次数', field: 'user_count', visible: true, align: 'center', valign: 'middle',formatter: function(value, row, index) {
+                if(value=='' || value==null){
+                    return '<span >--</span>';
+                }else{
+                    return value;
+                }
+            }},
+            {title: '客户经理登录次数', field: 'manager_count', visible: true, align: 'center', valign: 'middle',formatter: function(value, row, index) {
+                if(value=='' || value==null){
+                    return '<span >--</span>';
+                }else{
+                    return value;
+                }
+            }},
+            {title: '访问数(UV)', field: 'all_count', visible: true, align: 'center', valign: 'middle',formatter: function(value, row, index) {
+                if(value=='' || value==null){
+                    return '<span >--</span>';
+                }else{
+                    return value;
+                }
+            }},
+            {title: '访问流量(PV)', field: 'pv', visible: true, align: 'center', valign: 'middle',formatter: function(value, row, index) {
+                    if(value=='' || value==null){
+                        return '<span >--</span>';
+                    }else{
+                        return value;
+                    }
+                }}
+        ];
+    };
+
+    initColumn1 = function () {
+        return [
+            {field: 'selectItem', radio: true,visible:false},
+            {title: '总访问数(UV)', field: 'uv', visible: true, align: 'center', valign: 'middle',formatter: function(value, row, index) {
+                    if(value=='' || value==null){
+                        return '<span >--</span>';
+                    }else{
+                        return value;
+                    }
+                }},
+            {title: '总访问流量(PV)', field: 'pv', visible: true, align: 'center', valign: 'middle',formatter: function(value, row, index) {
+                    if(value=='' || value==null){
+                        return '<span >--</span>';
+                    }else{
+                        return value;
+                    }
+                }}
+        ];
+    };
+</script>
+@}

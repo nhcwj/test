@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+    <title>系统集成中心(e-link)</title>
+    <link rel="shortcut icon" href="${ctxPath}/static/favicon.ico">
+    <link href="${ctxPath}/static/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="${ctxPath}/static/css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+    <link href="${ctxPath}/static/css/animate.css" rel="stylesheet">
+    <link href="${ctxPath}/static/css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="${ctxPath}/static/css/iconfont/iconfont.css" rel="stylesheet">
+    <link href="${ctxPath}/static/css/icon_yd/iconfont.css" rel="stylesheet">
+
+</head>
+
+<body class="fixed-sidebar full-height-layout gray-bg" style="overflow:hidden">
+
+    <div id="wrapper">
+    
+        <!--左侧导航开始-->
+        	@include("/common/_tab.html"){}
+        <!--左侧导航结束-->
+        
+        <!--右侧部分开始-->
+        	@include("/common/_right.html"){}
+        <!--右侧部分结束-->
+        
+        <!--右侧边栏开始-->
+        	@include("/common/_theme.html"){}
+        <!--右侧边栏结束-->
+       
+    </div>
+
+    <!-- 全局js -->
+    <script src="${ctxPath}/static/js/jquery.min.js?v=2.1.4"></script>
+    <script src="${ctxPath}/static/js/bootstrap.min.js?v=3.3.6"></script>
+    <script src="${ctxPath}/static/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="${ctxPath}/static/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="${ctxPath}/static/js/plugins/layer/layer.min.js"></script>
+
+    <!-- 自定义js -->
+    <script src="${ctxPath}/static/js/hplus.js?v=4.1.0"></script>
+    <script type="text/javascript" src="${ctxPath}/static/js/contabs.js"></script>
+
+    <!-- 第三方插件 -->
+    <script src="${ctxPath}/static/js/plugins/pace/pace.min.js"></script>
+    <script src="${ctxPath}/static/js/common/ajax-object.js"></script>
+    <script src="${ctxPath}/static/js/common/Feng.js"></script>
+
+</body>
+<script>
+    // let arr=[];
+    // let waitSolveTag=null;
+    // let haveWaitInfo=false;
+    // let wait='<div class="wait" style="width: 8px;height:8px;border-radius: 50%;background-color: red;position: absolute;left: 5%;top:40%;color: white;text-align: center"></div>'
+    // let firstNodeList=$(".first_node");
+    // let secondNodeList=$(".second_node");
+
+
+    //获取待办数
+//     var ajax = new $ax(Feng.ctxPath + "/qyw/common/getWaitSolveInfo", function (data) {
+//         arr=data;
+//         for(let i=0;i<arr.length;i++){
+//             let temp=arr[i];
+//             temp.step=temp.step.replaceAll("前勘","资源准备")
+//             temp.step=temp.step.replaceAll("核查","核查数据")
+//             temp.step=temp.step.replaceAll("末端施工","末端光缆施工")
+//         }
+// //        initData();
+//     }, function (data) {
+//         Feng.error("加载有误")
+//     });
+//     ajax.start();
+    // function initData() {
+    //
+    // for(let i=0;i<secondNodeList.length;i++){
+    //     let tempMenu=$(secondNodeList[i]);
+    //     let text=tempMenu.find("div").text().trim();
+    //     text=text.replaceAll(" ","");
+    //     if(text=="我的待办"){
+    //         waitSolveTag=tempMenu;
+    //         tempMenu.prepend(wait)
+    //         let waitSolveMenuList=tempMenu.parent().find(".J_menuItem")
+    //         for(let j=0;j<waitSolveMenuList.length;j++){
+    //             let tempMenu=$(waitSolveMenuList[j]);
+    //             let menuText=tempMenu.text().trim();
+    //             menuText=menuText.replaceAll(" ","");
+    //             console.log(menuText)
+    //             for(let k=0;k<arr.length;k++){
+    //                 if(menuText==arr[k].step){
+    //                     let waitNum=arr[k].num;
+    //                     if(waitNum>0 && waitNum<10){
+    //                         haveWaitInfo=true;
+    //                         //一位数
+    //                         let waitNumTag='<div class="waitNum" style="width: 18px;border-radius: 50%;background-color: red;position: absolute;left: 5%;top:25%;color: white;text-align: center">'+waitNum+'</div>'
+    //                         tempMenu.prepend(waitNumTag);
+    //                     }else if(waitNum>=10 && waitNum<100){
+    //                         haveWaitInfo=true;
+    //                         //二位数
+    //                         let waitNumTag='<div class="waitNum" style="width: 18px;border-radius: 50%;background-color: red;position: absolute;left: 5%;top:25%;color: white;text-align: center">'+waitNum+'</div>'
+    //                         tempMenu.prepend(waitNumTag);
+    //                         tempMenu.find(".waitNum").width(25)
+    //                     }else if(waitNum>=100){
+    //                         haveWaitInfo=true;
+    //                         //三位数
+    //                         let waitNumTag='<div class="waitNum" style="width: 18px;border-radius: 50%;background-color: red;position: absolute;left: 5%;top:25%;color: white;text-align: center">99+</div>'
+    //                         tempMenu.prepend(waitNumTag);
+    //                         tempMenu.find(".waitNum").width(30)
+    //                     }else{
+    //
+    //                     }
+    //                 }
+    //             }
+    //         }
+    //     }
+    //     if(haveWaitInfo){
+    //         for(let i=0;i<firstNodeList.length;i++){
+    //             let tempMenu=$(firstNodeList[i]);
+    //             let text=tempMenu.find("div").text().trim();
+    //             text=text.replaceAll(" ","");
+    //             if(text=="工程建设管理"){
+    //                 tempMenu.prepend(wait)
+    //             }
+    //         }
+    //     }else{
+    //         waitSolveTag.find(".wait").remove();
+    //     }
+    // }
+    // }
+</script>
+</html>

@@ -1,0 +1,138 @@
+@layout("/common/new_container.html"){
+<div style="height: 20px"></div>
+<div class="row">
+    <div class="col-sm-8">
+        <div class="form-group" style="display:flex;align-items: center">
+            <label class="col-sm-2 control-label" style="font-size: 12px;
+		color: #4C4B4B;
+		font-family: 微软雅黑;
+		padding: 0;margin: 0;text-align: right">
+                本周推进情况：
+            </label>
+            <div class="col-sm-10">
+                <textarea class="form-control" value="" id="push_info"   name="push_info" rows="3"></textarea>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-8">
+        <div class="form-group" style="display:flex;align-items: center">
+            <label class="col-sm-2 control-label" style="font-size: 12px;
+		color: #4C4B4B;
+		font-family: 微软雅黑;
+		padding: 0;margin: 0;text-align: right">
+                难点：
+            </label>
+            <div class="col-sm-10">
+                <textarea class="form-control" value="" id="difficulty"   name="difficulty" rows="3"></textarea>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-8">
+        <div class="form-group" style="display:flex;align-items: center">
+            <label class="col-sm-2 control-label" style="font-size: 12px;
+		color: #4C4B4B;
+		font-family: 微软雅黑;
+		padding: 0;margin: 0;text-align: right">
+                需协调的问题：
+            </label>
+            <div class="col-sm-10">
+                <textarea class="form-control" value="" id="problem"   name="problem" rows="3"></textarea>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-8">
+        <div class="form-group" style="display:flex;align-items: center">
+            <label class="col-sm-2 control-label" style="font-size: 12px;
+		color: #4C4B4B;
+		font-family: 微软雅黑;
+		padding: 0;margin: 0;text-align: right">
+                下周计划：
+            </label>
+            <div class="col-sm-10">
+                <textarea class="form-control" value="" id="next_week_plan"  name="next_week_plan" rows="3"></textarea>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-8">
+        <div class="form-group" style="display:flex;align-items: center">
+            <label class="col-sm-2 control-label" style="font-size: 12px;
+		color: #4C4B4B;
+		font-family: 微软雅黑;
+		padding: 0;margin: 0;text-align: right">
+                备注：
+            </label>
+            <div class="col-sm-10">
+                <textarea class="form-control" value="" id="remark"  name="remark" rows="3"></textarea>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row" style="margin-top: 40px; font-size: 14px;">
+    <div class="col-sm-4"></div>
+    <div class="col-sm-1">
+        <button type="button" class="btn btn-primary" onclick="saveWeeklyReportInfo()">保存</button>
+    </div>
+    <div class="col-sm-1">
+    </div>
+    <div class="col-sm-1">
+        <button type="button" onclick="cancel()" class="btn btn-primary">取消</button>
+    </div>
+    <div class="col-sm-5">
+    </div>
+</div>
+<script>
+    let flag=false;
+
+    $(function (){
+        $('#push_info').val(parent.weekly_report.report_info[Number('${current_week}')].push_info.replaceAll("n",""))
+        $('#difficulty').val(parent.weekly_report.report_info[Number('${current_week}')].difficulty.replaceAll("n",""))
+        $('#problem').val(parent.weekly_report.report_info[Number('${current_week}')].problem.replaceAll("n",""))
+        $('#next_week_plan').val(parent.weekly_report.report_info[Number('${current_week}')].next_week_plan.replaceAll("n",""))
+        $('#remark').val(parent.weekly_report.report_info[Number('${current_week}')].remark.replaceAll("n",""))
+    })
+    function saveWeeklyReportInfo() {
+        let push_info=$("#push_info").val()||"";
+        let difficulty=$("#difficulty").val()||"";
+        let problem=$("#problem").val()||"";
+        let next_week_plan=$("#next_week_plan").val()||"";
+        let remark=$("#remark").val()||"";
+        let add_time=getCurrentDate("yyyy年MM月DD日 HH:mm")
+        Feng.confirm("确认保存吗",function () {
+            if(!flag) {
+                flag=true;
+                parent.weekly_report.report_info[Number('${current_week}')].push_info=push_info
+                parent.weekly_report.report_info[Number('${current_week}')].difficulty=difficulty
+                parent.weekly_report.report_info[Number('${current_week}')].problem=problem
+                parent.weekly_report.report_info[Number('${current_week}')].next_week_plan=next_week_plan
+                parent.weekly_report.report_info[Number('${current_week}')].remark=remark
+                parent.weekly_report.report_info[Number('${current_week}')].add_time=add_time
+                // let obj = {
+                //     push_info: push_info,
+                //     difficulty: difficulty,
+                //     problem: problem,
+                //     next_week_plan: next_week_plan,
+                //     remark: remark,
+                //     add_time: add_time
+                // };
+                // window.parent.weekly_report.report_info.push(obj);
+                window.parent.layer.close(window.parent.Weekly.layerIndex);
+                window.parent.Weekly.initData();
+            }
+
+        })
+
+    }
+    function cancel() {
+        var index = parent.layer.getFrameIndex(window.name)
+        parent.layer.close(index);
+    }
+</script>
+@}

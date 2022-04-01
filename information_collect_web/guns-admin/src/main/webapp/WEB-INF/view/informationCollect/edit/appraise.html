@@ -1,0 +1,120 @@
+<div id="appraise" hidden>
+
+    <div style="height: 20px"></div>
+    <#title info="满意度评价 (0-10分)" />
+    <div style="height: 20px"></div>
+
+    <div class="row">
+        <div class="col-sm-3">
+            <#commonSelect id="client_appraise" name="客户满意度:" labelWidth="4" inputWidth="8">
+                <option value="">请选择</option>
+                <option value="0分">0分</option>
+                <option value="1分">1分</option>
+                <option value="2分">2分</option>
+                <option value="3分">3分</option>
+                <option value="4分">4分</option>
+                <option value="5分">5分</option>
+                <option value="6分">6分</option>
+                <option value="7分">7分</option>
+                <option value="8分">8分</option>
+                <option value="9分">9分</option>
+                <option value="10分">10分</option>
+            </#commonSelect>
+        </div>
+        <div class="col-sm-offset-1 col-sm-3">
+            <#commonSelect id="need_dept_appraise" name="需求部门满意度:" labelWidth="4" inputWidth="8">
+                <option value="">请选择</option>
+                <option value="0分">0分</option>
+                <option value="1分">1分</option>
+                <option value="2分">2分</option>
+                <option value="3分">3分</option>
+                <option value="4分">4分</option>
+                <option value="5分">5分</option>
+                <option value="6分">6分</option>
+                <option value="7分">7分</option>
+                <option value="8分">8分</option>
+                <option value="9分">9分</option>
+                <option value="10分">10分</option>
+            </#commonSelect>
+        </div>
+        <div class="col-sm-offset-1 col-sm-3">
+            <#commonSelect id="end_dept_appraise" name="后端部门满意度:" labelWidth="4" inputWidth="8">
+                <option value="">请选择</option>
+                <option value="0分">0分</option>
+                <option value="1分">1分</option>
+                <option value="2分">2分</option>
+                <option value="3分">3分</option>
+                <option value="4分">4分</option>
+                <option value="5分">5分</option>
+                <option value="6分">6分</option>
+                <option value="7分">7分</option>
+                <option value="8分">8分</option>
+                <option value="9分">9分</option>
+                <option value="10分">10分</option>
+            </#commonSelect>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-3">
+            <#commonSelect id="collect_dept_appraise" name="集成商满意度:" labelWidth="4" inputWidth="8">
+                <option value="">请选择</option>
+                <option value="0分">0分</option>
+                <option value="1分">1分</option>
+                <option value="2分">2分</option>
+                <option value="3分">3分</option>
+                <option value="4分">4分</option>
+                <option value="5分">5分</option>
+                <option value="6分">6分</option>
+                <option value="7分">7分</option>
+                <option value="8分">8分</option>
+                <option value="9分">9分</option>
+                <option value="10分">10分</option>
+            </#commonSelect>
+        </div>
+    </div>
+
+    <div class="row" style="margin-top: 40px; font-size: 14px;">
+        <div class="col-sm-4"></div>
+        <div class="col-sm-1">
+            <button type="button" class="btn btn-primary" onclick="save_appraise()">保存</button>
+        </div>
+        <div class="col-sm-1">
+        </div>
+        <div class="col-sm-1">
+            <button type="button" class="btn btn-primary" onclick="go_back()">取消</button>
+        </div>
+        <div class="col-sm-5">
+        </div>
+    </div>
+</div>
+
+<script>
+    let appraise_info={}
+    $(function (){
+        $("#client_appraise").val('${appraise.client_appraise}')
+        $("#need_dept_appraise").val('${appraise.need_dept_appraise}')
+        $("#end_dept_appraise").val('${appraise.end_dept_appraise}')
+        $("#collect_dept_appraise").val('${appraise.collect_dept_appraise}')
+    })
+
+    function save_appraise(){
+        appraise_info["order_id"]='${info.id}'
+        appraise_info["client_appraise"]=$("#client_appraise").val()
+        appraise_info["need_dept_appraise"]=$("#need_dept_appraise").val()
+        appraise_info["collect_dept_appraise"]=$("#collect_dept_appraise").val()
+        appraise_info["end_dept_appraise"]=$("#end_dept_appraise").val()
+        console.log(appraise_info)
+        var ajax = new $ax(Feng.ctxPath + "/informationCollect/update_appraise", function(data){
+            Feng.success("保存成功!");
+            go_back()
+            // window.parent.refreshTable();
+            // var index = parent.layer.getFrameIndex(window.name)
+            // parent.layer.close(index);
+        },function(data){
+            Feng.error("保存失败!" + data.responseJSON.message + "!");
+        });
+        ajax.set(appraise_info);
+        ajax.start();
+    }
+</script>

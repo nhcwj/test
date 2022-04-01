@@ -1,0 +1,172 @@
+@layout("/common/new_container.html"){
+<!--<link href="${ctxPath}/static/css/hover.css" rel="stylesheet">-->
+<!--<link href="${ctxPath}/static/css/spinkit.css" rel="stylesheet">-->
+
+<style lang="scss">
+    .tab.active{
+        background-color: #20BE84;
+        color: white;
+        font-weight: bold;
+    }
+    .tab{
+        cursor: pointer;
+        padding: 15px;
+        font-weight: bold;
+        background-color: #EBF9F4;
+        border-radius: 10px;
+        margin-right: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-sizing: border-box;
+        transition-duration: 0.5s;
+    }
+    /*.tab:hover{*/
+        /*box-shadow: 1px 1px 1px #20BE84 ;*/
+        /*transform: scale3d(1.1,1.1,1.1);*/
+    /*}*/
+    .box{
+        padding: 20px;
+    }
+    .example {
+        margin: auto;
+        position: absolute;
+        top: 0; left: 0; bottom: 0; right: 0;
+        width: 200px;
+        height: 200px;
+        /*background-color: lightskyblue;*/
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+</style>
+<div class="modal fade" id="loadingModal">
+    <div class="example">
+        <div class="sk-wave">
+            <div class="sk-wave-rect" style="background-color:#20BE84 "></div>
+            <div class="sk-wave-rect"  style="background-color:#20BE84 "></div>
+            <div class="sk-wave-rect"  style="background-color:#20BE84 "></div>
+            <div class="sk-wave-rect"  style="background-color:#20BE84 "></div>
+            <div class="sk-wave-rect"  style="background-color:#20BE84 "></div>
+        </div>
+        <div style="font-weight: bold;font-size: 18px;color: white;margin-top: 10px">数据加载中...</div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-content">
+                <div class="row row-lg" >
+                    <div class="tabDiv" style="display: flex;justify-content: center;box-sizing: border-box;flex-wrap: wrap">
+
+                        <div class="tab hvr-underline-from-center" data-type="flow_img" data-src="/flowInfo/FlowChart">流程图</div>
+                        <div class="tab hvr-underline-from-center" data-type="statics_v2" data-src="/flowInfo/OrderStatisticsShort">流转记录</div>
+                        <div class="tab hvr-underline-from-center" data-type="compound_cover_order" data-src="/qyw/pipelineBuild/readyCoverOrder">驻地网预覆盖工单</div>
+                        <div class="tab hvr-underline-from-center" data-type="desgin_project"  data-src="/qyw/pipelineBuild/compoundDesignScheme">设计方案</div>
+                        <div class="tab hvr-underline-from-center" data-type="pipe" data-src="/qyw/pipelineBuild/pipelineConstruction">管道光缆建设</div>
+                        <div class="tab hvr-underline-from-center" data-type="finish" data-src="/qyw/pipelineBuild/overConfirm">管道光缆完工</div>
+                        <div class="tab hvr-underline-from-center" data-type="archive" data-src="/qyw/pipelineBuild/supplyCoverOrderArchive">补充覆盖工单归档</div>
+                    </div>
+
+                    <!--流程图 -->
+                    <div class="col-sm-12 box" id="flow_img" style="display: none">
+
+                    </div>
+                    <!--流转记录 -->
+                    <div class="col-sm-12 box" id="statics_v2" style="display: none">
+
+                    </div>
+                    <div class="col-sm-12 box" id="compound_cover_order" style="display: none">
+
+                    </div>
+                    <div class="col-sm-12 box" id="desgin_project" style="display: none">
+
+                    </div>
+                    <div class="col-sm-12 box" id="pipe" style="display: none">
+
+                    </div>
+                    <div class="col-sm-12 box" id="finish" style="display: none">
+
+                    </div>
+                    <div class="col-sm-12 box" id="archive" style="display: none">
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<script>
+    let orderId='${orderId}';
+    let flow='${type}'
+    let coverOrderId='${coverOrderId}'
+    function calcPageHeight(doc) {
+        var cHeight = Math.max(doc.body.clientHeight, doc.documentElement.clientHeight)
+        var sHeight = Math.max(doc.body.scrollHeight, doc.documentElement.scrollHeight)
+        var height = Math.max(cHeight, sHeight)
+        height=height<500?600:height
+        return height
+    }
+    function createFrame(id,src,params) {
+        if(params!==''){
+            html='<iframe id="'+id+'_frame" scrolling="yes"  width="100%" src="'+src+params+'" frameborder="0"></iframe>';
+        }else{
+            html='<iframe id="'+id+'_frame" scrolling="yes" width="100%" src="'+src+'" frameborder="0"></iframe>';
+        }
+        $("#"+id).html(html);
+        let temp = document.getElementById(id+"_frame");
+        $("#loadingModal").modal('show')
+        temp.onload=function () {
+            var iDoc = temp.contentDocument || temp.document || temp.contentWindow
+            var height = calcPageHeight(iDoc);
+            temp.style.height = height + 'px'
+            $("#loadingModal").modal('hide')
+        }
+    }
+    let stepList=['流程图','流转记录','驻地网预覆盖工单','设计方案','管道光缆建设','管道光缆完工','补充覆盖工单归档'];
+    let stepName='${stepName}';
+    var endIndex=stepList.findIndex((value)=>value==stepName);
+    endIndex=endIndex+1;
+    let count=stepList.length-endIndex;
+    for(let i=0;i<count;i++){
+        $(".tab").eq(endIndex).remove();
+    }
+    let tabList=$(".tab");
+    for(let i=0;i<tabList.length;i++){
+        console.log($(tabList[i]).html());
+        if($(tabList[i]).html()===stepName){
+            $(".tab").eq(i).addClass("active");
+            let id=$(tabList[i]).data("type");
+            let src=$(tabList[i]).data("src");
+            $("#"+id).css("display",'');
+            let params='?orderId='+orderId+'&type='+flow+"&coverOrderId="+coverOrderId;
+            console.log(params);
+            createFrame(id,src,params)
+            break;
+        }
+    }
+    $(".tab").click(function () {
+        let type=$(this).data("type");
+        let src=$(this).data("src");
+        $(".tab").removeClass("active");
+        $(this).addClass("active");
+        $(".box").css("display","none");
+        $("#"+type).css("display",'');
+        let html=$("#"+type).html().replace(/\s*/g,"");;
+        if(html){
+
+        }else{
+            let params='?orderId='+orderId+'&type='+flow+"&coverOrderId="+coverOrderId+"&step=compound";
+            console.log(params);
+            createFrame(type,src,params)
+        }
+    })
+
+</script>
+@}

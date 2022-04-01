@@ -1,0 +1,75 @@
+
+<div class="row" id="remarkInfo" hidden>
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-content">
+                <div class="row">
+                    <div class="problem">
+                        <div style="padding-left: 10px;margin-top: 10px;">
+                            <div class="order_log_div" >
+                                <#table id="LogDataTable"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+    var LogDatas = {
+        id: "LogDataTable",	//表格id
+        seItem: null,		//选中的条目
+        table: null,
+    };
+    $(function(){
+        let temp_order_id='${orderInfo.id}';
+        var defaultColunms = initColumn();
+        var table = new BSTable(LogDatas.id,"/ict_pc/getRemarkList?order_id="+ temp_order_id, defaultColunms);
+        table.setPaginationType("client");
+        LogDatas.table = table.init();
+    })
+    initColumn = function () {
+        return [
+            {field: 'selectItem', radio: true, visible:false},
+            {title: '姓名', field: 'name', visible: true, align: 'center', valign: 'middle',sortable:true,formatter: function(value, row, index) {
+                    if(value=='' || value==null){
+                        return '<span >--</span>';
+                    }else{
+                        return value;
+                    }
+                }},
+            {title: '电话', field: 'phone', visible: true, align: 'center', valign: 'middle',sortable:true,formatter: function(value, row, index) {
+                    if(value=='' || value==null){
+                        return '<span >--</span>';
+                    }else{
+                        return value;
+                    }
+                }},
+            {title: '环节', field: 'process', visible: true, align: 'center', valign: 'middle',sortable:true,formatter: function(value, row, index) {
+                    if(value=='' || value==null){
+                        return '<span >--</span>';
+                    }else{
+                        return value;
+                    }
+                }},
+            {title: '操作时间', field: 'operate_time', visible: true, align: 'center', valign: 'middle',sortable:true,formatter: function(value, row, index) {
+                    if(value=='' || value==null){
+                        return '<span >--</span>';
+                    }else{
+                        return value;
+                    }
+                }},
+            {title: '备注', field: 'remark', visible: true, align: 'center', valign: 'middle',sortable:true,formatter: function(value, row, index) {
+                    if(value=='' || value==null){
+                        return '<span >--</span>';
+                    }else{
+                        return value;
+                    }
+                }},
+        ];
+    };
+</script>
+

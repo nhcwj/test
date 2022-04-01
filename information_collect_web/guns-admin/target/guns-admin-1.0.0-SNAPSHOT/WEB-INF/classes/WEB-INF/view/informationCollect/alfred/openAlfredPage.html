@@ -1,0 +1,240 @@
+@layout("/common/_container.html"){
+<link  rel="stylesheet" href="${ctxPath}/static/css/plugins/bootstrap-select/bootstrap-select.min.css">
+<script src="${ctxPath}/static/js/plugins/bootstrap-select/bootstrap-select.min.js"></script>
+<script src="${ctxPath}/static/js/plugins/bootstrap-select/defaults-zh_CN.min.js"></script>
+<style>
+    .problem{
+        margin: 20px;
+        border-bottom: 1px solid #EAEAEA;
+        border-radius: 6px;
+        /*box-shadow: 2px 2px 2px #EAEAEA;*/
+    }
+    .btn_div{
+        /*border-bottom: 1px solid #959595;*/
+    }
+    .btn_div_click{
+        border-bottom: 2px solid #86c9ed;
+        color: #4ea7ed;
+    }
+</style>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>转派</h5>
+            </div>
+            <div class="ibox-content">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="col-sm-3">
+                            <!--<#commonInput name="区域:" id="projectName" labelWidth="3" inputWidth="9" placeholder="请输入"/>-->
+                            <div class="form-group" style="display: flex;align-items: center">
+                                <label class="col-sm-4 control-label" style="text-align: right">
+                                    区域:
+                                </label>
+                                <div class="col-sm-8">
+                                    <select class="form-control selectpicker" multiple data-live-search="true"
+                                            id="projectName" name="projectName" style="" onchange="change(this)">
+                                        <option value="市">市属</option>
+                                        <option value="禅城">禅城</option>
+                                        <option value="南海">南海</option>
+                                        <option value="顺德">顺德</option>
+                                        <option value="三水">三水</option>
+                                        <option value="高明">高明</option>
+                                        <option value="省">省级</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <#commonInput name="客户经理名称" id="custom_name" placeholder="单行输入" labelWidth="4" inputWidth="8"/>
+                        </div>
+                        <div class="col-sm-3" style="text-align: center">
+                            <button type="button" class="btn btn-primary "
+                                    style="background-color: #20BE84;margin-left: 10px" onclick="query()" id="query">
+                                查询
+                            </button>
+                            <button type="button" class="btn btn-primary"
+                                    style="background-color: #20BE84;margin-left: 10px" onclick="reset()" id="return">
+                                重置
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <#table id="listTable"/>
+                <br>
+                <div class="row">
+                    <div class="col-sm-4"></div>
+                    <div class="col-sm-3" style="text-align: center">
+                        <button type="button" class="btn"
+                                style="background-color: #e2e2e2;margin-left: 10px" onclick="cancel()" id="quxiao">
+                            取消
+                        </button>
+                        <button type="button" class="btn btn-primary"
+                                style="background-color: #20BE84;margin-left: 20px" onclick="alfred()" id="alfred">
+                            选择
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+</script>
+<script>
+
+    var AlfredList = {
+        id: "listTable",	//表格id
+        seItem: null,		//选中的条目
+        table: null,
+        layerIndex: -1
+    };
+
+    window.onload=function () {
+        $(".filter-option").hover(function () {
+            $(this).css("background","white")
+            $(this).css("color","#6f6c6c")
+            $(".caret").css("color","#6f6c6c")
+        },function () {
+            $(this).css("color","#6f6c6c")
+        })
+    }
+
+    function change(e) {
+        if ($(e).val() !== null) {
+            $(e).next().find(".filter-option").css('color', '#0d8ddb')
+        } else {
+            $(e).next().find(".filter-option").css('color', '#999999')
+        }
+    }
+
+    function exportTable(){
+        $.ajax({
+            url: '/base/addMaxExportPeopleNum',
+            type: 'GET',
+            data: {},
+            success: function (data) {
+                if(data===-1){
+                    window.alert("当前导出的人数较多，请稍后再试！")
+                }else{
+                    c("data:"+data)
+                    $("#export").attr("disabled",true)
+                    $("#export").html("加载中")
+                    queryData=getData()
+                    // c("getData后:")
+                    // c(queryData)
+                    var processTable = new selectBSTable(Process.id,"/qyw/coverOrder/compound_design_scheme_list", processColumn,queryData);
+                    processTable.setPaginationType("client");
+                    if(flag===0){
+                        Process.table = processTable.init();
+                        flag=1;
+                    }else{
+                        // c("refresh前：")
+                        // c(queryData)
+                        Process.table.setQueryParams(queryData)
+                        Process.table.refresh(queryData);
+                        // c("refresh完：")
+                        // c(queryData)
+                    }
+                }
+            }
+        });
+    }
+
+    //初始化流程表end
+    $(function(){
+        var defaultColunms = initColumn();
+        var table = new BSTable(AlfredList.id,"/orderInfo_temp/custom_list", defaultColunms);
+        table.setPaginationType("client");
+        AlfredList.table = table.init();
+    })
+    
+    function cancel() {
+        var index = parent.layer.getFrameIndex(window.name)
+        parent.layer.close(index);
+    }
+    
+    function alfred() {
+        var selected = $('#' + AlfredList.id).bootstrapTable('getSelections');
+        if (selected.length == 0){
+            return Feng.error("请先选择客户经理")
+        }else {
+
+            Feng.confirm("是否选择此客户经理?", function () {
+                window.parent.OrderEdits.chooseCustomWrite(selected[0].id, selected[0].custom_name, selected[0].custom_phone)
+                var index = parent.layer.getFrameIndex(window.name)
+                parent.layer.close(index);
+                /*var ajax = new $ax(Feng.ctxPath + "/orderInfo_temp/alfredCustom?user_id="+selected[0].id + "&alfred_id=" + '${alfred_id}', function (data) {
+                    Feng.success("保存成功");
+
+                }, function (data) {
+                    Feng.error("下拉框数据加载失败");
+                });
+                ajax.start();*/
+            })
+        }
+    }
+
+    function query() {
+        var temp = $("#projectName").val()
+        c(temp)
+        var query = {}
+        if (temp != null && temp != undefined && temp != ''){
+            var str = ''
+            for(var i=0;i<temp.length;i++){
+                str += temp[i];
+                if (i != temp.length - 1){
+                    str+=","
+                }
+            }
+            query = {
+                quyu : str,
+                custom_name: $("#custom_name").val()
+            }
+        }else{
+            query = {
+                quyu : '',
+                custom_name: $("#custom_name").val()
+            }
+        }
+        AlfredList.table.setQueryParams(query);
+        AlfredList.table.refresh();
+    }
+
+    function reset() {
+        var query = {}
+        $("#custom_name").val("")
+        $("#projectName").val("")
+        AlfredList.table.setQueryParams(query);
+        AlfredList.table.refresh();
+    }
+
+    initColumn = function () {
+        return [
+            {field: 'selectItem', radio: true},
+            {title: '序号', field: '', visible: true, align: 'center', valign: 'middle',sortable:true,formatter: function(value, row, index) {
+                    return index + 1;
+                }},
+            {title: '区域', field: 'role_name', visible: true, align: 'center', valign: 'middle',formatter: function(value, row, index) {
+                    if(value=='' || value==null){
+                        return '<span >--</span>';
+                    }else{
+                        return value;
+                    }
+                }},
+            {title: '部门', field: 'dept', visible: true, align: 'center', valign: 'middle',formatter: function(value, row, index) {
+                    return value;
+                }},
+            {title: '客户经理姓名', field: 'custom_name', visible: true, align: 'center', valign: 'middle',sortable:true,formatter: function(value, row, index) {
+                    return value;
+                }},
+            {title: '联系方式', field: 'custom_phone', visible: true, align: 'center', valign: 'middle',sortable:true,formatter: function(value, row, index) {
+                    return value;
+                }},
+        ];
+
+    };
+</script>
+@}

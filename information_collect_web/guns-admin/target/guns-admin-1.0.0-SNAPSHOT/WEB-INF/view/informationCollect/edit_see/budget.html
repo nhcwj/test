@@ -1,0 +1,280 @@
+<link rel="stylesheet" type="text/css" href="/static/css/steps.css">
+<div id="budget" hidden>
+
+    <div style="height: 20px"></div>
+    <#title info="预算情况" />
+    <div style="height: 20px"></div>
+
+    <div class="row">
+        <div class="col-sm-4">
+            <#label id="connect_address" name="ICT系统项目编码" value="${budgetInfo.ict_no}" disabled="disabled"  />
+        </div>
+        <div class="col-sm-4">
+            <#label id="connect_address" name="是否申请预算" value="${budgetInfo.is_apply_budget}" disabled="disabled"  />
+        </div>
+        <div class="col-sm-4">
+            <#label id="connect_address" name="预算编号" value="${budgetInfo.budget_no}" disabled="disabled"  />
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-4">
+            <#label id="connect_address" name="是否出账" value="${budgetInfo.is_out_account}" disabled="disabled"  />
+        </div>
+        <div class="col-sm-4">
+            <#label id="connect_address" name="出账金额(万)" value="${budgetInfo.out_account_price}" disabled="disabled"  />
+        </div>
+        <div class="col-sm-4">
+            <#label id="connect_address" name="业主合同编号" value="${budgetInfo.owner_contract_no}" disabled="disabled"  />
+        </div>
+    </div>
+    <div class="row" id="contract_div" style="margin-top: 20px">
+
+    </div>
+
+
+    <div style="height: 20px"></div>
+    <#title info="收款条件" />
+    <div style="height: 20px"></div>
+    <div id="income_condition">
+
+    </div>
+    <!--<div class="row" style="border: 1px solid #a1a1a1;margin-left: 5%;width: 60%">-->
+        <!--<div class="col-sm-6" style="margin-top: 10px">-->
+            <!--<#label id="connect_address" name="合同收款条件" value="XXXX" disabled="disabled"  />-->
+        <!--</div>-->
+        <!--<div class="col-sm-6" style="margin-top: 10px">-->
+            <!--<#label id="connect_address" name="收款比例" value="XXXXXX" disabled="disabled"  />-->
+        <!--</div>-->
+    <!--</div>-->
+    <!--<div class="row" style="border: 1px solid #a1a1a1;margin-left: 5%;width: 60%;margin-top: 10px">-->
+        <!--<div class="col-sm-6" style="margin-top: 10px">-->
+            <!--<#label id="connect_address" name="合同收款条件" value="XXXXXX" disabled="disabled"  />-->
+        <!--</div>-->
+        <!--<div class="col-sm-6" style="margin-top: 10px">-->
+            <!--<#label id="connect_address" name="收款比例" value="XXXXXX" disabled="disabled"  />-->
+        <!--</div>-->
+    <!--</div>-->
+    <!--<div class="row" style="border: 1px solid #a1a1a1;margin-left: 5%;width: 60%;margin-top: 10px">-->
+        <!--<div class="col-sm-6" style="margin-top: 10px">-->
+            <!--<#label id="connect_address" name="合同收款条件" value="XXXXXX" disabled="disabled"  />-->
+        <!--</div>-->
+        <!--<div class="col-sm-6" style="margin-top: 10px">-->
+            <!--<#label id="connect_address" name="收款比例" value="XXXXXX" disabled="disabled"  />-->
+        <!--</div>-->
+    <!--</div>-->
+    <div style="height: 20px"></div>
+    <#title info="收款进度" />
+    <div style="height: 20px"></div>
+    <div class="row" id="income_price_total_div">
+        <div class="col-sm-10" style="margin-left:-195px;display: flex;justify-content: flex-end;color: #76c474;font-weight: bold;font-size: 18px;" id="income_price_div">
+            总计：<span id="income_price_total">0</span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="steps col-sm-2" style="margin-left: 20px" id="income_date_div"></div>
+        <div class="col-sm-8" id="income_content_div">
+            <div style="height: 20px"></div>
+        </div>
+    </div>
+
+
+    <div style="height: 20px"></div>
+    <#title info="出账情况" />
+    <div style="height: 20px"></div>
+    <div class="row">
+        <div class="col-sm-4">
+            <#label id="connect_address" name="出账产品名称" value="${budgetInfo.bill_product_name}" disabled="disabled"  />
+        </div>
+        <div class="col-sm-4">
+            <#label id="connect_address" name="出账金额" value="${budgetInfo.bill_price}" disabled="disabled"  />
+        </div>
+        <div class="col-sm-4">
+            <#label id="connect_address" name="出账日期" value="${budgetInfo.bill_date}" disabled="disabled"  />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+            <#label id="connect_address" name="备注" value="${budgetInfo.remark}" disabled="disabled"  />
+        </div>
+    </div>
+
+    <div style="height: 20px"></div>
+    <#title info="付款进度" />
+    <div style="height: 20px"></div>
+    <div class="row" id="pay_price_total_div">
+        <div class="col-sm-10" style="margin-left:-195px;display: flex;justify-content: flex-end;color: #76c474;font-weight: bold;font-size: 18px;" id="pay_price_div">
+            总计：<span id="pay_price_total">0</span>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="steps col-sm-2" style="margin-left: 20px" id="pay_date_div"></div>
+        <div class="col-sm-8" id="pay_content_div">
+            <div style="height: 20px"></div>
+        </div>
+    </div>
+
+
+
+
+
+    <div style="height: 20px"></div>
+    <#title info="欠款情况" />
+    <div style="height: 20px"></div>
+    <div class="row">
+        <div class="col-sm-6">
+            <#label id="connect_address" name="是否欠费" value="${budgetInfo.is_owe}" disabled="disabled"  />
+        </div>
+        <div class="col-sm-6">
+            <#label id="connect_address" name="欠费原因" value="${budgetInfo.owe_reason}" disabled="disabled"  />
+        </div>
+    </div>
+
+</div>
+<script>
+    let collection_condition='${budgetInfo.collection_condition}'||'';
+    if(collection_condition!=''){
+        //收款条件
+        collection_condition=JSON.parse(collection_condition);
+        if(collection_condition.length>0){
+            for(let i=0;i<collection_condition.length;i++){
+                let obj=collection_condition[i];
+                let contract_account_condition=obj.contract_account_condition;
+                let contract_account_scale=obj.contract_account_scale;
+                let html='<div class="" style="border: 1px solid #a1a1a1;margin-left: 5%;width: 60%;display: flex;align-items:center;margin-bottom: 15px;padding: 15px;color: #4C4B4B;\n' +
+                    'font-family: 微软雅黑;font-weight: bold">\n' +
+                    '<div class="" style="width: 50%">合同收款条件：<span style="margin-left: 5px"><br>'+contract_account_condition.replaceAll("n","").replaceAll("& #41;","）").replaceAll("& #40;","（")+'</span></div>'+'<div class="" style="margin-left: 10%;width: 40%">收款比例：<span style="margin-left: 5px">'+contract_account_scale+'%</span></div></div>'
+                $("#income_condition").append(html);
+            }
+        }
+    }
+    let collection_progress='${budgetInfo.collection_progress}'||'';
+    let income_price_total=0;
+    if(collection_progress!=''){
+        //收款进度
+        collection_progress=JSON.parse(collection_progress);
+        if(collection_progress.length>0){
+            for(let i=collection_progress.length-1;i>=0;i--) {
+                let obj=collection_progress[i];
+                let income_name=obj.income_name;
+                let income_date=obj.income_date;
+                let income_scale=obj.income_scale
+                let income_price=obj.income_price;
+                let income_remark=obj.income_remark;
+                let add_time=obj.add_time;
+                let html='<div class="step step-completed-h">\n' +
+                    '<div class="step-main-h" style="color: #76c474;">'+add_time+'</div>\n' +
+                    '</div>';
+                let endTag='<div class="step-line-h step-completed-h"></div>'
+                $("#income_date_div").append(html);
+                $("#income_date_div").append(endTag);
+                html='<div style="font-weight: bold;margin-top: 35px;margin-left:-190px;border: 2px solid  #76c474;border-radius:2px;width: 100%;height: 165px;">\n' +
+                    '                <div class="row" style="margin-left: 50px;margin-top: 15px">\n' +
+                    '                    收款名称: '+income_name.replaceAll("n","")+'\n' +
+                    '                </div>\n' +
+                    '                <div class="row" style="margin-left: 50px;margin-top: 10px">\n' +
+                    '                    收款日期: '+income_date+'\n' +
+                    '                </div>\n' +
+                    '                <div class="row" style="margin-left: 50px;margin-top: 10px">\n' +
+                    '                    收款比例: '+income_scale+'%\n' +
+                    '                </div>\n' +
+                    '                <div class="row" style="margin-left: 50px;margin-top: 10px">\n' +
+                    '                    收款金额: '+income_price+'(万元)\n' +
+                    '                </div>\n' +
+                    '                <div class="row" style="margin-left: 50px;margin-top: 10px">\n' +
+                    '                    备注: '+income_remark.replaceAll("n","").substr(0,80)+'\n' +
+                    '                </div>\n' +
+                    '            </div>'
+                $("#income_content_div").append(html);
+                income_price_total=Number(income_price_total)+parseFloat(income_price);
+
+            }
+            income_price_total=income_price_total.toFixed(2);
+            $("#income_date_div").append('<div class="step"></div>');
+            $("#income_price_total").text(income_price_total+"万元");
+        }else{
+            $("#income_price_total_div").css("display","none");
+        }
+    }else{
+        $("#income_price_total_div").css("display","none");
+    }
+    let payment_progress='${budgetInfo.payment_progress}'||'';
+    let pay_price_total=0;
+    if(payment_progress!=''){
+        payment_progress=JSON.parse(payment_progress);
+        if(payment_progress.length>0){
+            for(let i=payment_progress.length-1;i>=0;i--) {
+                let obj=payment_progress[i];
+                let pay_name=obj.pay_name;
+                let pay_date=obj.pay_date;
+                let pay_scale=obj.pay_scale
+                let pay_price=obj.pay_price;
+                let pay_remark=obj.pay_remark;
+                let add_time=obj.add_time;
+                let html='<div class="step step-completed-h">\n' +
+                    '<div class="step-main-h" style="color: #76c474;">'+add_time+'</div>\n' +
+                    '</div>';
+                let endTag='<div class="step-line-h step-completed-h"></div>'
+                $("#pay_date_div").append(html);
+                $("#pay_date_div").append(endTag);
+                html='<div style="font-weight: bold;margin-top: 35px;margin-left:-190px;border: 2px solid  #76c474;border-radius:2px;width: 100%;height: 165px;">\n' +
+                    '                <div class="row" style="margin-left: 50px;margin-top: 15px">\n' +
+                    '                    付款名称: '+pay_name.replaceAll("n","")+'\n' +
+                    '                </div>\n' +
+                    '                <div class="row" style="margin-left: 50px;margin-top: 10px">\n' +
+                    '                    付款日期: '+pay_date+'\n' +
+                    '                </div>\n' +
+                    '                <div class="row" style="margin-left: 50px;margin-top: 10px">\n' +
+                    '                    付款比例: '+pay_scale+'%\n' +
+                    '                </div>\n' +
+                    '                <div class="row" style="margin-left: 50px;margin-top: 10px">\n' +
+                    '                    付款金额: '+pay_price+'(万元)\n' +
+                    '                </div>\n' +
+                    '                <div class="row" style="margin-left: 50px;margin-top: 10px">\n' +
+                    '                    备注: '+pay_remark.replaceAll("n","").substr(0,80)+'\n' +
+                    '                </div>\n' +
+                    '            </div>'
+                $("#pay_content_div").append(html);
+                pay_price_total=Number(pay_price_total)+parseFloat(pay_price);
+            }
+            pay_price_total=pay_price_total.toFixed(2);
+            $("#pay_price_total").text(pay_price_total+"万元");
+
+            $("#pay_date_div").append('<div class="step"></div>');
+        }else{
+            $("#pay_price_total_div").css("display","none");
+        }
+    }else{
+        $("#pay_price_total_div").css("display","none");
+    }
+
+    let supplier_contract_no='${budgetInfo.supplier_contract_no}'
+    if(supplier_contract_no!=''){
+        let html='';
+        supplier_contract_no=supplier_contract_no.split(",");
+        supplier_num=supplier_contract_no.length
+        html+='<div class="col-sm-4"><div><label class="col-sm-offset-1 col-sm-11 control-label " style="margin-bottom: 2px"><p class="text-left "><strong><span class="text-primary" style="font-size: 12px;\n' +
+            '\t\tcolor: #4C4B4B;\n' +
+            '\t\tfont-family: 微软雅黑;\n' +
+            '\t\tpadding: 0;margin: 0;text-align: right">供应商1合同编号</span> : <span class="text-danger">'+supplier_contract_no[0]+'</span></strong></p></label></div></div>'
+        if(supplier_contract_no.length>1){
+            for(let i=2;i<=supplier_contract_no.length;i++){
+                html+='<div class="col-sm-4"><div><label class="col-sm-offset-1 col-sm-11 control-label " style="margin-bottom: 2px"><p class="text-left "><strong><span class="text-primary" style="font-size: 12px;\n' +
+                    '\t\tcolor: #4C4B4B;\n' +
+                    '\t\tfont-family: 微软雅黑;\n' +
+                    '\t\tpadding: 0;margin: 0;text-align: right">供应商'+i+'合同编号</span> : <span class="text-danger">'+supplier_contract_no[i-1]+'</span></strong></p></label></div></div>'
+            }
+        }
+        $("#contract_div").append(html);
+    }else{
+        let html=''
+        html+='<div class="col-sm-4"><div><label class="col-sm-offset-1 col-sm-11 control-label " style="margin-bottom: 2px"><p class="text-left "><strong><span class="text-primary" style="font-size: 12px;\n' +
+            '\t\tcolor: #4C4B4B;\n' +
+            '\t\tfont-family: 微软雅黑;\n' +
+            '\t\tpadding: 0;margin: 0;text-align: right">供应商1合同编号</span> : <span class="text-danger">'+'</span></strong></p></label></div></div>'
+        $("#contract_div").append(html);
+
+    }
+
+</script>

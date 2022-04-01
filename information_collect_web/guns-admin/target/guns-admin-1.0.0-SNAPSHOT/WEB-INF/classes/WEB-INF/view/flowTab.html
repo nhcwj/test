@@ -1,0 +1,355 @@
+@layout("/common/new_container.html"){
+<!--<link href="${ctxPath}/static/css/hover.css" rel="stylesheet">-->
+<!--<link href="${ctxPath}/static/css/spinkit.css" rel="stylesheet">-->
+
+<style lang="scss">
+    .tab.active{
+        background-color: #20BE84;
+        color: white;
+        font-weight: bold;
+    }
+    .tab{
+        cursor: pointer;
+        padding: 15px;
+        font-weight: bold;
+        background-color: #EBF9F4;
+        border-radius: 10px;
+        margin-right: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-sizing: border-box;
+        transition-duration: 0.5s;
+        margin-top: 5px;
+    }
+    /*.tab:hover{*/
+        /*box-shadow: 1px 1px 1px #20BE84 ;*/
+        /*transform: scale3d(1.1,1.1,1.1);*/
+    /*}*/
+    .box{
+        padding: 20px;
+    }
+    .example {
+        margin: auto;
+        position: absolute;
+        top: 0; left: 0; bottom: 0; right: 0;
+        width: 200px;
+        height: 200px;
+        /*background-color: lightskyblue;*/
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+</style>
+<div class="modal fade" id="loadingModal">
+    <div class="example">
+        <div class="sk-wave">
+            <div class="sk-wave-rect" style="background-color:#20BE84 "></div>
+            <div class="sk-wave-rect"  style="background-color:#20BE84 "></div>
+            <div class="sk-wave-rect"  style="background-color:#20BE84 "></div>
+            <div class="sk-wave-rect"  style="background-color:#20BE84 "></div>
+            <div class="sk-wave-rect"  style="background-color:#20BE84 "></div>
+        </div>
+        <div style="font-weight: bold;font-size: 18px;color: white;margin-top: 10px">数据加载中...</div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-content">
+                <div class="row row-lg" >
+                    <div class="tabDiv" style="display: flex;justify-content: center;box-sizing: border-box;flex-wrap: wrap">
+                        <div class="tab hvr-underline-from-center" data-type="flow_img" data-src="/flowInfo/FlowChart">流程图</div>
+                        <div class="tab hvr-underline-from-center" data-type="statics" data-src="/flowInfo/OrderStatistics">流转记录</div>
+                        <div class="tab hvr-underline-from-center" data-type="batch" data-src="/flowInfo/BatchDownloadFilePage">批量下载</div>
+
+                        <div class="tab hvr-underline-from-center" data-type="befor_build_info" data-src="/qyw/beforeInfo/build" id="before_order">资源准备单</div>
+                        <div class="tab hvr-underline-from-center" data-type="resource_judge" data-src="/qyw/ttDesignResourceJudge/resourceJudge">资源判断</div>
+                        <div class="tab hvr-underline-from-center" data-type="local_tab_site_scheme_design" data-src="/qyw/engineering/local_scene_design" id="local_tab">本地网现场资源准备工单</div>
+                        <div class="tab hvr-underline-from-center" data-type="compound_tab_site_scheme_design" data-src="/qyw/engineering/compound_scene_design" id="compound_tab">驻地网现场资源准备工单</div>
+                        <div class="tab hvr-underline-from-center" data-type="site_scheme_design" data-src="/qyw/engineering/scene_design" id="scene_tab">铁通现场资源准备工单</div>
+                        <div class="tab hvr-underline-from-center" data-type="system_scheme_design" data-src="/qyw/engineering/system_design" id="system_tab">系统方案设计</div>
+                        <div class="tab hvr-underline-from-center" data-type="computer_verify" data-src="/qyw/sceneDesignScheme/openTestPage" id="verify_tab">网管审批</div>
+                        <div class="tab hvr-underline-from-center" data-type="create_order" data-src="/workOrder/createOrder">创建开通单</div>
+                        <div class="tab hvr-underline-from-center" data-type="design_project" data-src="/qyw/engineering/design">设计方案</div>
+                        <div class="tab hvr-underline-from-center" data-type="verify_project" data-src="/qyw/engineering/approvalScheme">审批方案</div>
+                        <div class="tab hvr-underline-from-center" data-type="check" data-src="/qyw/check/index" id="check_tab">核查</div>
+                        <div class="tab hvr-underline-from-center" data-type="jump" data-src="/workOrder/PieLine/jumpFibre" id="jump_tab">跳纤</div>
+                        <div class="tab hvr-underline-from-center" data-type="end" data-src="/workOrder/PieLine/endPointPieLine" id="end_tab">末端施工</div>
+                        <div class="tab hvr-underline-from-center" data-type="install_device" data-src="/workOrder/PieLine/installDevice">安装设备</div>
+                        <div class="tab hvr-underline-from-center" data-type="organization" data-src="/qyw/delivery/index">组织交维</div>
+                        <div class="tab hvr-underline-from-center" data-type="confirm" data-src="/qyw/delivery/confirm">确认交维</div>
+                        <!--<div class="tab hvr-underline-from-center" data-type="archive" data-src="/workOrder/archive/archive">归档</div>-->
+                    </div>
+
+                    <!--流程图 -->
+                    <div class="col-sm-12 box" id="flow_img" style="display: none">
+
+                    </div>
+
+                    <!--统计 -->
+                    <div class="col-sm-12 box" id="statics" style="display: none">
+
+                    </div>
+                    <!--批量下载 -->
+                    <div class="col-sm-12 box" id="batch" style="display: none">
+
+                    </div>
+                    <!-- 前勘单 -->
+                    <div class="col-sm-12 box" id="befor_build_info" style="display: none">
+
+                    </div>
+
+                    <!-- 资源判断-->
+                    <div class="col-sm-12 box" id="resource_judge" style="display: none">
+
+                    </div>
+
+                    <!-- 本地网现场前勘工单 -->
+                    <div class="col-sm-12 box" id="local_tab_site_scheme_design" style="display: none">
+
+                    </div>
+
+                    <!-- 驻地网现场前勘工单 -->
+                    <div class="col-sm-12 box" id="compound_tab_site_scheme_design" style="display: none">
+
+                    </div>
+
+                    <!-- 铁通现场前勘工单 -->
+                    <div class="col-sm-12 box" id="site_scheme_design" style="display: none">
+
+                    </div>
+                    <!-- 系统方案设计 -->
+                    <div class="col-sm-12 box" id="system_scheme_design" style="display: none">
+
+                    </div>
+
+                    <!-- 网管审批 -->
+                    <div class="col-sm-12 box" id="computer_verify" style="display: none">
+
+                    </div>
+
+                    <!-- 创建开通单 -->
+                    <div class="col-sm-12 box" id="create_order" style="display: none">
+
+                    </div>
+
+                    <!--新建派发 -->
+                    <!--<div class="col-sm-12 box" id="new_distributed" style="display: none">-->
+                    <!--</div>-->
+
+                    <!--设计方案 -->
+                    <div class="col-sm-12 box" id="design_project" style="display: none;overflow-x:hidden;overflow-y:scroll">
+                    </div>
+
+                    <!-- 审批方案 -->
+                    <div class="col-sm-12 box" id="verify_project" style="display: none">
+                    </div>
+
+                    <!-- 核查 -->
+                    <div class="col-sm-12 box" id="check" style="display: none">
+                    </div>
+
+                    <!-- 跳纤 -->
+                    <div class="col-sm-12 box" id="jump" style="display: none">
+                    </div>
+
+                    <!-- 末端施工 -->
+                    <div class="col-sm-12 box" id="end" style="display: none">
+                    </div>
+
+                    <!-- 安装设备 -->
+                    <div class="col-sm-12 box" id="install_device" style="display: none">
+                    </div>
+
+                    <!-- 组织交维 -->
+                    <div class="col-sm-12 box" id="organization" style="display: none">
+                    </div>
+
+                    <!-- 确认交维 -->
+                    <div class="col-sm-12 box" id="confirm" style="display: none">
+                    </div>
+
+
+                    <!--<div class="col-sm-12 box" id="online_system" style="display: none">-->
+                    <!--</div>-->
+                    <!--<div class="col-sm-12 box" id="business_acceptance"style="display: none">-->
+                    <!--</div>-->
+
+                    <!-- 归档 -->
+                    <!--<div class="col-sm-12 box" id="archive" style="display: none">-->
+                    <!--</div>-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<script>
+    let orderId='${orderId}';
+    let flow='${type}';
+    let have_jump='${have_jump}';
+    let have_design='${have_design}';
+    let jump_id='${jump_id}';
+    let have_local_scheme='${have_local_scheme}';
+    let have_compound_scheme='${have_compound_scheme}'
+    let is_zhijie=false;
+    function calcPageHeight(doc) {
+        var cHeight = Math.max(doc.body.clientHeight, doc.documentElement.clientHeight)
+        var sHeight = Math.max(doc.body.scrollHeight, doc.documentElement.scrollHeight)
+        var height = Math.max(cHeight, sHeight)
+        height=height<500?600:height
+        return height
+    }
+    function createFrame(id,src,params) {
+        if(params!==''){
+            html='<iframe id="'+id+'_frame" scrolling="yes"  width="100%" src="'+src+params+'" frameborder="0"></iframe>';
+        }else{
+            html='<iframe id="'+id+'_frame" scrolling="yes" width="100%" src="'+src+'" frameborder="0"></iframe>';
+        }
+        $("#"+id).html(html);
+        let temp = document.getElementById(id+"_frame");
+        $("#loadingModal").modal('show')
+        temp.onload=function () {
+            var iDoc = temp.contentDocument || temp.document || temp.contentWindow
+            var height = calcPageHeight(iDoc);
+            temp.style.height = height + 'px'
+            $("#loadingModal").modal('hide')
+        }
+    }
+    let stepList=['流程图','统计','批量下载','前勘单','资源判断','本地网现场前勘工单','驻地网现场前勘工单','铁通现场前勘工单','系统方案设计','网管审批','创建开通单','设计方案','审批方案','核查'];
+    let flow_list=['跳纤','末端施工','安装设备','组织交维','确认交维'];
+
+    if(have_design==='false'){
+        //直接装维
+        $("#system_tab").remove();
+        $("#scene_tab").remove();
+        $("#verify_tab").remove();
+        let tie_index=stepList.indexOf("铁通现场前勘工单");
+        stepList.splice(tie_index,3);
+
+        is_zhijie=true;
+    }
+    if(have_jump==='false'){
+        flow_list.splice(0,1);
+        $("#jump_tab").remove();
+    }else{
+        if(jump_id==='false'){
+            flow_list.splice(0,1);
+            $("#jump_tab").remove();
+        }
+    }
+
+//    if(have_end==='false'){
+//        flow_list.splice(0,1);
+//        $("#jump_tab").remove();
+//    }else{
+//        if(jump_id==='false'){
+//            flow_list.splice(0,1);
+//            $("#jump_tab").remove();
+//        }
+//    }
+    stepList=stepList.concat(flow_list);
+    let stepName='${stepName}';
+    if(stepName==='铁通现场前勘工单'){
+        if(have_local_scheme==='false') {
+            $("#local_tab").remove();
+            let local_index=stepList.indexOf("本地网现场前勘工单");
+            stepList.splice(local_index,1);
+        }
+        if(have_compound_scheme==='false'){
+            $("#compound_tab").remove();
+            let compound_index=stepList.indexOf("驻地网现场前勘工单");
+            stepList.splice(compound_index,1);
+        }
+    }else{
+        if(have_local_scheme==='false'){
+            $("#local_tab").remove();
+            let local_index=stepList.indexOf("本地网现场前勘工单");
+            stepList.splice(local_index,1);
+        }
+        if(have_compound_scheme==='false'){
+            $("#compound_tab").remove();
+            let compound_index=stepList.indexOf("驻地网现场前勘工单");
+            stepList.splice(compound_index,1);
+        }
+    }
+    if(stepName==='网管审批' && is_zhijie){
+        stepName='资源判断';
+    }
+    var endIndex=stepList.findIndex((value)=>value===stepName);
+    endIndex=endIndex+1;
+    let count=stepList.length-endIndex;
+    for(let i=0;i<count;i++){
+        $(".tab").eq(endIndex).remove();
+    }
+    let tabList=$(".tab");
+    let have_tab=false;
+    for(let i=0;i<tabList.length;i++){
+        if($(tabList[i]).html()===stepName){
+            $(".tab").eq(i).addClass("active");
+            let id=$(tabList[i]).data("type");
+            let src=$(tabList[i]).data("src");
+            $("#"+id).css("display",'');
+            let params='?orderId='+orderId+'&type='+flow
+            createFrame(id,src,params);
+            have_tab=true;
+            break;
+        }
+    }
+    if(!have_tab){
+        if(stepName=='铁通现场前勘工单'){
+            $("#scene_tab").addClass("active");
+            let id=$("#scene_tab").data("type");
+            let src=$("#scene_tab").data("src");
+            $("#"+id).css("display",'');
+            let params='?orderId='+orderId+'&type='+flow
+            createFrame(id,src,params);
+        }else if(stepName=='本地网现场前勘工单'){
+            $("#local_tab").addClass("active");
+            let id=$("#local_tab").data("type");
+            let src=$("#local_tab").data("src");
+            $("#"+id).css("display",'');
+            let params='?orderId='+orderId+'&type='+flow
+            createFrame(id,src,params);
+        }else if(stepName=='驻地网现场前勘工单'){
+            $("#compound_tab").addClass("active");
+            let id=$("#compound_tab").data("type");
+            let src=$("#compound_tab").data("src");
+            $("#"+id).css("display",'');
+            let params='?orderId='+orderId+'&type='+flow
+            createFrame(id,src,params);
+        }else if(stepName=='前勘单'){
+            $("#before_order").addClass("active");
+            let id=$("#before_order").data("type");
+            let src=$("#before_order").data("src");
+            $("#"+id).css("display",'');
+            let params='?orderId='+orderId+'&type='+flow
+            createFrame(id,src,params);
+        }
+    }
+    $(".tab").click(function () {
+        let type=$(this).data("type");
+        let src=$(this).data("src");
+        $(".tab").removeClass("active");
+        $(this).addClass("active");
+        $(".box").css("display","none");
+        $("#"+type).css("display",'');
+        let html=$("#"+type).html().replace(/\s*/g,"");;
+        if(html){
+
+        }else{
+            let params='?orderId='+orderId+'&type='+flow;
+            createFrame(type,src,params)
+        }
+    })
+    function removeTab() {
+        
+    }
+
+</script>
+@}

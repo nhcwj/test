@@ -1,0 +1,222 @@
+@layout("/common/_container.html"){
+<link rel="stylesheet" href="${ctxPath}/static/css/plugins/bootstrap-select/bootstrap-select.min.css">
+<script src="${ctxPath}/static/js/plugins/bootstrap-select/bootstrap-select.min.js"></script>
+<script src="${ctxPath}/static/js/plugins/bootstrap-select/defaults-zh_CN.min.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>附件清单</h5>
+            </div>
+            <div class="ibox-content">
+                <div class="row">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="col-sm-4">
+                                <#commonInput name="项目名称:" id="project_name" labelWidth="4" inputWidth="8"
+                                placeholder="请输入"/>
+                            </div>
+                            <div class="col-sm-4">
+                                <#commonInput name="DICI系统编号:" id="DICI_system_num" labelWidth="4" inputWidth="8"
+                                placeholder="请输入"/>
+                            </div>
+                            <div class="col-sm-4">
+                                <#commonInput name="附件类别:" id="file_name" labelWidth="4" inputWidth="8"
+                                placeholder="请输入"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="col-sm-4">
+                                <#commonInput name="文件名称:" id="filename" labelWidth="4" inputWidth="8"
+                                placeholder="请输入"/>
+                            </div>
+                            <div class="col-sm-4" style="text-align: left">
+                                <button type="button" class="btn btn-primary "
+                                        style="background-color: #20BE84;margin-left: 10px" onclick="search()"
+                                        id="search">
+                                    查询
+                                </button>
+                                <button type="button" class="btn btn-primary "
+                                        style="background-color: #20BE84;margin-left: 10px" onclick="reset()"
+                                        id="reset">
+                                    重置
+                                </button>
+                                <button type="button" class="btn btn-primary "
+                                        style="background-color: #20BE84;margin-left: 10px" onclick="batchDownload()"
+                                        id="batchDownload">
+                                    批量下载
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <#table id="processTable"/>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var queryData = {};
+    var Process = {
+        id: "processTable",
+        setItem: null,
+        table: null,
+    }
+
+    initProcessColumn = function () {
+        return [
+            {field: 'selectItem', radio: false},
+            {field: 'id', visible: false},
+            {
+                title: '项目名称',
+                field: 'project_name',
+                visible: true,
+                align: 'center',
+                valign: 'middle',
+                formatter: function (value, row, index) {
+                    if (value == '' || value == null || value == '否') {
+                        return '<span >--</span>';
+                    } else {
+                        return value;
+                    }
+                }
+            },
+            {
+                title: 'DICI系统编号',
+                field: 'DICI_system_num',
+                visible: true,
+                align: 'center',
+                valign: 'middle',
+                formatter: function (value, row, index) {
+                    if (value == '' || value == null || value == '否') {
+                        return '<span >--</span>';
+                    } else {
+                        return value;
+                    }
+                }
+            },
+            {
+                title: '附件类别',
+                field: 'file_name',
+                visible: true,
+                align: 'center',
+                valign: 'middle',
+                formatter: function (value, row, index) {
+                    if (value == '' || value == null || value == '否') {
+                        return '<span >--</span>';
+                    } else {
+                        return value;
+                    }
+                }
+            },
+            {
+                title: '文件id',
+                field: 'fileId',
+                visible: false,
+                align: 'center',
+                valign: 'middle',
+                formatter: function (value, row, index) {
+                    if (value == '' || value == null || value == '否') {
+                        return '<span >--</span>';
+                    } else {
+                        return value;
+                    }
+                }
+            },
+            {
+                title: '文件路径',
+                field: 'filePath',
+                visible: false,
+                align: 'center',
+                valign: 'middle',
+                formatter: function (value, row, index) {
+                    if (value == '' || value == null || value == '否') {
+                        return '<span >--</span>';
+                    } else {
+                        return value;
+                    }
+                }
+            },
+            {
+                title: '文件名称',
+                field: 'filename',
+                visible: true,
+                align: 'center',
+                valign: 'middle',
+                formatter: function (value, row, index) {
+                    if (value == '' || value == null || value == '否') {
+                        return '<span >--</span>';
+                    } else {
+                        return value;
+                    }
+                }
+            },
+            {
+                title: '操作',
+                field: '',
+                visible: true,
+                align: 'center',
+                valign: 'middle',
+                formatter: function (value, row, index) {
+                    return '<button class="btn btn-primary" style="background-color: #20BE84;" onclick="download(\''+row.filePath+'\',\''+row.filename+'\')">下载</button>'
+                }
+            },
+        ]
+    }
+
+    $(function () {
+        var defaultColumns = initProcessColumn();
+        var table = new BSTable(Process.id, "/informationFile/getProcessFileList", defaultColumns);
+        table.setPaginationType("client");
+        Process.table = table.init();
+    })
+
+    function download(filePath,fileName) {
+        console.log(filePath+"---"+fileName)
+        window.location.href="/base/downloadFile?fileName="+fileName+"&filePath="+filePath;
+    }
+
+    function search() {
+        queryData={};
+        queryData['projectName']=$.trim($("#project_name").val());
+        queryData['systemNum']=$.trim($("#DICI_system_num").val());
+        queryData['fileName']=$.trim($("#file_name").val());
+        queryData['filename']=$.trim($("#filename").val());
+        Process.table.setQueryParams(queryData);
+        Process.table.refresh();
+    }
+
+    function reset(){
+        queryData={};
+        clear("project_name");
+        clear("DICI_system_num");
+        clear("file_name");
+        clear("filename");
+        Process.table.setQueryParams(queryData);
+        Process.table.refresh();
+    }
+
+    function clear(id){
+        $("#"+id).val("");
+    }
+    function batchDownload() {
+        let selectData=$("#processTable").bootstrapTable("getAllSelections");
+        if(selectData.length>0){
+            Feng.confirm("是否确认批量下载",function () {
+                let ids=[];
+                selectData.map(item=>{
+                    ids.push(item.gunsFileId.toString());
+                })
+                window.location.href="/informationFile/downloadBatchFile?fileList="+ids.join(",");
+            })
+        }else{
+            Feng.info("请选中需要下载的附件");
+        }
+    }
+</script>
+
+@}

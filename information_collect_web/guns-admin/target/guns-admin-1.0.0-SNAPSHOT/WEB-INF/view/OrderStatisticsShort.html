@@ -1,0 +1,492 @@
+@layout("/common/new_container.html"){
+<script type="text/javascript" src="${ctxPath}/static/js/count.js"></script>
+
+<style lang="scss">
+
+    .example {
+        margin: auto;
+        position: absolute;
+        top: 0; left: 0; bottom: 0; right: 0;
+        width: 200px;
+        height: 200px;
+        /*background-color: lightskyblue;*/
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .tab{
+        width: 30%;
+        height: 180px;
+        display: flex;
+        /*align-items: center;*/
+        justify-content: center;
+        flex-direction: column;
+        color: white;
+        font-weight: bold;
+        font-size: 25px;
+        border-radius: 10px;
+        padding-left: 50px;
+        box-sizing: border-box;
+    }
+    .problem{
+        margin: 20px;
+        border: 1px solid #EAEAEA;
+        border-radius: 6px;
+        box-shadow: 2px 2px 2px #EAEAEA;
+    }
+    .log_info{
+        padding: 20px;
+        border: 1px solid #EAEAEA;
+        border-radius: 10px;
+        box-shadow: 2px 2px 2px #EAEAEA;
+    }
+    .problem_list{
+        padding: 20px;
+        border: 1px solid #EAEAEA;
+        border-radius: 10px;
+        box-shadow: 2px 2px 2px #EAEAEA;
+    }
+    .problem_list_item{
+        border: 1px solid #EAEAEA;
+        padding: 15px;
+        margin-top: 10px;
+        box-shadow: 2px 2px 2px #EAEAEA;
+    }
+    .problem_list_item_content{
+        display: flex;
+        justify-content: space-around;
+    }
+    .log_info_item{
+        border: 1px solid #EAEAEA;
+        padding: 15px;
+        margin-top: 10px;
+        box-shadow: 2px 2px 2px #EAEAEA;
+    }
+    .warning_item{
+        margin-top: 10px;
+        display: flex;
+        align-items: center;
+    }
+    .reason{
+        margin-top: 5px;
+    }
+    .deal_info{
+        margin-top: 5px;
+        display: flex;
+    }
+    .title{
+        color: #86c9ed;
+    }
+    .btn_div{
+        border-bottom: 1px solid #959595;
+    }
+    .btn_div_click{
+        border-bottom: 2px solid #86c9ed;
+        color: #4ea7ed;
+    }
+</style>
+<div class="modal fade" id="loadingModal">
+    <div class="example">
+        <div class="sk-chase">
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+        </div>
+        <div style="font-weight: bold;font-size: 18px;color: white;margin-top: 10px">数据加载中...</div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-content">
+                <div class="row">
+                    <div class="statics" style="display: flex;justify-content: space-around">
+                        <div class="tab hvr-grow-shadow" style="background-color: #7bd9b7">
+                            <div>超时总长（天）</div>
+                            <div id="delay_count">0</div>
+                        </div>
+                        <div class="tab hvr-grow-shadow" style="background-color: #86c9ed">
+                            <div>超时环节数量（个）</div>
+                            <div id="overtime_num">0</div>
+                        </div>
+                        <div class="tab hvr-grow-shadow" style="background-color: #fdeca7">
+                            <div>问题/意见数量（个）</div>
+                            <div id="problem_count">0</div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="problem">
+                        <div style="height: 50px;width:400px;display: flex;">
+                            <div class="btn_div" onclick="changeTitle(3,this)" style="width: 140px;height: 100%;font-size: 18px;display: flex;align-items: center;justify-content: center;">预覆盖工单日志</div>
+
+                            <div class="btn_div" onclick="changeTitle(1,this)" style="width: 80px;height: 100%;font-size: 18px;display: flex;align-items: center;justify-content: center;">预警</div>
+                            <!--<div class="btn_div" onclick="changeTitle(2,this)" style="width: 80px;margin-right:10px;height: 100%;font-size: 18px;display: flex;align-items: center;justify-content: center;">问题汇总</div>-->
+                        </div>
+                        <div class="cover_order_log_div" style="padding-left: 10px;">
+                            <div style="padding-left: 5px;">
+                                <#table id="SubLogDataTable"/>
+                            </div>
+                        </div>
+                        <div class="warning_div problem_list">
+                            <#table id="WarningTable"/>
+
+                            <!--<div class="warning_item">-->
+                                <!--<div style="background-color:#4da4ff;width: 12px;height: 12px;border-radius: 6px;margin-right: 4px;"></div>-->
+                                <!--<div>-->
+                                    <!--xxx问题&nbsp;&nbsp;未处理&nbsp;&nbsp;已耗时xx天-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div class="warning_item">-->
+                                <!--<div style="background-color:#4da4ff;width: 12px;height: 12px;border-radius: 6px;margin-right: 4px;"></div>-->
+                                <!--<div>-->
+                                    <!--xxx问题&nbsp;&nbsp;未处理&nbsp;&nbsp;已耗时xx天-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div class="warning_item">-->
+                                <!--<div style="background-color:#4da4ff;width: 12px;height: 12px;border-radius: 6px;margin-right: 4px;"></div>-->
+                                <!--<div>-->
+                                    <!--xxx问题&nbsp;&nbsp;未处理&nbsp;&nbsp;已耗时xx天-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div class="warning_item">-->
+                                <!--<div style="background-color:#4da4ff;width: 12px;height: 12px;border-radius: 6px;margin-right: 4px;"></div>-->
+                                <!--<div>-->
+                                    <!--xxx问题&nbsp;&nbsp;未处理&nbsp;&nbsp;已耗时xx天-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div class="warning_item">-->
+                                <!--<div style="background-color:#4da4ff;width: 12px;height: 12px;border-radius: 6px;margin-right: 4px;"></div>-->
+                                <!--<div>-->
+                                    <!--xxx问题&nbsp;&nbsp;未处理&nbsp;&nbsp;已耗时xx天-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        </div>
+                        <div class="trouble_gatter problem_list">
+                            <div class="problem_list_item" style="cursor: pointer">
+                                <h5>问题描述</h5>
+                                <div class="problem_list_item_content">
+                                    <div>所处流程:xxx</div>
+                                    <div>负责人:xxx</div>
+                                    <div>联系电话:xxx</div>
+                                    <div>状态:未处理</div>
+                                </div>
+                            </div>
+                            <div class="problem_list_item">
+                                <h5>问题描述</h5>
+                                <div class="problem_list_item_content">
+                                    <div>所处流程:xxx</div>
+                                    <div>负责人:xxx</div>
+                                    <div>联系电话:xxx</div>
+                                    <div>状态:未处理</div>
+                                </div>
+                            </div>
+                            <div class="problem_list_item">
+                                <h5>问题描述</h5>
+                                <div class="problem_list_item_content">
+                                    <div>所处流程:xxx</div>
+                                    <div>负责人:xxx</div>
+                                    <div>联系电话:xxx</div>
+                                    <div>状态:未处理</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+    let orderId='${orderId}'
+    let type='${type}';
+
+    var SubLogDatas = {
+        id: "SubLogDataTable",	//表格id
+        seItem: null,		//选中的条目
+        table: null,
+    };
+    var WarningData={
+        id:"WarningTable",
+        seItem: null,		//选中的条目
+        table: null,
+    }
+    let statics=[];
+    $(function(){
+        var step='${step}'
+        //初始化预覆盖工单日志表格
+        var defaultColunms = initSubColumn();
+        var sub_table = new BSTable(SubLogDatas.id,"/qyw/common/getOrderLogPre?orderId="+ orderId +"&type="+type+"&order_log_type=2"+"&step="+step, defaultColunms);
+        sub_table.setPaginationType("client");
+        SubLogDatas.table = sub_table.init();
+
+        $(".warning_div").hide()
+        $(".trouble_gatter").hide()
+        // $(".cover_order_log_div").hide()
+
+        let groupx = $(".btn_div")
+        $(groupx[0]).addClass("btn_div_click")
+        var warnColumn = initWarnColumn();
+        var WarnTable = new BSTable(WarningData.id,"/qyw/common/getOrderWarningData?orderId="+orderId+"&type="+type, warnColumn);
+        WarnTable.setPaginationType("client");
+        WarningData.table = WarnTable.init();
+        var ajax = new $ax(Feng.ctxPath + "/qyw/common/getOrderWarningData?orderId="+orderId+"&type="+type, function (data) {
+            for(let i=0;i<data.length;i++){
+                let process=data[i].process;
+                let remain_time=data[i].remain_time;
+                remain_time=parseFloat(remain_time).toFixed(2);
+
+                if(remain_time<0){
+                    remain_time=remain_time.substring(1);
+                    let haveRecord=false;
+                    for(let j=0;j<statics.length;j++){
+                        if(statics[j].process==process){
+                            haveRecord=true;
+                            if(remain_time>statics[j].remain_time){
+                                statics[j].remain_time=remain_time;
+                            }
+                        }
+                    }
+                    if(!haveRecord){
+                        let obj={process:process,remain_time:remain_time}
+                        statics.push(obj);
+                    }
+                }
+            }
+            setStatics();
+        }, function (data) {
+       });
+        ajax.start();
+        var ajax2 = new $ax(Feng.ctxPath + "/qyw/common/getOrderLogProblemStatics?orderId="+orderId+"&type="+type, function (data) {
+            $("#problem_count").html(data);
+        }, function (data) {
+        });
+        ajax2.start();
+    })
+    function setStatics() {
+        if(statics.length>0){
+            $("#overtime_num").html(statics.length)
+            let count=0.00;
+            for(let j=0;j<statics.length;j++){
+               count=parseFloat(count+parseFloat(statics[j].remain_time));
+            }
+            count=parseFloat(count).toFixed(2)
+            $("#delay_count").html(count);
+        }else{
+
+        }
+    }
+    function changeTitle(index,current){
+        c(index);
+        if (index == 0){
+            $(".warning_div").hide()
+            $(".trouble_gatter").hide()
+            $(".cover_order_log_div").hide()
+            $(".order_log_div").show()
+        }else if(index == 1){
+            $(".order_log_div").hide()
+            $(".cover_order_log_div").hide()
+            $(".trouble_gatter").hide()
+            $(".warning_div").show()
+        }else if(index == 2){
+            $(".order_log_div").hide()
+            $(".cover_order_log_div").hide()
+            $(".warning_div").hide()
+            $(".trouble_gatter").show()
+        }else if(index==3){
+            $(".order_log_div").hide()
+            $(".cover_order_log_div").show()
+            $(".warning_div").hide()
+            $(".trouble_gatter").hide()
+        }
+        $(".btn_div").removeClass("btn_div_click")
+        let groupx = $(".btn_div")
+        $(current).addClass("btn_div_click")
+
+    }
+
+    let layerIndex='';
+    $(".problem_list_item").click(function () {
+       layerIndex=openWindow("问题详情",1200,600,"/flowInfo/ProblemDetail");
+       layer.full(layerIndex);
+    })
+
+//    var delay_count = new CountUp('delay_count', 0, 69, 0, 1,{})
+//    function start() {
+//        delay_count.start();
+//    }
+//    start();
+
+
+
+    /*var ajax = new $ax(Feng.ctxPath + "/qyw/common/getOrderLog?orderId="+orderId+"&type="+type, function (data) {
+        setLogList(data);
+    }, function (data) {
+        Feng.error("获取失败");
+    });
+    ajax.start();*/
+
+    function setLogList(data) {
+        for(let i=0;i<data.length;i++){
+            let operate=data[i].operate;
+            let process=data[i].current_process;
+            let reason=data[i].reason||'';
+            let deal_user=data[i].deal_user;
+            let deal_time=data[i].deal_time;
+            let phone=data[i].phone||"无";
+            let html='<div class="log_info_item"><h4 class="title">工单状态:<span class="order_status">'+operate+'</span></h4>'
+                +'<div class="current_process">所在环节：'+process+'</div>';
+            if(reason!=""){
+                html=html+'<div class="reason">退单/挂起原因：'+reason+'</div>'
+            }
+            html=html+'<div class="deal_info">'
+            +'<div class="deal_people">'+deal_user+'</div>'
+                +'<div class="split">&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;</div>'
+                +'<div class="deal_people">'+phone+'</div>'
+                +'<div class="split">&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;</div>'
+                +'<div class="deal_time">'+deal_time+'</div>'
+                +'</div></div>'
+            $(".log_info").append(html);
+        }
+    }
+
+    initSubColumn = function () {
+        return [
+            {field: 'selectItem', radio: true, visible:false},
+            {title: '工单环节', field: 'current_process', visible: true, align: 'center', valign: 'middle',sortable:true,formatter: function(value, row, index) {
+                if(value=='' || value==null){
+                    return '<span >--</span>';
+                }else{
+                    return value;
+                }
+            }},
+            {title: '进入时间', field: 'enter_time', visible: true, align: 'center', valign: 'middle',sortable:true,formatter: function(value, row, index) {
+                if(value=='' || value==null){
+                    return '<span >--</span>';
+                }else{
+                    return value;
+                }
+            }},
+            {title: '完成时间', field: 'deal_time', visible: true, align: 'center', valign: 'middle',sortable:true,formatter: function(value, row, index) {
+                if(value=='' || value==null){
+                    return '<span >--</span>';
+                }else{
+                    return value;
+                }
+            }},
+            {title: '处理人', field: 'deal_user', visible: true, align: 'center', valign: 'middle',sortable:true,formatter: function(value, row, index) {
+                if(value=='' || value==null){
+                    return '<span >--</span>';
+                }else{
+                    return value;
+                }
+            }},
+            {title: '处理部门', field: 'deal_dept', visible: true, align: 'center', valign: 'middle',sortable:true,formatter: function(value, row, index) {
+                if(value=='' || value==null){
+                    return '<span >--</span>';
+                }else{
+                    return value;
+                }
+            }},
+            {title: '处理人电话', field: 'phone', visible: true, align: 'center', valign: 'middle',sortable:true,formatter: function(value, row, index) {
+                if(value=='' || value==null){
+                    return '<span >--</span>';
+                }else{
+                    return value;
+                }
+            }},
+            {title: '退回/挂起&nbsp;原因', field: 'reason', visible: true, align: 'center', valign: 'middle',sortable:true,formatter: function(value, row, index) {
+                if(value=='' || value==null){
+                    return '<span >--</span>';
+                }else{
+                    let temp=value;
+                    temp=temp.replace("系统卡单","其他原因");
+                    return temp;
+                }
+            }},
+            {title: '处理状态', field: 'operate', visible: true, align: 'center', valign: 'middle',sortable:true,formatter: function(value, row, index) {
+                if(value=='' || value==null){
+                    return '<span >--</span>';
+                }else{
+                    return value;
+                }
+            }},
+            {title: '处理意见/问题描述', field: 'deal_suggest', visible: true, align: 'center', valign: 'middle',sortable:true,formatter: function(value, row, index) {
+                if(value=='' || value==null){
+                    return '<span >--</span>';
+                }else{
+                    return value;
+                }
+            }},
+        ];
+    };
+
+    initWarnColumn = function () {
+        return [
+            {field: 'selectItem', radio: true, visible:false},
+            {title: '环节', field: 'process', visible: true, align: 'center', valign: 'middle',sortable:true,formatter: function(value, row, index) {
+                if(value=='' || value==null){
+                    return '<span >--</span>';
+                }else{
+                    return value;
+                }
+            }},
+            {title: '进入时间', field: 'enter_time', visible: true, align: 'center', valign: 'middle',sortable:true,formatter: function(value, row, index) {
+                if(value=='' || value==null){
+                    return '<span >--</span>';
+                }else{
+                    return value;
+                }
+            }},
+            {title: '完成时间', field: 'deal_time', visible: true, align: 'center', valign: 'middle',sortable:true,formatter: function(value, row, index) {
+                if(value=='' || value==null){
+                    return '<span >--</span>';
+                }else{
+                    return value;
+                }
+            }},
+            {title: '消耗时间', field: 'cost_time', visible: true, align: 'center', valign: 'middle',sortable:true,formatter: function(value, row, index) {
+                if(value=='' || value==null){
+                    return '<span >--</span>';
+                }else{
+                    return value;
+                }
+            }},
+            {title: '标准时间', field: 'standard_time', visible: true, align: 'center', valign: 'middle',sortable:true,formatter: function(value, row, index) {
+                if(value=='' || value==null){
+                    return '<span >--</span>';
+                }else{
+                    return value;
+                }
+            }},
+            {title: '剩余时间', field: 'remain_time', visible: true, align: 'center', valign: 'middle',sortable:true,formatter: function(value, row, index) {
+                if(value=='' || value==null){
+                    return '<span >--</span>';
+                }else{
+                    value=parseFloat(value).toFixed(2);
+                    if(value<0){
+                        return '<span style="color: red">'+value+'天</span>'
+                    }else{
+                        return value+"天";
+                    }
+                }
+            }},
+//            {title: '状态', field: 'warning', visible: true, align: 'center', valign: 'middle',sortable:true,formatter: function(value, row, index) {
+//                if(value=='' || value==null){
+//                    return '<span >--</span>';
+//                }else{
+//                    return value;
+//                }
+//            }},
+        ];
+    };
+</script>
+@}

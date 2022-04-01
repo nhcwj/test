@@ -1,0 +1,124 @@
+@layout("/common/new_container.html"){
+<link rel="stylesheet" href="${ctxPath}/static/css/plugins/bootstrap-select/bootstrap-select.min.css">
+<script src="${ctxPath}/static/js/plugins/bootstrap-select/bootstrap-select.min.js"></script>
+<script src="${ctxPath}/static/js/plugins/bootstrap-select/defaults-zh_CN.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/static/css/steps.css">
+<style>
+    .form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
+        background-color: #f8f8f8;
+    }
+
+    .btn-default {
+        color: #6f6c6c;
+        background-color: #fffdfd;
+    }
+    input::-webkit-input-placeholder{
+        font-size: 12px;
+        color: #000000;
+        font-family: 微软雅黑;
+    }
+    .btn-primary{
+        padding: 5px 20px;
+    }
+    .W25 .th-inner{
+        width: 25px !important;
+    }
+    .split{
+        height: 1px;
+        width:100%;
+        background-color: #BBBBBB;
+        margin-top: 5px;
+        margin-bottom: 25px;
+    }
+    .topBtn{
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 5px;
+    }
+    .chooseBtn{
+        background-color: #15da8f;
+        font-weight: bold;
+    }
+</style>
+
+<div class="ibox float-e-margins" >
+    <div class="ibox-content">
+        <div class="form-horizontal">
+            <div class="row">
+                <div class="col-sm-5" style="padding: 0px;height: 35px;margin-left:15px; display: flex;">
+                    <div id="topSelect" style="display: flex;font-size: 14px;color: #000000;background-color:#ebf9f4;">
+                        <div id="sjdBtn" data-url="sjOrder" class="topBtn" style="width: 120px;">商机单受理</div>
+                        <div id="firstStepBtn" data-url="firstStep" class="topBtn" style="width: 120px;">初步订单审核</div>
+                        <div id="DesignBtn" data-url="design" class="topBtn" style="width: 120px;">设计环节</div>
+                        <div id="schemeVerifyBtn" data-url="schemeVerify" class="topBtn" style="width: 120px;">方案审核</div>
+                        <div id="businessVerifyBtn" data-url="businessVerify" class="topBtn" style="width: 120px;">业务审核</div>
+                        <div id="zsOrderVerifyBtn" data-url="zsOrderVerify" class="topBtn" style="width: 120px;">正式订单审核</div>
+                        <div id="skConfirmBtn" data-url="skConfirm" class="topBtn" style="width: 120px;">首款确认</div>
+                        <div id="workPeopleBtn" data-url="workPeople" class="topBtn" style="width: 120px;">施工人员指派</div>
+                        <div id="workBtn" data-url="work" class="topBtn" style="width: 120px;">施工环节</div>
+
+                    </div>
+                </div>
+            </div>
+            @include("/informationCollect/ict_see/sjOrder.html"){}
+            @include("/informationCollect/ict_see/firstStep.html"){}
+            @include("/informationCollect/ict_see/design.html"){}
+            @include("/informationCollect/ict_see/schemeVerify.html"){}
+            @include("/informationCollect/ict_see/businessVerify.html"){}
+            @include("/informationCollect/ict_see/zsOrderVerify.html"){}
+            @include("/informationCollect/ict_see/skConfirm.html"){}
+            @include("/informationCollect/ict_see/workPeople.html"){}
+            @include("/informationCollect/ict_see/work.html"){}
+
+        </div>
+    </div>
+</div>
+<script>
+    var temp='${orderInfo.order_status}';
+    $(function () {
+        let width=$("#tag_1").width();
+        $(".file_label").width(width);
+        let topBtnList=$(".topBtn");
+        let isHide=false;
+        $("#sjdBtn").addClass("chooseBtn");
+        $("#sjOrder").show();
+        for(let i=1;i<topBtnList.length;i++){
+            let tmp=$(topBtnList[i]);
+            if(!isHide){
+                if(tmp.html()==temp){
+                    tmp.hide();
+                    isHide=true;
+                }
+            }else{
+                tmp.hide();
+            }
+        }
+    })
+    $(".topBtn").click(function () {
+        $(".topBtn").removeClass("chooseBtn")
+        $(this).addClass("chooseBtn")
+        let topBtnList=$(".topBtn");
+        for(let i=0;i<topBtnList.length;i++){
+            let tmp=$(topBtnList[i]);
+            if(tmp.html()==$(this).html()){
+                let divId=tmp.data("url");
+                $("#"+divId).show();
+                continue;
+            }else{
+                let divId=tmp.data("url");
+                $("#"+divId).hide();
+            }
+        }
+    })
+    function download(a) {
+        let filePath=$(a).parent().data("file");
+        let fileName=$(a).parent().data("name");
+        downloadFile(filePath,fileName);
+    }
+    function downloadFile(filePath,fileName) {
+        window.location.href="/base/downloadFile?fileName="+fileName+"&filePath="+filePath;
+    }
+</script>
+@}

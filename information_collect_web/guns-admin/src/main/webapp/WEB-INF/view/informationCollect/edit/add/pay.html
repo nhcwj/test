@@ -1,0 +1,144 @@
+@layout("/common/new_container.html"){
+<div style="height: 20px"></div>
+<div class="row">
+    <div class="col-sm-8">
+        <div class="form-group" style="display:flex;align-items: center">
+            <label class="col-sm-2 control-label" style="font-size: 12px;
+		color: #4C4B4B;
+		font-family: 微软雅黑;
+		padding: 0;margin: 0;text-align: right">
+                付款名称：
+            </label>
+            <div class="col-sm-10">
+                <textarea class="form-control" value="" id="pay_name"   name="pay_name" rows="3"></textarea>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-8">
+        <div class="form-group" style="display:flex;align-items: center">
+            <label class="col-sm-2 control-label" style="font-size: 12px;
+		color: #4C4B4B;
+		font-family: 微软雅黑;
+		padding: 0;margin: 0;text-align: right">
+                付款日期：
+            </label>
+            <div class="col-sm-10">
+                <input class="form-control" value="" name="pay_date" id="pay_date" type="datetime"  onclick="laydate({istime: false, format: 'YYYY-MM-DD'})" autocomplete="off" placeholder="请输入时间" >
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-8">
+        <div class="form-group" style="display:flex;align-items: center">
+            <label class="col-sm-2 control-label" style="font-size: 12px;
+		color: #4C4B4B;
+		font-family: 微软雅黑;
+		padding: 0;margin: 0;text-align: right">
+                付款比例(%)：
+            </label>
+            <div class="col-sm-10">
+                <div class="input-group spinner" data-trigger="spinner">
+                    <input type="text" class="form-control text-center" value="" data-rule="currency" id="pay_scale" name="pay_scale">
+                    <div class="input-group-addon">
+                        <a href="javascript:;" class="spin-up" data-spin="up"><i class="fa fa-caret-up"></i></a>
+                        <a href="javascript:;" class="spin-down" data-spin="down"><i class="fa fa-caret-down"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row" style="margin-bottom: 10px">
+    <div class="col-sm-8">
+        <div class="form-group">
+            <label class="col-sm-2 control-label" style="font-size: 12px;
+		color: #4C4B4B;
+		font-family: 微软雅黑;
+		padding: 0;margin: 0;text-align: right">付款金额(万元)：</label>
+            <div class="col-sm-10">
+                <div class="input-group spinner" data-trigger="spinner">
+                    <input type="text" class="form-control text-center" value="" data-rule="currency" id="pay_price" name="pay_price">
+                    <div class="input-group-addon">
+                        <a href="javascript:;" class="spin-up" data-spin="up"><i class="fa fa-caret-up"></i></a>
+                        <a href="javascript:;" class="spin-down" data-spin="down"><i class="fa fa-caret-down"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--<div class="form-group" style="display:flex;align-items: center">-->
+            <!--<label class="col-sm-2 control-label" style="font-size: 12px;-->
+		<!--color: #4C4B4B;-->
+		<!--font-family: 微软雅黑;-->
+		<!--padding: 0;margin: 0;text-align: right">-->
+                <!--付款金额：-->
+            <!--</label>-->
+            <!--<div class="col-sm-10">-->
+                <!--<input type="text" class="form-control" value="" id="pay_price"  name="pay_price" >-->
+            <!--</div>-->
+        <!--</div>-->
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-8">
+        <div class="form-group" style="display:flex;align-items: center">
+            <label class="col-sm-2 control-label" style="font-size: 12px;
+		color: #4C4B4B;
+		font-family: 微软雅黑;
+		padding: 0;margin: 0;text-align: right">
+                备注：
+            </label>
+            <div class="col-sm-10">
+                <textarea class="form-control" value="" id="pay_remark"  name="pay_remark" rows="3"></textarea>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row" style="margin-top: 40px; font-size: 14px;">
+    <div class="col-sm-4"></div>
+    <div class="col-sm-1">
+        <button type="button" class="btn btn-primary" id="save" onclick="savePayCondition()">保存</button>
+    </div>
+    <div class="col-sm-1">
+    </div>
+    <div class="col-sm-1">
+        <button type="button" onclick="cancel()" class="btn btn-primary">取消</button>
+    </div>
+    <div class="col-sm-5">
+    </div>
+</div>
+<script>
+    let flag=false;
+    function savePayCondition() {
+
+        let pay_name=$("#pay_name").val()||"";
+        let pay_date=$("#pay_date").val()||"";
+        let pay_scale=$("#pay_scale").val()||"";
+        let pay_price=$("#pay_price").val()||"";
+        let pay_remark=$("#pay_remark").val()||"";
+        let add_time=getCurrentDate("yyyy年MM月DD日 HH:mm")
+
+        Feng.confirm("确认保存吗",function () {
+            if(!flag){
+                flag=true;
+            let obj={pay_name:pay_name,
+                pay_date:pay_date,
+                pay_scale:pay_scale,
+                pay_price:pay_price,
+                pay_remark:pay_remark,
+                add_time:add_time};
+            window.parent.budget_info.payment_progress.push(obj);
+            window.parent.drawPay();
+            window.parent.layer.close(window.parent.Budget.layerIndex);
+            }
+        })
+    }
+    function cancel() {
+        var index = parent.layer.getFrameIndex(window.name)
+        parent.layer.close(index);
+    }
+</script>
+
+@}

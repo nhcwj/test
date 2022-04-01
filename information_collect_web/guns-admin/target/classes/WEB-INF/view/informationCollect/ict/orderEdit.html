@@ -1,0 +1,1246 @@
+@layout("/common/new_container.html"){
+<link rel="stylesheet" href="${ctxPath}/static/css/plugins/bootstrap-select/bootstrap-select.min.css">
+<script src="${ctxPath}/static/js/plugins/bootstrap-select/bootstrap-select.min.js"></script>
+<script src="${ctxPath}/static/js/plugins/bootstrap-select/defaults-zh_CN.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/static/css/steps.css">
+<style>
+    .form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
+        background-color: #f8f8f8;
+    }
+
+    .btn-default {
+        color: #6f6c6c;
+        background-color: #fffdfd;
+    }
+    input::-webkit-input-placeholder{
+        font-size: 12px;
+        color: #000000;
+        font-family: 微软雅黑;
+    }
+    .btn-primary{
+        padding: 5px 20px;
+    }
+    .W25 .th-inner{
+        width: 25px !important;
+    }
+    .split{
+        height: 1px;
+        width:100%;
+        background-color: #BBBBBB;
+        margin-top: 5px;
+        margin-bottom: 25px;
+    }
+    .topBtn{
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 5px;
+    }
+    .chooseBtn{
+        background-color: #15da8f;
+        font-weight: bold;
+    }
+</style>
+
+<div class="ibox float-e-margins" >
+    <div class="ibox-content">
+        <div class="form-horizontal">
+            <div class="row">
+                <div class="col-sm-5" style="padding: 0px;height: 35px;margin-left:15px; display: flex;">
+                    <div id="topSelect" style="display: flex;font-size: 14px;color: #000000;background-color:#ebf9f4;">
+                        <div id="sjdBtn" data-url="sjOrder" class="topBtn" style="width: 120px;">商机单受理</div>
+                        <div id="firstStepBtn" data-url="firstStep" class="topBtn" style="width: 120px;">初步订单审核</div>
+                        <div id="designBtn" data-url="design" class="topBtn" style="width: 120px;">设计环节</div>
+                        <div id="schemeCheckBtn" data-url="scheme_check" class="topBtn" style="width: 120px;">方案审核</div>
+                        <div id="businessCheckBtn" data-url="business_check" class="topBtn" style="width: 120px;">业务审核</div>
+                        <div id="orderConfirmBtn" data-url="orderConfirm" class="topBtn" style="width: 120px;">订单确认</div>
+                        <div id="zsOrderBtn" data-url="zsOrder" class="topBtn" style="width: 120px;">正式订单审核</div>
+                        <div id="dfskBtn" data-url="dfsk" class="topBtn" style="width: 120px;">待付首款/全款</div>
+                        <div id="skConfirmBtn" data-url="skConfirm" class="topBtn" style="width: 120px;">首款/全款确认</div>
+                        <div id="workpeopleBtn" data-url="workpeople" class="topBtn" style="width: 120px;">施工人员指派</div>
+                        <div id="workBtn" data-url="work" class="topBtn" style="width: 120px;">施工环节</div>
+                        <div id="dswkBtn" data-url="waitwk" class="topBtn" style="width: 120px;">已验收待尾款</div>
+                        <div id="wkConfirmBtn" data-url="wkConfirm" class="topBtn" style="width: 120px;">尾款确认</div>
+                        <div id="logBtn" data-url="log_edit" class="topBtn" style="width: 120px">日志</div>
+                        <div id="remarkBtn" data-url="remarkInfo" class="topBtn" style="width: 120px">流转记录</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="submitDiv" style="display: none">
+                <input type="file" id="file" name="file" multiple="multiple">
+            </div>
+            <div style="height: 15px"></div>
+            <#title info="订单状态" />
+            <div class="row" style="margin-top: 10px;">
+                <div class="col-sm-4">
+                    <div class="form-group" style="display:flex;align-items: center">
+                        <label class="col-sm-4 control-label" id="tag_1" style="padding-top: 0">
+                            订单状态
+                        </label>
+                        <div class="col-sm-8">
+                            <input class="form-control" value="${orderInfo.order_status}" id="order_status" name="order_status" placeholder="单行输入" readonly>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @include("/informationCollect/ict/work_people.html"){}
+            @include("/informationCollect/ict/sjOrder.html"){}
+            @include("/informationCollect/ict/firstStep.html"){}
+            @include("/informationCollect/ict/design.html"){}
+            @include("/informationCollect/ict/orderConfirm.html"){}
+            @include("/informationCollect/ict/zsOrder.html"){}
+            @include("/informationCollect/ict/dfsk.html"){}
+            @include("/informationCollect/ict/skConfirm.html"){}
+            @include("/informationCollect/ict/work.html"){}
+            @include("/informationCollect/ict/waitwk.html"){}
+            @include("/informationCollect/ict/wkConfirm.html"){}
+            @include("/informationCollect/ict_manager/order_log.html"){}
+            @include("/informationCollect/ict/ict_remark_info.html"){}
+
+        </div>
+
+    </div>
+</div>
+<script>
+    $(function () {
+        let width=$("#tag_1").width();
+        $(".file_label").width(width);
+
+//        if(temp=='商机单受理'){
+//            $("#firstStepBtn").hide()
+//            $("#designBtn").hide()
+//            $("#orderConfirmBtn").hide()
+//            $("#zsOrderBtn").hide()
+//            $("#dfskBtn").hide()
+//            $("#skConfirmBtn").hide()
+//            $("#workBtn").hide()
+//            $("#dswkBtn").hide()
+//            $("#wkConfirmBtn").hide()
+//            $('#workpeopleBtn').hide()
+//            $("#sjOrder").show()
+//            $('#sjdBtn').addClass("chooseBtn")
+//        }else if(temp=='初步订单审核'){
+//            $("#designBtn").hide()
+//            $("#orderConfirmBtn").hide()
+//            $("#zsOrderBtn").hide()
+//            $("#dfskBtn").hide()
+//            $("#skConfirmBtn").hide()
+//            $("#workBtn").hide()
+//            $("#dswkBtn").hide()
+//            $("#wkConfirmBtn").hide()
+//            $('#workpeopleBtn').hide()
+//            $("#firstStep").show()
+//            $('#firstStepBtn').addClass("chooseBtn")
+//        }else if(temp=='设计环节'){
+//            $("#orderConfirmBtn").hide()
+//            $("#zsOrderBtn").hide()
+//            $("#dfskBtn").hide()
+//            $("#skConfirmBtn").hide()
+//            $("#workBtn").hide()
+//            $("#dswkBtn").hide()
+//            $("#wkConfirmBtn").hide()
+//            $('#workpeopleBtn').hide()
+//            $("#design").show()
+//            $('#designBtn').addClass("chooseBtn")
+//        }else if(temp=='订单确认'){
+//            $("#zsOrderBtn").hide()
+//            $("#dfskBtn").hide()
+//            $("#skConfirmBtn").hide()
+//            $("#workBtn").hide()
+//            $("#dswkBtn").hide()
+//            $("#wkConfirmBtn").hide()
+//            $('#workpeopleBtn').hide()
+//            $("#orderConfirm").show()
+//            $('#orderConfirmBtn').addClass("chooseBtn")
+//        }else if(temp=='正式订单审核'){
+//            $("#dfskBtn").hide()
+//            $("#skConfirmBtn").hide()
+//            $("#workBtn").hide()
+//            $("#dswkBtn").hide()
+//            $("#wkConfirmBtn").hide()
+//            $('#workpeopleBtn').hide()
+//            $("#zsOrder").show()
+//            $('#zsOrderBtn').addClass("chooseBtn")
+//        }else if(temp=='待付首款/全款'){
+//            $("#skConfirmBtn").hide()
+//            $("#workBtn").hide()
+//            $("#dswkBtn").hide()
+//            $("#wkConfirmBtn").hide()
+//            $('#workpeopleBtn').hide()
+//            $("#dfsk").show()
+//            $('#dfskBtn').addClass("chooseBtn")
+//        }else if(temp=='首款/全款确认'){
+//            $("#workBtn").hide()
+//            $("#dswkBtn").hide()
+//            $("#wkConfirmBtn").hide()
+//            $('#workpeopleBtn').hide()
+//            $("#skConfirm").show()
+//            $('#skConfirmBtn').addClass("chooseBtn")
+//        }else if(temp=='施工人员指派'){
+//            $("#dswkBtn").hide()
+//            $("#wkConfirmBtn").hide()
+//            $("#workBtn").hide()
+//            $("#work").hide()
+//            $("#workpeople").show()
+//            $('#workpeopleBtn').addClass("chooseBtn")
+//        }else if(temp=='施工环节'){
+//            $("#dswkBtn").hide()
+//            $("#wkConfirmBtn").hide()
+//            $("#work").show()
+//            $('#workBtn').addClass("chooseBtn")
+//        }else if(temp=='已验收待尾款'){
+//            $("#wkConfirmBtn").hide()
+//            $("#waitwk").show()
+//            $('#dswkBtn').addClass("chooseBtn")
+//        }else if(temp=='尾款确认'){
+//            $("#wkConfirm").show()
+//            $('#wkConfirmBtn').addClass("chooseBtn")
+//        }
+        let topBtnList=$(".topBtn");
+        let isHide=false;
+//        $("#sjdBtn").addClass("chooseBtn");
+//        $("#sjOrder").show();
+        for(let i=1;i<topBtnList.length;i++){
+            let tmp=$(topBtnList[i]);
+            if(!isHide){
+                if(tmp.html()==temp){
+                    $(tmp).addClass("chooseBtn");
+                    let divId=$(tmp).data("url");
+                    $("#"+divId).show();
+                    isHide=true;
+                }
+            }else{
+                if(tmp.html()=='日志' || tmp.html()=='流转记录'){
+                    continue;
+                }
+                tmp.hide();
+            }
+        }
+    })
+    $(".topBtn").click(function () {
+//        if ($(this).hasClass("chooseBtn")) {
+//        }else {
+//            $(".topBtn").removeClass("chooseBtn")
+//            $(this).addClass("chooseBtn")
+//            if($(this).text()=='商机单受理'){
+//                $("#workpeople").hide()
+//                $("#firstStep").hide()
+//                $("#design").hide()
+//                $("#orderConfirm").hide()
+//                $("#zsOrder").hide()
+//                $("#dfsk").hide()
+//                $("#skConfirm").hide()
+//                $("#work").hide()
+//                $("#waitwk").hide()
+//                $("#wkConfirm").hide()
+//                $("#sjOrder").show()
+//                $("#log_edit").hide()
+//                $("#remarkInfo").hide()
+//
+//            }else if($(this).text()=='初步订单审核'){
+//                $("#workpeople").hide()
+//                $("#sjOrder").hide()
+//                $("#design").hide()
+//                $("#orderConfirm").hide()
+//                $("#zsOrder").hide()
+//                $("#dfsk").hide()
+//                $("#skConfirm").hide()
+//                $("#work").hide()
+//                $("#waitwk").hide()
+//                $("#wkConfirm").hide()
+//                $("#firstStep").show()
+//                $("#log_edit").hide()
+//                $("#remarkInfo").hide()
+//
+//            }else if($(this).text()=='设计环节'){
+//                $("#workpeople").hide()
+//                $("#sjOrder").hide()
+//                $("#firstStep").hide()
+//                $("#orderConfirm").hide()
+//                $("#zsOrder").hide()
+//                $("#dfsk").hide()
+//                $("#skConfirm").hide()
+//                $("#work").hide()
+//                $("#waitwk").hide()
+//                $("#wkConfirm").hide()
+//                $("#design").show()
+//                $("#log_edit").hide()
+//                $("#remarkInfo").hide()
+//
+//            }else if($(this).text()=='订单确认'){
+//                $("#workpeople").hide()
+//                $("#sjOrder").hide()
+//                $("#firstStep").hide()
+//                $("#design").hide()
+//                $("#zsOrder").hide()
+//                $("#dfsk").hide()
+//                $("#skConfirm").hide()
+//                $("#work").hide()
+//                $("#waitwk").hide()
+//                $("#wkConfirm").hide()
+//                $("#orderConfirm").show()
+//                $("#log_edit").hide()
+//                $("#remarkInfo").hide()
+//
+//            }else if($(this).text()=='正式订单审核'){
+//                $("#workpeople").hide()
+//                $("#sjOrder").hide()
+//                $("#firstStep").hide()
+//                $("#design").hide()
+//                $("#orderConfirm").hide()
+//                $("#dfsk").hide()
+//                $("#skConfirm").hide()
+//                $("#work").hide()
+//                $("#waitwk").hide()
+//                $("#wkConfirm").hide()
+//                $("#zsOrder").show()
+//                $("#log_edit").hide()
+//                $("#remarkInfo").hide()
+//
+//            }else if($(this).text()=='待付首款/全款'){
+//                $("#workpeople").hide()
+//                $("#sjOrder").hide()
+//                $("#firstStep").hide()
+//                $("#design").hide()
+//                $("#orderConfirm").hide()
+//                $("#zsOrder").hide()
+//                $("#skConfirm").hide()
+//                $("#work").hide()
+//                $("#waitwk").hide()
+//                $("#wkConfirm").hide()
+//                $("#dfsk").show()
+//                $("#log_edit").hide()
+//                $("#remarkInfo").hide()
+//
+//            }else if($(this).text()=='首款/全款确认'){
+//                $("#workpeople").hide()
+//                $("#sjOrder").hide()
+//                $("#firstStep").hide()
+//                $("#design").hide()
+//                $("#orderConfirm").hide()
+//                $("#zsOrder").hide()
+//                $("#dfsk").hide()
+//                $("#work").hide()
+//                $("#waitwk").hide()
+//                $("#wkConfirm").hide()
+//                $("#skConfirm").show()
+//                $("#log_edit").hide()
+//                $("#remarkInfo").hide()
+//
+//            }else if($(this).text()=='施工人员指派'){
+//                $("#sjOrder").hide()
+//                $("#firstStep").hide()
+//                $("#design").hide()
+//                $("#orderConfirm").hide()
+//                $("#zsOrder").hide()
+//                $("#dfsk").hide()
+//                $("#skConfirm").hide()
+//                $("#waitwk").hide()
+//                $("#wkConfirm").hide()
+//                $("#work").hide()
+//                $("#log_edit").hide()
+//                $("#remarkInfo").hide()
+//                $("#workpeople").show()
+//
+//            }else if($(this).text()=='施工环节'){
+//                $("#workpeople").hide()
+//                $("#sjOrder").hide()
+//                $("#firstStep").hide()
+//                $("#design").hide()
+//                $("#orderConfirm").hide()
+//                $("#zsOrder").hide()
+//                $("#dfsk").hide()
+//                $("#skConfirm").hide()
+//                $("#waitwk").hide()
+//                $("#wkConfirm").hide()
+//                $("#work").show()
+//                $("#log_edit").hide()
+//                $("#remarkInfo").hide()
+//
+//            }else if($(this).text()=='已验收待尾款'){
+//                $("#workpeople").hide()
+//                $("#sjOrder").hide()
+//                $("#firstStep").hide()
+//                $("#design").hide()
+//                $("#orderConfirm").hide()
+//                $("#zsOrder").hide()
+//                $("#dfsk").hide()
+//                $("#skConfirm").hide()
+//                $("#work").hide()
+//                $("#wkConfirm").hide()
+//                $("#waitwk").show()
+//                $("#log_edit").hide()
+//                $("#remarkInfo").hide()
+//
+//            }else if($(this).text()=='尾款确认'){
+//                $("#workpeople").hide()
+//                $("#sjOrder").hide()
+//                $("#firstStep").hide()
+//                $("#design").hide()
+//                $("#orderConfirm").hide()
+//                $("#zsOrder").hide()
+//                $("#dfsk").hide()
+//                $("#skConfirm").hide()
+//                $("#work").hide()
+//                $("#waitwk").hide()
+//                $("#wkConfirm").show()
+//                $("#log_edit").hide()
+//                $("#remarkInfo").hide()
+//
+//            }else if($(this).text()=='日志'){
+//                $("#workpeople").hide()
+//                $("#sjOrder").hide()
+//                $("#firstStep").hide()
+//                $("#design").hide()
+//                $("#orderConfirm").hide()
+//                $("#zsOrder").hide()
+//                $("#dfsk").hide()
+//                $("#skConfirm").hide()
+//                $("#work").hide()
+//                $("#waitwk").hide()
+//                $("#wkConfirm").hide()
+//                $("#log_edit").show()
+//                $("#remarkInfo").hide()
+//
+//            }else if($(this).text()=='流转记录'){
+//                $("#workpeople").hide()
+//                $("#sjOrder").hide()
+//                $("#firstStep").hide()
+//                $("#design").hide()
+//                $("#orderConfirm").hide()
+//                $("#zsOrder").hide()
+//                $("#dfsk").hide()
+//                $("#skConfirm").hide()
+//                $("#work").hide()
+//                $("#waitwk").hide()
+//                $("#wkConfirm").hide()
+//                $("#log_edit").hide()
+//                $("#remarkInfo").show();
+//            }
+//        }
+        $(".topBtn").removeClass("chooseBtn")
+        $(this).addClass("chooseBtn")
+        let topBtnList=$(".topBtn");
+        for(let i=0;i<topBtnList.length;i++){
+            let tmp=$(topBtnList[i]);
+            if(tmp.html()==$(this).html()){
+                let divId=tmp.data("url");
+                $("#"+divId).show();
+                continue;
+            }else{
+                let divId=tmp.data("url");
+                $("#"+divId).hide();
+            }
+        }
+    })
+
+    var orderId='${orderInfo.id}';
+
+    var ids="";
+    var sell_moneys="";
+    var sell_no_tax_moneys="";
+
+    let testList={
+        "禅城":[
+            "张槎","南庄","石湾镇", "祖庙镇"
+        ],
+        "南海":[
+            "桂城","平洲","大沥","黄岐","盐步","里水","和顺","罗村","官窑","松岗",
+            "狮山","小塘","西樵","沙头","九江","丹灶","金沙"
+        ],
+        "顺德":[
+            "乐从","陈村","北滘","容桂","大良","伦教","勒流","龙江","均安","杏坛"
+        ],
+        "三水":[
+            "西南云东海","白坭","乐平","大塘","芦苞"
+        ],
+        "高明":[
+            "荷城","杨和","明城","更合"
+        ]
+    }
+
+    //网格关联分公司版本代码保留
+//    let testList2={
+//        "市政企中心":[
+//        ],
+//        "禅城分公司":[
+//            "祖庙","石湾","南庄","张槎"
+//        ],
+//        "南海分公司":[
+//            "桂城","平洲","大沥","罗村","黄岐","盐步","里水","官窑",
+//            "狮山","丹灶","西樵","九江"
+//        ],
+//        "顺德分公司":[
+//            "大良","伦教","容桂","北滘","陈村","乐从","龙江","勒流","均安","杏坛"
+//        ],
+//        "三水分公司":[
+//            "西南云东海","白坭","乐平","大塘南山","芦苞"
+//        ],
+//        "高明分公司":[
+//            "荷城","杨和","明城","更合"
+//        ]
+//    }
+
+    let own_add_time='${own_add_time}';
+    let receive_add_time='${receive_add_time}';
+
+    let pay_files='${client_pay_files}' //客户付款证明附件
+
+
+    let project_scheme_files=[];
+    let project_quote_files=[];
+    let client_contract_files=[];
+    let own_company_files="";
+    let client_receive_files="";
+
+    let order_confirm_files="";
+    let last_pay_files="";
+    let client_order_files="";
+    //赋值
+    let order_region='${orderInfo.order_region}';
+    if(order_region!=''){
+        if(order_region.indexOf("-")>0){
+            let region=order_region.split("-")[0].substring(0,2);
+            let zhena=order_region.split("-")[1]
+            $("#region").val(region);
+            let zhen=testList[region];
+            let html='';
+            html+='<option value="">请选择-镇</option>';
+            zhen.forEach((item,i)=>{
+                html+='<option value="'+item+'">'+item+'</option>';
+            })
+            $("#zhen").html(html);
+            $("#zhen").val(zhena);
+        }else{
+            let region=order_region.split("-")[0].substring(0,2);
+            $("#region").val(region);
+            let zhen=testList[region];
+            let html='';
+            html+='<option value="">请选择-镇</option>';
+            zhen.forEach((item,i)=>{
+                html+='<option value="'+item+'">'+item+'</option>';
+            })
+            $("#zhen").html(html);
+        }
+    }
+
+    //网格关联分公司版本代码保留
+//    let fgs_temp='${orderInfo.fgs}';
+//    if(fgs_temp!=''){
+//        if(fgs_temp.indexOf("-")>0){
+//            $("#fgs").val(fgs_temp);
+//            let wg_temp=testList2[fgs_temp];
+//            let html='';
+//            html+='<option value="">请选择-网格</option>';
+//            wg_temp.forEach((item,i)=>{
+//                html+='<option value="'+item+'">'+item+'</option>';
+//            })
+//            $("#wg").html(html);
+//            $("#wg").val('${orderInfo.wg}');
+//        }else{
+//            $("#fgs").val(fgs_temp);
+//            let wg_temp=testList2[fgs_temp];
+//            let html='';
+//            html+='<option value="">请选择-镇</option>';
+//            wg_temp.forEach((item,i)=>{
+//                html+='<option value="'+item+'">'+item+'</option>';
+//            })
+//            $("#wg").html(html);
+//        }
+//    }
+
+    let ict_type='${orderInfo.ict_type}'
+    if(ict_type!=''){
+        $("#ict_type").val(ict_type.split(","));
+    }
+    $("#is_pay_all").val('${orderInfo_plus.is_pay_all}')
+
+    $("#order_is_pass").val('${orderInfo.order_is_pass}');
+    $("#contract_is_pass").val('${orderInfo.contract_is_pass}')
+    $("#first_is_pass").val('${orderInfo_plus.first_is_pass}')
+    $("#last_is_pass").val('${orderInfo_plus.last_is_pass}')
+
+    $("#is_need_support").val('${orderInfo.is_need_support}')
+    $("#support_type").val('${orderInfo.support_type}')
+    $("#wg").val('${orderInfo.wg}')
+    $("#fgs").val('${orderInfo.fgs}')
+    $("#is_add_records_client").val('${orderInfo.is_add_records_client}')
+
+    var servicesPackage=JSON.parse('${servicesPackage}')
+    var fwbdl=[]
+    for(var i=0;i<servicesPackage.length;i++){
+        if(fwbdl.indexOf(servicesPackage[i].services_package)==-1){
+            fwbdl.push(servicesPackage[i].services_package)
+        }
+    }
+    var html2="<option value=\"\">请选择</option>"
+
+    for(var j=0;j<fwbdl.length;j++){
+        html2+="\n<option value=\""+fwbdl[j]+"\">"+fwbdl[j]+"</option>"
+    }
+
+    var client_manager_id = '${orderInfo.client_manager_id}'
+    if(client_manager_id!='' & client_manager_id!='0'){
+        $("#manager_id").html('${orderInfo.client_manager}')
+
+        $("#has_manager").show()
+        $("#choose_manager").hide()
+    }else{
+        $("#has_manager").hide()
+        $("#choose_manager").show()
+    }
+
+    $("#region").change(function () {
+        if($(this).val()!=''){
+            let zhen=testList[$(this).val()];
+            let html='';
+            html+='<option value="">请选择-镇</option>';
+            zhen.forEach((item,i)=>{
+                html+='<option value="'+item+'">'+item+'</option>';
+            })
+            $("#zhen").html(html);
+        }
+    })
+
+    //关联分公司版代码保留
+//    $("#fgs").change(function () {
+//        if($(this).val()!=''){
+//            let wg_temp=testList2[$(this).val()];
+//            let html='';
+//            html+='<option value="">请选择-镇</option>';
+//            wg_temp.forEach((item,i)=>{
+//                html+='<option value="'+item+'">'+item+'</option>';
+//            })
+//            $("#wg").html(html);
+//        }
+//    })
+
+
+    var OrderEdits = {
+        setItem: null,
+        table: null,
+        layerIndex: -1,
+        orderInfo: {},
+        orderInfoPlus:{},
+        remark:''
+    }
+    OrderEdits.clearData = function () {
+        this.orderInfo = {};
+        this.orderInfoPlus={};
+    };
+    OrderEdits.set = function (key, value) {
+        this.orderInfo[key] = (typeof value == "undefined") ? $("#" + key).val(): value;
+        this.orderInfoPlus[key] = (typeof value == "undefined") ? $("#" + key).val(): value;
+        return this;
+    };
+    OrderEdits.get = function (key) {
+        return $("#" + key).val();
+    };
+    OrderEdits.collectData = function () {
+        this.set('order_status').set('order_no').set('order_time').set('company_name').set('client_name')
+            .set('client_email').set("client_link_phone").set("address").set("ict_type").set("need_desc")
+            .set("pre_people").set("pre_people_phone").set("implement_people").set("implement_people_phone").set("factory")
+            .set("factory_phone").set("client_manager_id").set("client_manager").set("client_manager_phone").set("company_no")
+            .set("service_name").set("service_num").set("service_price").set("service_total_price").set("project_scheme_files")
+            .set("project_quote_files").set("client_contract_files").set("build_finish_time").set("project_total_price").set("is_pay_all")
+            .set("own_company_files").set("buy_name").set("buy_tax_payer_no").set("buy_address").set("buy_phone")
+            .set("buy_open_hang").set("buy_account").set("client_receive_files").set("client_pay_files").set("order_is_pass")
+            .set("order_pass_suggest").set("contract_is_pass").set("first_is_pass").set("first_suggest").set("last_is_pass")
+            .set("last_suggest").set("ict_num").set("project_budget").set("is_need_support").set("support_type")
+
+    };
+
+    OrderEdits.sjOrderCollectData = function () {
+        this.set('order_no').set('order_time').set('company_name').set('client_name')
+            .set('client_email').set("client_link_phone").set("address").set("ict_num")
+            .set("project_budget").set("is_need_support").set("ict_type").set("support_type")
+            .set("need_desc")
+    };
+
+    OrderEdits.firstStepCollectData = function () {
+        this.set('pre_people').set('pre_people_phone').set("client_manager_id").set("client_manager")
+            .set("client_manager_phone").set("company_no").set("wg").set("fgs").set("order_type")
+            .set("is_add_records_client")
+    };
+
+    OrderEdits.designCollectData = function () {
+        this.set('service_total_price').set('project_scheme_files').set("project_quote_files")
+    };
+
+    OrderEdits.zsOrderCollectData = function () {
+        this.set('contract_is_pass')
+    };
+
+    OrderEdits.skConfirmCollectData = function () {
+        this.set('first_is_pass').set('first_suggest')
+    };
+
+    OrderEdits.workCollectData = function () {
+        this.set('client_receive_files')
+    };
+
+    OrderEdits.wkConfirmCollectData = function () {
+        this.set('last_is_pass').set('last_suggest')
+    };
+
+    function choose_custom() {
+        OrderEdits.layerIndex=openWindow("转派操作",1200,600,"/orderInfo_temp/openAlfredPage?alfred_id="+ '${orderInfo.id}');
+        layer.full(OrderEdits.layerIndex);
+    }
+
+    OrderEdits.chooseCustomWrite = function (user_id, user_name, user_phone) {
+        client_manager_id=user_id;
+//        $("#client_manager_id").val(user_id);
+        $("#client_manager_phone").val(user_phone)
+        var str = user_name
+        $("#manager_id").html(str)
+        $("#has_manager").show()
+        $("#choose_manager").hide()
+    }
+
+    function deleteCustom(){
+        $("#has_manager").hide()
+        $("#choose_manager").show()
+
+        $("#client_manager_phone").val("")
+        $("#manager_id").html("")
+        client_manager_id='';
+    }
+    function s(e,a)
+    {
+        if ( e && e.preventDefault )
+            e.preventDefault();
+        else
+            window.event.returnValue=false;
+        a.focus();
+    }
+    $(function () {
+        scheme_check_cal()
+        business_check_cal()
+        if(pay_files==""){
+            $("#downloadPayFile").html("暂无附件")
+            $("#downloadPayFile").attr("disabled",true);
+        }
+        //初始化file
+        let project_scheme_file='${project_scheme_files}'
+        let project_quote_file='${project_quote_files}'
+        let client_contract_file='${client_contract_files}'
+        let own_company_file='${own_company_files}'
+        let client_receive_file='${client_receive_files}'
+
+        let order_confirm_file='${order_confirm_files}';
+        let last_pay_file='${last_pay_files}';
+        let client_order_file='${client_order_files}'
+
+        if (project_scheme_file.length > 0) {
+            project_scheme_file = JSON.parse(project_scheme_file);
+        }
+        if (project_scheme_file !== "" && project_scheme_file !== undefined && project_scheme_file != null && project_scheme_file.length > 0) {
+            let html = ''
+            project_scheme_file.forEach((item, index) => {
+                html += '<div><a href="#" style="margin-right: 15px;" onclick="downloadFile(\'' + item.file_path + '\',\'' + item.file_name + '\')">' + item.file_name + '</a><span data-file="' + item.files + '" data-type="' + 1 + '"  data-name="' + item.file_name + '"  style="color:red;font-size: 16px;text-align: right;cursor: pointer" onclick="remove(this)" class="remove">X</span>&nbsp&nbsp</div>'
+                project_scheme_files.push(item.files);
+                $("#file_dom").append(html)
+                $("#file_dom_sc1").append(html)
+                $("#file_dom_bc1").append(html)
+            })
+        }
+
+        if (project_quote_file.length > 0) {
+            project_quote_file = JSON.parse(project_quote_file);
+        }
+        if (project_quote_file !== "" && project_quote_file !== undefined && project_quote_file != null && project_quote_file.length > 0) {
+            let html = ''
+            project_quote_file.forEach((item, index) => {
+                html += '<div><a href="#" style="margin-right: 15px;" onclick="downloadFile(\'' + item.file_path + '\',\'' + item.file_name + '\')">' + item.file_name + '</a><span data-file="' + item.files + '" data-type="' + 2 + '"  data-name="' + item.file_name + '" style="color:red;font-size: 16px;text-align: right;cursor: pointer" onclick="remove(this)" class="remove">X</span>&nbsp&nbsp</div>'
+                project_quote_files.push(item.files);
+                $("#file_dom2").append(html)
+                $("#file_dom_sc2").append(html)
+                $("#file_dom_bc2").append(html)
+            })
+        }
+
+        if (client_contract_file.length > 0) {
+            client_contract_file = JSON.parse(client_contract_file);
+        }
+        if (client_contract_file !== "" && client_contract_file !== undefined && client_contract_file != null && client_contract_file.length > 0) {
+            let html = ''
+            client_contract_file.forEach((item, index) => {
+                html += '<div><a href="#" style="margin-right: 15px;" onclick="downloadFile(\'' + item.file_path + '\',\'' + item.file_name + '\')">' + item.file_name + '</a><span data-file="' + item.files + '" data-type="' + 3 + '"  data-name="' + item.file_name + '" style="color:red;font-size: 16px;text-align: right;cursor: pointer" onclick="remove(this)" class="remove">X</span>&nbsp&nbsp</div>'
+                client_contract_files.push(item.files);
+                $("#file_dom3").append(html)
+            })
+        }
+
+        if (own_company_file.length > 0) {
+            own_company_file = JSON.parse(own_company_file);
+        }
+        if (own_company_file !== "" && own_company_file !== undefined && own_company_file != null && own_company_file.length > 0) {
+            let html = ''
+            own_company_file.forEach((item, index) => {
+                html = '<div><a href="#" style="margin-right: 15px;" onclick="downloadFile(\'' + item.file_path + '\',\'' + item.file_name + '\')">' + item.file_name + '</a><span data-file="' + item.files + '" data-type="' + 4 + '"  data-name="' + item.file_name + '" style="color:red;font-size: 16px;text-align: right;cursor: pointer" onclick="remove(this)" class="remove">X</span>&nbsp&nbsp</div>'
+                own_company_files=item.files;
+                $("#file_dom4").append(html)
+            })
+            let add_time='<div>'+own_add_time+'</div>'
+            c(add_time);
+            $("#file_dom4").append(add_time)
+        }
+
+        if (client_receive_file.length > 0) {
+            client_receive_file = JSON.parse(client_receive_file);
+        }
+        // if (client_receive_file !== "" && client_receive_file !== undefined && client_receive_file != null && client_receive_file.length > 0) {
+        //     let html = ''
+        //     client_receive_file.forEach((item, index) => {
+        //         html = '<div><a href="#" style="margin-right: 15px;" onclick="downloadFile(\'' + item.file_path + '\',\'' + item.file_name + '\')">' + item.file_name + '</a><span data-file="' + item.files + '" data-type="' + 5 + '"  data-name="' + item.file_name + '" style="color:red;font-size: 16px;text-align: right;cursor: pointer" onclick="remove(this)" class="remove">X</span>&nbsp&nbsp</div>'
+        //         client_receive_files=item.files;
+        //         $("#file_dom5").append(html)
+        //     })
+        //     let add_time='<div>'+receive_add_time+'</div>'
+        //     $("#file_dom5").append(add_time)
+        // }
+
+        if (order_confirm_file.length > 0) {
+            order_confirm_file = JSON.parse(order_confirm_file);
+        }
+        if (order_confirm_file !== "" && order_confirm_file !== undefined && order_confirm_file != null && order_confirm_file.length > 0) {
+            let html = ''
+            order_confirm_file.forEach((item, index) => {
+                html = '<div><a href="#" style="margin-right: 15px;" onclick="downloadFile(\'' + item.file_path + '\',\'' + item.file_name + '\')">' + item.file_name + '</a><span data-file="' + item.files + '" data-type="' + 6 + '"  data-name="' + item.file_name + '" style="color:red;font-size: 16px;text-align: right;cursor: pointer" onclick="remove(this)" class="remove">X</span>&nbsp&nbsp</div>'
+                order_confirm_files=item.files;
+                $("#file_dom6").append(html)
+            })
+        }
+
+        if (last_pay_file.length > 0) {
+            last_pay_file = JSON.parse(last_pay_file);
+        }
+        if (last_pay_file !== "" && last_pay_file !== undefined && last_pay_file != null && last_pay_file.length > 0) {
+            let html = ''
+            last_pay_file.forEach((item, index) => {
+                html = '<div><a href="#" style="margin-right: 15px;" onclick="downloadFile(\'' + item.file_path + '\',\'' + item.file_name + '\')">' + item.file_name + '</a><span data-file="' + item.files + '" data-type="' + 7 + '"  data-name="' + item.file_name + '" style="color:red;font-size: 16px;text-align: right;cursor: pointer" onclick="remove(this)" class="remove">X</span>&nbsp&nbsp</div>'
+                last_pay_files=item.files;
+                $("#file_dom7").append(html)
+            })
+        }
+
+        if (client_order_file.length > 0) {
+            client_order_file = JSON.parse(client_order_file);
+        }
+        if (client_order_file !== "" && client_order_file !== undefined && client_order_file != null && client_order_file.length > 0) {
+            let html = ''
+            client_order_file.forEach((item, index) => {
+                html = '<div><a href="#" style="margin-right: 15px;" onclick="downloadFile(\'' + item.file_path + '\',\'' + item.file_name + '\')">' + item.file_name + '</a><span data-file="' + item.files + '" data-type="' + 7 + '"  data-name="' + item.file_name + '" style="color:red;font-size: 16px;text-align: right;cursor: pointer" onclick="remove(this)" class="remove">X</span>&nbsp&nbsp</div>'
+                client_order_files=item.files;
+            $("#file_dom8").append(html)
+        })
+        }
+
+        var pay_filess="";
+        if (pay_files.length > 0) {
+            pay_filess = JSON.parse(pay_files);
+        }
+        if (pay_filess !== "" && pay_filess !== undefined && pay_filess != null && pay_filess.length > 0) {
+            let html = ''
+            pay_filess.forEach((item, index) => {
+                html = '<div>' + item.file_name + '</div>'
+                $("#file_dom9").append(html)
+            })
+        }
+        initFileInput("file");
+    })
+
+    function downloadFile(filePath, fileName) {
+        window.location.href = "/base/downloadFile?fileName=" + fileName + "&filePath=" + filePath;
+    }
+    let type=0;
+    let type_id_list=0;
+    function uploadFile(t) {
+        type=t
+        $("#file").click();
+    }
+    function uploadFile(t,id) {
+        type=t
+        type_id_list=id
+        $("#file").click();
+    }
+
+    function initFileInput(ctrlName) {
+        var control = $('#' + ctrlName);
+        control.fileinput({
+            language: 'zh', //设置语言
+            uploadUrl: "/orderInfo_temp/uploadFiles", //上传的地址
+            uploadAsync: false, //默认异步上传,,false为同步上传
+            showUpload: false, //是否显示上传按钮
+            showRemove: true, //显示移除按钮
+            showPreview: false, //是否显示预览
+            showCaption: true,//是否显示标题
+            browseClass: "btn btn-primary", //按钮样式
+            dropZoneEnabled: false,//是否显示拖拽区域
+            maxFileCount: 10, //表示允许同时上传的最大文件个数
+            enctype: 'multipart/form-data',
+            validateInitialCount: true,
+            previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+            msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
+            uploadExtraData: function (previewId, index) {   //额外参数
+//                var obj = UserInfoDlg.userInfoData;
+                return {};
+            }
+        });
+        //导入文件上传完成之后的事件
+        $("#file").on("filebatchuploadsuccess", function (event, data, previewId, index) {
+            let fileList = data.response.fileList;
+            let html = ''
+            data.files.forEach((item, i) => {
+                let fileName = item.name;
+                let pointIndex = fileName.indexOf(".");
+                html = '<div><span>' + fileName + '&nbsp<span data-file="' + fileList[i] + '" data-type="' + type + '"  data-name="' + item.name + '" style="color:red;font-size: 16px;text-align: right;cursor: pointer" onclick="remove(this)" class="remove">X</span></span>&nbsp&nbsp</div>'
+                if(type==1){
+                    $("#file_dom").append(html);
+                    project_scheme_files.push(fileList[i]);
+                }else if(type==2){
+                    $("#file_dom2").append(html);
+                    project_quote_files.push(fileList[i]);
+                }else if(type==3){
+                    $("#file_dom3").append(html);
+                    client_contract_files.push(fileList[i]);
+                }else if(type==4){
+                    $("#file_dom4").html(html);
+                    own_company_files=fileList[i]
+                }else if(type==5){
+
+
+                    $("#file_dom5_"+type_id_list).html(html);
+                    if(work_files==''){
+                        work_files=type_id_list+':'+fileList[i]
+                    }else {
+                        work_files=work_files+','+type_id_list+':'+fileList[i]
+                    }
+
+                    // client_receive_files=fileList[i]
+                }else if(type==6){
+                    $("#file_dom6").html(html);
+                    order_confirm_files=fileList[i]
+                }else if(type==7){
+                    $("#file_dom7").html(html);
+                    last_pay_files=fileList[i]
+                }else if(type==8){
+                    $("#file_dom8").html(html);
+                    client_order_files=fileList[i]
+                }
+            })
+            $("#loading").modal('hide')
+        });
+        $("#file").on("filebatchselected", function (event, files) {
+            $('#file').fileinput("upload");
+            $("#loading").modal('show')
+        });
+    }
+
+    function remove(a) {
+        Feng.confirm("是否确认删除", function () {
+            let fileId = $(a).data("file")
+            let t=$(a).data("type");
+            $(a).parent().remove();
+            if(t==1){
+                let index=project_scheme_files.findIndex(function (val,index,arr) {
+                    return val==fileId
+                })
+                project_scheme_files.splice(index,1);
+            }else if(t==2){
+                let index=project_quote_files.findIndex(function (val,index,arr) {
+                    return val==fileId
+                })
+                project_quote_files.splice(index,1);
+            }else if(t==3){
+                let index=client_contract_files.findIndex(function (val,index,arr) {
+                    return val==fileId
+                })
+                client_contract_files.splice(index,1);
+            }else if(t==4){
+                own_company_files="";
+            }else if(t==5){
+                client_receive_files="";
+            }else if(t==6){
+                order_confirm_files=""
+            }else if(t==7){
+                last_pay_files="";
+            }else if(t==8){
+                client_order_files="";
+            }
+        })
+    }
+
+    function save() {
+        OrderEdits.clearData();
+        OrderEdits.collectData();
+        OrderEdits.orderInfo.project_scheme_files=project_scheme_files;
+        OrderEdits.orderInfo.project_quote_files=project_quote_files;
+        OrderEdits.orderInfo.client_contract_files=client_contract_files;
+        OrderEdits.orderInfo.own_company_files=own_company_files;
+        OrderEdits.orderInfo.client_receive_files=client_receive_files;
+
+        OrderEdits.orderInfo.order_confirm_files=order_confirm_files;
+        OrderEdits.orderInfo.last_pay_files=last_pay_files;
+        let region=$("#region").val();
+        let zhen=$("#zhen").val();
+        if(region!=''){
+            OrderEdits.orderInfo.order_region=region+"区";
+        }
+        if(zhen!=''){
+            OrderEdits.orderInfo.order_region=region+"区-"+zhen;
+        }
+        if(OrderEdits.orderInfo.ict_type!=null && OrderEdits.orderInfo.ict_type.length>0){
+            OrderEdits.orderInfo.ict_type=OrderEdits.orderInfo.ict_type.join(",");
+        }
+        OrderEdits.orderInfo['id'] = '${orderInfo.id}';
+        OrderEdits.orderInfo.need_desc=OrderEdits.orderInfo.need_desc.replaceAll("\t","");
+        OrderEdits.orderInfo.need_desc=OrderEdits.orderInfo.need_desc.replaceAll(" ","");
+        OrderEdits.orderInfo.client_manager_id=client_manager_id||0;
+        OrderEdits.orderInfo.client_manager=$("#manager_id").html();
+        c(OrderEdits.orderInfo);
+        Feng.confirm("是否保存？",function () {
+            var ajax = new $ax(Feng.ctxPath + "/orderInfoTest/edit", function (data) {
+                Feng.success("编辑成功");
+                window.parent.Order.table.refresh();
+                var index = parent.layer.getFrameIndex(window.name)
+                parent.layer.close(index);
+            }, function (data) {
+                Feng.error("下拉框数据加载失败");
+            });
+
+            ajax.set(OrderEdits.orderInfo)
+            ajax.start();
+        })
+    }
+
+    var temp='${orderInfo.order_status}'
+
+    function submit() {
+        Feng.confirm("是否提交？",function () {
+            var ajax = new $ax(Feng.ctxPath + "/ict_pc/updateIctOrder", function (data) {
+                if('商机单受理,初步订单审核,设计环节,方案审核,业务审核,订单确认,正式订单审核'.indexOf(temp)!=-1){
+                    if("设计环节".indexOf(temp)!=-1){
+                        var ajax3 = new $ax(Feng.ctxPath + "/ict_pc/insertIctOrderType", function (data) {
+                            Feng.success("编辑成功");
+                            window.parent.Order.table.refresh();
+                            var index = parent.layer.getFrameIndex(window.name)
+                            parent.layer.close(index);
+                        }, function (data) {
+                            Feng.error("下拉框数据加载失败");
+                        });
+                        var package_ids="";
+                        $("[name='services_package_son']").each(function () {
+                            package_ids+=this.value+","
+                        })
+                        package_ids=package_ids.substring(0,package_ids.length-1);
+                        var package_nums="";
+                        $("[name='package_num']").each(function () {
+                            package_nums+=this.value+","
+                        })
+                        package_nums=package_nums.substring(0,package_nums.length-1);
+                        var build_over_times="";
+                        $("[name='build_over_time']").each(function () {
+                            build_over_times+=this.value+","
+                        })
+                        build_over_times=build_over_times.substring(0,build_over_times.length-1);
+                        get_design_order_types()
+                        ajax3.set({"ids":package_ids,"package_nums":package_nums,"build_over_times":build_over_times,"order_id":'${orderInfo.id}',"sell_moneys":sell_moneys,"sell_no_tax_moneys":sell_no_tax_moneys})
+                        ajax3.start();
+                    }else if("方案审核,业务审核".indexOf(temp)!=-1){
+                        var ajax4 = new $ax(Feng.ctxPath + "/ict_pc/updateIctOrderType", function (data) {
+                            Feng.success("编辑成功");
+                            window.parent.Order.table.refresh();
+                            var index = parent.layer.getFrameIndex(window.name)
+                            parent.layer.close(index);
+                        }, function (data) {
+                            Feng.error("下拉框数据加载失败");
+                        });
+                        if("方案审核".indexOf(temp)!=-1){
+                            get_scheme_order_types()
+                        }else{
+                            get_business_order_types()
+                        }
+                        ajax4.set({"ids":ids,"sell_moneys":sell_moneys,"sell_no_tax_moneys":sell_no_tax_moneys})
+                        ajax4.start();
+                    }else{
+                        Feng.success("编辑成功");
+                        window.parent.Order.table.refresh();
+                        var index = parent.layer.getFrameIndex(window.name)
+                        parent.layer.close(index);
+                    }
+                }else{
+                    var ajax2 = new $ax(Feng.ctxPath + "/ict_pc/updateIctInfo", function (data) {
+                        Feng.success("编辑成功");
+                        window.parent.Order.table.refresh();
+                        var index = parent.layer.getFrameIndex(window.name)
+                        parent.layer.close(index);
+                    }, function (data) {
+                        Feng.error("下拉框数据加载失败");
+                    });
+                    ajax2.set(OrderEdits.orderInfoPlus)
+                    ajax2.start();
+                }
+            }, function (data) {
+                Feng.error("下拉框数据加载失败");
+            });
+            ajax.set(OrderEdits.orderInfo)
+            ajax.set("remark",OrderEdits.remark);
+            ajax.start();
+        })
+    }
+
+    function submit_sjOrder() {
+        Feng.confirm("是否提交？",function () {
+            var ajax = new $ax(Feng.ctxPath + "/ict_pc/updateIctOrder_sjOrder", function (data) {
+                Feng.success("编辑成功");
+                window.parent.Order.table.refresh();
+                var index = parent.layer.getFrameIndex(window.name)
+                parent.layer.close(index);
+            }, function (data) {
+                Feng.error("提交失败");
+            });
+            ajax.set(OrderEdits.orderInfo)
+            ajax.start();
+        })
+    }
+
+    function downloadPayFile() {
+        if(pay_files==""){
+            Feng.error("暂无付款证明附件");
+        }else{
+            pay_files = JSON.parse(pay_files);
+            if (pay_files !== "" && pay_files !== undefined && pay_files != null && pay_files.length > 0) {
+                let file_path=pay_files[0].file_path;
+                let file_name=pay_files[0].file_name;
+                downloadFile(file_path,file_name);
+            }
+        }
+    }
+
+    function init_package_list() {
+        var temp_html="<div id=\"middlePackage2\" style=\"border-bottom: 1px #20BE84 solid;margin-top: 20px\">\n" +
+            "            <div class=\"row\">\n" +
+            "                <div class=\"col-sm-4\">\n" +
+            "                    <div class=\"form-group\">\n" +
+            "                        <label class=\"col-sm-4 control-label\">服务包大类:</label>\n" +
+            "                        <div class=\"col-sm-8\">\n" +
+            "                            <input class=\"form-control\"  id=\"fwbdl1\" name=\"fwbdl1\" placeholder=\"请输入\" readonly>\n" +
+            "                        </div>\n" +
+            "                    </div>\n" +
+            "                </div>\n" +
+            "                <div class=\"col-sm-4\">\n" +
+            "                    <div class=\"form-group\">\n" +
+            "                        <label class=\"col-sm-4 control-label\">服务包细项:</label>\n" +
+            "                        <div class=\"col-sm-8\">\n" +
+            "                            <input class=\"form-control\"  id=\"fwbxx1\" name=\"fwbxx1\" placeholder=\"请输入\" readonly>\n" +
+            "                        </div>\n" +
+            "                    </div>\n" +
+            "                </div>\n" +
+            "                <div class=\"col-sm-4\">\n" +
+            "                    <div class=\"form-group\">\n" +
+            "                        <label class=\"col-sm-4 control-label\">合作厂家名称:</label>\n" +
+            "                        <div class=\"col-sm-8\">\n" +
+            "                            <input class=\"form-control\"  id=\"hzcj1\" name=\"hzcj1\" placeholder=\"自动带出\" readonly>\n" +
+            "                        </div>\n" +
+            "                    </div>\n" +
+            "                </div>\n" +
+            "            </div>\n" +
+            "            <div class=\"row\">\n" +
+            "                <div class=\"col-sm-4\">\n" +
+            "                    <div class=\"form-group\">\n" +
+            "                        <label class=\"col-sm-4 control-label\">服务包数量:</label>\n" +
+            "                        <div class=\"col-sm-8\">\n" +
+            "                            <input class=\"form-control\"  id=\"fwbsl1\" name=\"fwbsl1\" placeholder=\"请输入\" readonly>\n" +
+            "                        </div>\n" +
+            "                    </div>\n" +
+            "                </div>\n" +
+            "                <div class=\"col-sm-4\">\n" +
+            "                    <div class=\"form-group\">\n" +
+            "                        <label class=\"col-sm-4 control-label\">建设完成时间:</label>\n" +
+            "                        <div class=\"col-sm-8\">\n" +
+            "                            <input class=\"form-control\" id=\"jswcsj1\" name=\"jswcsj1\" readonly>\n" +
+            "                        </div>\n" +
+            "                    </div>\n" +
+            "                </div>\n" +
+            "                <div class=\"col-sm-4\">\n" +
+            "                    <div class=\"form-group\">\n" +
+            "                        <label class=\"col-sm-4 control-label\">销售服务包单价(含税):</label>\n" +
+            "                        <div class=\"col-sm-8\">\n" +
+            "                            <input class=\"form-control\" id=\"xsfwbdjhs1\" name=\"xsfwbdjhs1\" placeholder=\"自动带出\" readonly>\n" +
+            "                        </div>\n" +
+            "                    </div>\n" +
+            "                    <div class=\"form-group\">\n" +
+            "                        <label class=\"col-sm-4 control-label\">(不含税):</label>\n" +
+            "                        <div class=\"col-sm-8\">\n" +
+            "                            <input class=\"form-control\"  id=\"xsfwbdjbhs1\" name=\"xsfwbdjbhs1\" placeholder=\"自动带出\" readonly>\n" +
+            "                        </div>\n" +
+            "                    </div>\n" +
+            "                </div>\n" +
+            "            </div>\n" +
+            "            <div class=\"row\">\n" +
+            "                <div class=\"col-sm-4\">\n" +
+            "                    <div class=\"form-group\">\n" +
+            "                        <label class=\"col-sm-4 control-label\">厂家服务包结算价(含税):</label>\n" +
+            "                        <div class=\"col-sm-8\">\n" +
+            "                            <input class=\"form-control\" id=\"cjfwbjsjhs1\" name=\"cjfwbjsjhs1\" placeholder=\"自动带出\" readonly>\n" +
+            "                        </div>\n" +
+            "                    </div>\n" +
+            "                    <div class=\"form-group\">\n" +
+            "                        <label class=\"col-sm-4 control-label\">(不含税):</label>\n" +
+            "                        <div class=\"col-sm-8\">\n" +
+            "                            <input class=\"form-control\"  id=\"cjfwbjsjbhs1\" name=\"cjfwbjsjbhs1\" placeholder=\"自动带出\" readonly>\n" +
+            "                        </div>\n" +
+            "                    </div>\n" +
+            "                </div>\n" +
+            "                <div class=\"col-sm-4\">\n" +
+            "                    <div class=\"form-group\">\n" +
+            "                        <label class=\"col-sm-4 control-label\">厂家服务包单价(含税):</label>\n" +
+            "                        <div class=\"col-sm-8\">\n" +
+            "                            <input class=\"form-control\" id=\"cjfwbdjhs1\" name=\"cjfwbdjhs1\" placeholder=\"自动带出\" readonly>\n" +
+            "                        </div>\n" +
+            "                    </div>\n" +
+            "                    <div class=\"form-group\">\n" +
+            "                        <label class=\"col-sm-4 control-label\">(不含税):</label>\n" +
+            "                        <div class=\"col-sm-8\">\n" +
+            "                            <input class=\"form-control\"  id=\"cjfwbdjbhs1\" name=\"cjfwbdjbhs1\" placeholder=\"自动带出\" readonly>\n" +
+            "                        </div>\n" +
+            "                    </div>\n" +
+            "                </div>\n" +
+            "            </div>\n" +
+            "        </div>"
+    }
+
+    function refund() {
+        this.layerIndex=openWindow("退单",1000,400,"/ict_pc/confirmPage?id="+orderId+"&type=1&order_status="+temp,"");
+    }
+
+    function hangup() {
+        this.layerIndex=openWindow("挂起",1000,400,"/ict_pc/confirmPage?id="+orderId+"&type=2&order_status="+temp,"");
+    }
+
+    function disuse() {
+        this.layerIndex=openWindow("作废",1000,400,"/ict_pc/confirmPage?id="+orderId+"&type=3&order_status="+temp,"");
+    }
+
+    function backbefore() {
+        this.layerIndex=openWindow("退回上一步",1000,400,"/ict_pc/confirmPage?id="+orderId+"&type=4&order_status="+temp,"");
+    }
+
+    function cancle(){
+        window.parent.location.reload()
+    }
+    function clickTextArea(e,a)
+    {
+        if ( e && e.preventDefault )
+            e.preventDefault();
+        else
+            window.event.returnValue=false;
+        a.focus();
+    }
+</script>
+@}

@@ -1,0 +1,15 @@
+@layout("/common/_container.html"){
+<html>
+<head>
+    <title>Title</title>
+</head>
+<body>
+<iframe id="pdfFrame"  width="100%" height="800"></iframe>
+</body>
+</html>
+<script>
+    var path='${filePath}'
+    var pdf=$("#pdfFrame");
+    pdf.attr("src",Feng.ctxPath+"/static/pdf/web/viewer.html?file="+Feng.ctxPath+path);
+</script>
+@}

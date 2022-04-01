@@ -1,0 +1,212 @@
+@layout("/common/new_container.html"){
+<div class="ibox float-e-margins">
+    <div class="ibox-content">
+        <#table id="otherTable"/>
+        <div style="height: 20px"></div>
+        <div class="form-horizontal" id="landForm">
+            <div class="row" style="margin-top: 10px">
+                <div class="col-sm-5">
+                    <#commonInput required="123" labelWidth="5" inputWidth="7" name="当前环节" placeholder="自动" value="${order_status}" id="order_status" readonly="true"/>
+                    <#commonInput labelWidth="5" inputWidth="7" name="意见" placeholder="请输入" id="yy"/>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="margin-top: 50px">
+            <div class="col-sm-1 col-sm-offset-5">
+                <button type="button" class="btn btn-primary " style="background-color: #20BE84" id="agree">
+                    同意
+                </button>
+            </div>
+            <div class="col-sm-1">
+                @if(type==22){
+                    <button type="button" class="btn btn-primary " style="background-color: #20BE84" id="exit">
+                        取消
+                    </button>
+                @}else{
+                    <button type="button" class="btn btn-primary " style="background-color: #20BE84" id="refuse">
+                        驳回
+                    </button>
+                @}
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .split{
+        height: 1px;
+        width:100%;
+        background-color: #BBBBBB;
+        margin-top: 5px;
+        margin-bottom: 25px;
+
+    }
+</style>
+
+<script>
+    var id='${id}'
+    var type='${type}'
+    var order_status='${order_status}'
+
+    var other = {
+        id: "otherTable",
+        setItem: null,
+        table: null,
+        layerIndex: -1
+    };
+
+    initOrderColumn = function () {
+        return [
+            {field: 'selectItem',class: 'W25', radio: true, visible: false},
+            {field: 'id', visible: false},
+            <!-- 工单基本信息-->
+            {
+                title: '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;操作时间&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
+                field: 'handle_time',
+                visible: true,
+                align: 'center',
+                valign: 'middle',
+                formatter: function (value, row, index) {
+                    if (value == '' || value == null) {
+                        return '<span >--</span>';
+                    } else {
+                        return value;
+                    }
+                }
+            },
+            {
+                title: '操作人',
+                field: 'person_name',
+                visible: true,
+                align: 'center',
+                valign: 'middle',
+                formatter: function (value, row, index) {
+                    if (value == '' || value == null) {
+                        return '<span >--</span>';
+                    } else {
+                        return value;
+                    }
+                }
+            },
+            {
+                title: '&nbsp;&nbsp;&nbsp;操作内容&nbsp;&nbsp;&nbsp;',
+                field: 'status',
+                visible: true,
+                align: 'center',
+                valign: 'middle',
+                formatter: function (value, row, index) {
+                    if (value == '' || value == null) {
+                        return '<span >--</span>';
+                    } else {
+                        return value;
+                    }
+                }
+            },
+            {
+                title: '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;意见/原因&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
+                field: 'content',
+                visible: true,
+                align: 'center',
+                valign: 'middle',
+                formatter: function (value, row, index) {
+                    if (value == '' || value == null) {
+                        return '<span >--</span>';
+                    } else {
+                        return value;
+                    }
+                }
+            }
+        ];
+    }
+    $(function () {
+        var defaultColumns = initOrderColumn();
+        var table = new BSTable(other.id, "/ict_pc/getOther_order?id="+id, defaultColumns,500);
+        table.setPaginationType("client");
+        other.table = table.init();
+    })
+
+    $("#agree").click(function () {
+        let question=""
+        if(type==21){
+            question="通过挂起"
+        }else if(type==22){
+            question="解除挂起"
+        }else if(type==41){
+            question="通过退单"
+        }else if(type==51){
+            question="通过退回上一步"
+        }
+
+        Feng.confirmDel("确认"+question+"吗?",function () {
+            var content=$('#yy').val()
+            if(content==""){
+                content="无"
+            }
+
+            let submitUrl='/ict_pc/orderDeal?id='+id+'&type='+type+'&content='+content;
+            var ajax = new $ax(Feng.ctxPath +submitUrl, function (data) {
+                swal({
+                    text: "提交成功",
+                    timer: 1500,
+                    showConfirmButton: true,
+                    confirmButtonText:'确定',
+                    confirmButtonColor:'#20BE84',
+                    type:'success',
+                });
+                setTimeout(function () {
+                    if(type>10){
+                        window.parent.location.reload()
+                    }else{
+                        window.parent.parent.location.reload()
+                    }
+                },1500)
+
+            }, function (data) {
+                Feng.error("修改失败!" + data.responseJSON.message + "!");
+            });
+            ajax.start();
+        })
+
+    })
+    $("#refuse").click(function () {
+        Feng.confirmDel("确认驳回吗?",function () {
+            if(type==21){
+                type=210
+            }else if(type==41){
+                type=410
+            }else if(type==51){
+                type=510
+            }
+            var content=$('#yy').val()
+            if(content==""){
+                content="无"
+            }
+
+            let submitUrl='/ict_pc/orderDeal?id='+id+'&type='+type+'&content='+content;
+            var ajax = new $ax(Feng.ctxPath +submitUrl, function (data) {
+                swal({
+                    text: "提交成功",
+                    timer: 1500,
+                    showConfirmButton: true,
+                    confirmButtonText:'确定',
+                    confirmButtonColor:'#20BE84',
+                    type:'success',
+                });
+                setTimeout(function () {
+                    if(type>10){
+                        window.parent.location.reload()
+                    }else{
+                        window.parent.parent.location.reload()
+                    }
+                },1500)
+
+            }, function (data) {
+                Feng.error("修改失败!" + data.responseJSON.message + "!");
+            });
+            ajax.start();
+        })
+    })
+    $("#exit").click(function () {
+        window.parent.layer.close(window.parent.layerIndex);
+    })
+</script>
+@}

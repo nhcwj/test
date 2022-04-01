@@ -1,0 +1,89 @@
+<div id="design" hidden>
+    <div style="height: 25px"></div>
+    <#title info="设计附件" />
+    <div class="row" style="margin-top: 20px">
+        <div class="col-sm-4">
+            <#label id="pre_people" name="厂家服务包结算总价" value="${orderInfo.service_total_price}" disabled="disabled"/>
+        </div>
+        <div class="col-sm-4" >
+            <div class="col-sm-11 col-sm-offset-1"  style="display: flex;margin-top: 5px;">
+                <div style=""><strong><span style="font-size: 12px;color: #4C4B4B;
+		font-family: 微软雅黑;">项目方案附件：</span></strong></div>
+                <div id="project_scheme_div">
+
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="col-sm-11 col-sm-offset-1" style="display: flex;margin-top: 5px;">
+                <div style=""><strong><span style="font-size: 12px;color: #4C4B4B;
+		font-family: 微软雅黑;">项目报价附件：</span></strong></div>
+                <div id="project_quote_div">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+     let project_scheme_files='${project_scheme_files}';
+     let project_quote_files='${project_quote_files}'
+     let project_html='';
+     let quote_html='';
+     if(project_scheme_files!=''){
+         project_scheme_files=JSON.parse(project_scheme_files);
+         for(let i=0;i<project_scheme_files.length;i++){
+             project_html+='<div data-file="'+project_scheme_files[i].file_path+'" data-name="'+project_scheme_files[i].file_name+'"><strong><span class="text-danger">'+project_scheme_files[i].file_name+'</span></strong>' +
+                 '&nbsp;&nbsp;<i style="color: blue;cursor: pointer" alt="下载" onclick="download(this)" class="fa fa-download"></i></div>'
+         }
+         $("#project_scheme_div").append(project_html);
+     }
+     if(project_quote_files!=''){
+         project_quote_files=JSON.parse(project_quote_files);
+         for(let i=0;i<project_quote_files.length;i++){
+             quote_html+='<div data-file="'+project_quote_files[i].file_path+'" data-name="'+project_quote_files[i].file_name+'"><strong><span class="text-danger">'+project_quote_files[i].file_name+'</span></strong>' +
+                 '&nbsp;&nbsp;<i style="color: blue;cursor: pointer" alt="下载" onclick="download(this)" class="fa fa-download"></i></div>'
+         }
+         $("#project_quote_div").append(quote_html);
+     }
+
+
+
+     //服务包信息
+    let package='${order_type_list}';
+     if(package!=''){
+         package=JSON.parse(package);
+         let html=''
+         for(let i=0;i<package.length;i++){
+            let one_price=(package[i].give_company_money*package[i].package_num).toFixed(2);
+            let two_price=(package[i].give_company_no_tax_money*package[i].package_num).toFixed(2);
+            html+='<div class="row" style="border-top: 1px #20BE84 solid;margin-top: 20px;padding-top: 20px;">';
+            html+='<div class="col-sm-4" style=""><label style="margin-bottom: 2px"  class="col-sm-offset-1 col-sm-11 control-label ">' +
+                '<p class="text-left"><strong><span class="text-primary" style="font-size: 12px; color: #4C4B4B; font-family: 微软雅黑;padding: 0;margin: 0;text-align: right">服务包大类&nbsp：</span><span class="text-danger">'+package[i].services_package+'</span></strong></p>' +
+                '</label></div>';
+            html+='<div class="col-sm-4"><label style="margin-bottom: 2px"  class="col-sm-offset-1 col-sm-11 control-label ">' +
+                 '<p class="text-left"><strong><span class="text-primary" style="font-size: 12px; color: #4C4B4B; font-family: 微软雅黑;padding: 0;margin: 0;text-align: right">服务包细项&nbsp：</span><span class="text-danger">'+package[i].services_package_son+'</span></strong></p>' +
+                 '</label></div>';
+            html+='<div class="col-sm-4"><label style="margin-bottom: 2px"  class="col-sm-offset-1 col-sm-11 control-label ">' +
+                 '<p class="text-left"><strong><span class="text-primary" style="font-size: 12px; color: #4C4B4B; font-family: 微软雅黑;padding: 0;margin: 0;text-align: right">合作厂家名称&nbsp：</span><span class="text-danger">'+package[i].company+'</span></strong></p>' +
+                 '</label></div>';
+            html+='<div class="col-sm-4"><label style="margin-bottom: 2px"  class="col-sm-offset-1 col-sm-11 control-label ">' +
+                 '<p class="text-left"><strong><span class="text-primary" style="font-size: 12px; color: #4C4B4B; font-family: 微软雅黑;padding: 0;margin: 0;text-align: right">服务包数量&nbsp：</span><span class="text-danger">'+package[i].package_num+'</span></strong></p>' +
+                 '</label></div>';
+            html+='<div class="col-sm-4"><label style="margin-bottom: 2px"  class="col-sm-offset-1 col-sm-11 control-label ">' +
+                 '<p class="text-left"><strong><span class="text-primary" style="font-size: 12px; color: #4C4B4B; font-family: 微软雅黑;padding: 0;margin: 0;text-align: right">建设完成时间&nbsp：</span><span class="text-danger">'+package[i].build_over_time+'</span></strong></p>' +
+                 '</label></div>';
+             html+='<div class="col-sm-4"><label style="margin-bottom: 2px"  class="col-sm-offset-1 col-sm-11 control-label ">' +
+                 '<p class="text-left"><strong><span class="text-primary" style="font-size: 12px; color: #4C4B4B; font-family: 微软雅黑;padding: 0;margin: 0;text-align: right">厂家服务包结算价(不含税)&nbsp：</span><span class="text-danger">'+two_price+'</span></strong></p>' +
+                 '</label></div>';
+             html+='<div class="col-sm-offset-8 col-sm-4"><label style="margin-bottom: 2px"  class="col-sm-7 control-label ">' +
+                 '<p class=""><strong><span class="text-primary" style="font-size: 12px; color: #4C4B4B; font-family: 微软雅黑;padding: 0;margin: 0;">(含税)&nbsp：</span><span class="text-danger">'+one_price+'</span></strong></p>' +
+                 '</label></div>';
+             html+='</div>'
+         }
+         $("#design").append(html);
+
+     }
+</script>

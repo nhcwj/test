@@ -1,0 +1,82 @@
+@layout("/common/new_container.html"){
+<style>
+    input::-webkit-input-placeholder {
+        font-size: 12px;
+        color: #000000;
+        font-family: 微软雅黑;
+    }
+
+    .btn-primary {
+        padding: 5px 20px;
+    }
+
+    .W25 .th-inner {
+        width: 25px !important;
+    }
+
+    .split {
+        height: 1px;
+        width: 100%;
+        background-color: #BBBBBB;
+        margin-top: 5px;
+        margin-bottom: 25px;
+    }
+
+    .topBtn {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 5px;
+    }
+
+    .topBtn-no {
+        height: 100%;
+        background: #efefef;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 5px;
+    }
+
+    .chooseBtn {
+        background-color: #24d795;
+        font-weight: bold;
+    }
+</style>
+
+<div class="ibox float-e-margins">
+    <div class="ibox-content">
+        <div class="row">
+            <div class="col-sm-6" style="padding: 0px;height: 35px;margin-left:15px; display: flex;">
+                <div style="display: flex;font-size: 14px;color: #000000;background-color:#ebf9f4;">
+                    <div class="topBtn chooseBtn" style="width: 120px;">订单详情</div>
+                    <div class="topBtn" style="width: 120px">日志</div>
+                </div>
+            </div>
+        </div>
+        @include("/informationCollect/ict_manager/orderEdit.html"){}
+        @include("/informationCollect/ict_manager/order_log.html"){}
+    </div>
+</div>
+
+<script>
+    $(".topBtn").click(function () {
+        if ($(this).hasClass("chooseBtn")) {
+
+        } else {
+            $(".topBtn").removeClass("chooseBtn")
+            $(this).addClass("chooseBtn")
+            if ($(this).text()=='订单详情') {
+                $("#order_edit").show()
+                $("#log_edit").hide()
+                //document.getElementById("order_edit").style.visibility="none";
+                //document.getElementById("log_edit").style.visibility="hidden";
+            } else if ($(this).text() == '日志') {
+                $("#log_edit").show()
+                $('#order_edit').hide()
+            }else {}
+        }
+    })
+</script>
+@}

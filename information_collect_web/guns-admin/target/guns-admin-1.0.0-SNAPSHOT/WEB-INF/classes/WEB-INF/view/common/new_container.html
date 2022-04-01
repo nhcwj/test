@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        .example {
+            margin: auto;
+            position: absolute;
+            top: 0; left: 0; bottom: 0; right: 0;
+            width: 200px;
+            height: 200px;
+            /*background-color: lightskyblue;*/
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .topExample {
+            margin: 0 auto;
+            position: absolute;
+            top: 15%; left: 0; bottom: 0; right: 0;
+            width: 200px;
+            height: 200px;
+            /*background-color: lightskyblue;*/
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .bottomExample{
+            margin: 0 auto;
+            position: absolute;
+            top: 70%; left: 0; bottom: 0; right: 0;
+            width: 200px;
+            height: 200px;
+            /*background-color: lightskyblue;*/
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+    </style>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit"/><!-- 让360浏览器默认选择webkit内核 -->
+
+    <!-- 全局css -->
+    <link rel="shortcut icon" href="${ctxPath}/static/favicon.ico">
+    <link href="${ctxPath}/static/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="${ctxPath}/static/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="${ctxPath}/static/css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+    <link href="${ctxPath}/static/css/plugins/validate/bootstrapValidator.min.css" rel="stylesheet">
+    <link href="${ctxPath}/static/css/animate.css" rel="stylesheet">
+    <link href="${ctxPath}/static/css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="${ctxPath}/static/css/_fstyle.css" rel="stylesheet">
+    <link href="${ctxPath}/static/css/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="${ctxPath}/static/css/plugins/webuploader/webuploader.css" rel="stylesheet">
+    <link href="${ctxPath}/static/css/plugins/ztree/zTreeStyle.css" rel="stylesheet">
+    <link href="${ctxPath}/static/css/plugins/jquery-treegrid/css/jquery.treegrid.css" rel="stylesheet"/>
+    <link href="${ctxPath}/static/css/bootstrap-table.css" rel="stylesheet"/>
+
+    <!--    黄标引入-->
+    <link href="${ctxPath}/static/css/spinkit.css" rel="stylesheet">
+    <link href="${ctxPath}/static/css/hover.css" rel="stylesheet">
+
+    <!-- add by huangbiao 2018/07/16 sweetalert2-->
+    <link href="${ctxPath}/static/css/sweetalert2.css" rel="stylesheet"/>
+
+
+    <!-- add by zhirongrui 2018/6/27   bootstrap-fileInput 文件上传 -->
+    <link href="${ctxPath}/static/css/themes/bootstrapFileInput/fileinput.css" rel="stylesheet"/>
+    <link href="${ctxPath}/static/css/themes/bootstrapFileInput/fileinput-rtl.css" rel="stylesheet"/>
+    <link href="${ctxPath}/static/css/plugins/datapicker/bootstrap-datetimepicker.css" rel="stylesheet"/>
+    <link href="${ctxPath}/static/css/lanrenzhijia.css" rel="stylesheet"/>
+    <link href="${ctxPath}/static/css/bootstrap-spinner.css" rel="stylesheet"/>
+    <link href="${ctxPath}/static/css/intelligentInput.css" rel="stylesheet"/>
+    <link href="${ctxPath}/static/css/viewer.min.css" rel="stylesheet"/>
+    <link  href="${ctxPath}/static/css/sliderWindow/component.css" rel="stylesheet">
+
+
+
+
+
+    <!-- <link href="${ctxPath}/static/css/plugins/ztree/demo.css" rel="stylesheet"> -->
+    <!-- 全局js -->
+    <script src="${ctxPath}/static/js/jquery.min.js?v=2.1.4"></script>
+    <script src="${ctxPath}/static/js/bootstrap.min.js?v=3.3.6"></script>
+    <script src="${ctxPath}/static/js/common/bootstrap-table.js"></script>
+    <script src="${ctxPath}/static/js/jquery.spinner.js"></script>
+
+    <!--echarst-->
+    <script src="${ctxPath}/static/js/common/echarts.js"></script>
+
+    <script src="${ctxPath}/static/js/plugins/ztree/jquery.ztree.all.min.js"></script>
+    <!--<script src="${ctxPath}/static/js/plugins/bootstrap-table/bootstrap-table.min.js"></script>-->
+    <script src="${ctxPath}/static/js/plugins/validate/bootstrapValidator.min.js"></script>
+    <script src="${ctxPath}/static/js/plugins/validate/zh_CN.js"></script>
+    <script src="${ctxPath}/static/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js"></script>
+    <script src="${ctxPath}/static/js/plugins/jquery-treegrid/js/jquery.treegrid.min.js"></script>
+    <script src="${ctxPath}/static/js/plugins/jquery-treegrid/js/jquery.treegrid.bootstrap3.js"></script>
+    <script src="${ctxPath}/static/js/plugins/jquery-treegrid/extension/jquery.treegrid.extension.js"></script>
+    <script src="${ctxPath}/static/js/plugins/layer/layer.min.js"></script>
+    <script src="${ctxPath}/static/js/plugins/iCheck/icheck.min.js"></script>
+    <script src="${ctxPath}/static/js/plugins/layer/laydate/laydate.js"></script>
+    <script src="${ctxPath}/static/js/plugins/webuploader/webuploader.min.js"></script>
+    <script src="${ctxPath}/static/js/common/ajax-object.js"></script>
+    <script src="${ctxPath}/static/js/common/bootstrap-table-object.js"></script>
+    <script src="${ctxPath}/static/js/common/tree-table-object.js"></script>
+    <script src="${ctxPath}/static/js/common/web-upload-object.js"></script>
+    <script src="${ctxPath}/static/js/common/ztree-object.js"></script>
+    <script src="${ctxPath}/static/js/common/Feng.js"></script>
+
+    <!-- add by zhirongrui 2018/6/13 -->
+    <script src="${ctxPath}/static/js/jquery-session.js?v=6.1.3"></script>
+    <script src="${ctxPath}/static/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+    <script src="${ctxPath}/static\js\common\bootstrap-table-export.js"></script>
+    <script src="${ctxPath}/static/js/common/xlsx.core.min.js"></script>
+
+    <script src="${ctxPath}/static/js/common/tableExport.js"></script>
+    <script src="${ctxPath}/static/js/common/FileSaver.min.js"></script>
+
+    <!-- add by zhirongrui 2018/6/27   bootstrap-fileInput 文件上传 -->
+    <script src="${ctxPath}/static/js/common/ajaxfileuploads.js"></script>
+    <script src="${ctxPath}/static/js/common/fileinput.js"></script>
+    <script src="${ctxPath}/static/js/common/zh.js"></script>
+    <!-- add by zhirongrui 2018/7/5   时间插件bootstrap-datepicker.js -->
+    <script src="${ctxPath}/static/js/plugins/datapicker/bootstrap-datetimepicker.js"></script>
+    <script src="${ctxPath}/static/js/plugins/datapicker/bootstrap-datetimepicker.zh-CN.js"></script>
+    <!-- add by huangbiao 2018/07/16 sweetalert2-->
+    <script src="${ctxPath}/static/js/common/sweetalert2.min.js"></script>
+    <!--add by huangbiao layer.js -->
+    <script src="${ctxPath}/static/js/common/layer.js"></script>
+    <script type="text/javascript" src="${ctxPath}/static/js/global.js"></script>
+    <script type="text/javascript" src="${ctxPath}/static/js/common/moment.js"></script>
+
+    <script type="text/javascript">
+        Feng.addCtx("${ctxPath}");
+        Feng.sessionTimeoutRegistry();
+    </script>
+</head>
+<body style="background-color:#ffffff">
+<!-- 数据上传loading提示框 -->
+<div class="modal fade" id="loading">
+<div class="example">
+    <div class="sk-wave">
+        <div class="sk-wave-rect" style="background-color:#20BE84 "></div>
+        <div class="sk-wave-rect"  style="background-color:#20BE84 "></div>
+        <div class="sk-wave-rect"  style="background-color:#20BE84 "></div>
+        <div class="sk-wave-rect"  style="background-color:#20BE84 "></div>
+        <div class="sk-wave-rect"  style="background-color:#20BE84 "></div>
+    </div>
+    <div style="font-weight: bold;font-size: 18px;color: white;margin-top: 10px">数据上传中...</div>
+</div>
+
+<div class="modal fade" id="loading_get">
+    <div class="example">
+        <div class="sk-wave">
+            <div class="sk-wave-rect" style="background-color:#20BE84 "></div>
+            <div class="sk-wave-rect"  style="background-color:#20BE84 "></div>
+            <div class="sk-wave-rect"  style="background-color:#20BE84 "></div>
+            <div class="sk-wave-rect"  style="background-color:#20BE84 "></div>
+            <div class="sk-wave-rect"  style="background-color:#20BE84 "></div>
+        </div>
+        <div style="font-weight: bold;font-size: 18px;color: white;margin-top: 10px">数据获取中...</div>
+    </div>
+</div>
+
+</div>
+<div class="modal fade" id="updateLoading">
+    <div class="example">
+        <div class="sk-wave">
+            <div class="sk-wave-rect" style="background-color:#20BE84 "></div>
+            <div class="sk-wave-rect"  style="background-color:#20BE84 "></div>
+            <div class="sk-wave-rect"  style="background-color:#20BE84 "></div>
+            <div class="sk-wave-rect"  style="background-color:#20BE84 "></div>
+            <div class="sk-wave-rect"  style="background-color:#20BE84 "></div>
+        </div>
+        <div style="font-weight: bold;font-size: 18px;color: white;margin-top: 10px">项目名称更新中...</div>
+    </div>
+</div>
+<div class="modal fade" id="loadingTop">
+    <div class="topExample">
+        <div class="sk-wave">
+            <div class="sk-wave-rect" style="background-color:#20BE84 "></div>
+            <div class="sk-wave-rect"  style="background-color:#20BE84 "></div>
+            <div class="sk-wave-rect"  style="background-color:#20BE84 "></div>
+            <div class="sk-wave-rect"  style="background-color:#20BE84 "></div>
+            <div class="sk-wave-rect"  style="background-color:#20BE84 "></div>
+        </div>
+        <div style="font-weight: bold;font-size: 18px;color: white;margin-top: 10px">数据上传中...</div>
+    </div>
+</div>
+<div class="modal fade" id="loadingBottom">
+    <div class="bottomExample">
+        <div class="sk-wave">
+            <div class="sk-wave-rect" style="background-color:#20BE84 "></div>
+            <div class="sk-wave-rect"  style="background-color:#20BE84 "></div>
+            <div class="sk-wave-rect"  style="background-color:#20BE84 "></div>
+            <div class="sk-wave-rect"  style="background-color:#20BE84 "></div>
+            <div class="sk-wave-rect"  style="background-color:#20BE84 "></div>
+        </div>
+        <div style="font-weight: bold;font-size: 18px;color: white;margin-top: 10px">数据上传中...</div>
+    </div>
+</div>
+${layoutContent}
+<script src="${ctxPath}/static/js/content.js?v=1.0.0"></script>
+</body>
+</html>

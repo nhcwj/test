@@ -1,0 +1,44 @@
+<div id="workPeople" hidden>
+    <div style="height: 25px"></div>
+    <#title info="施工人员指派环节" />
+    <div class="row" style="margin-top: 20px">
+        <div class="col-sm-4">
+            <#label id="pre_people" name="DICT订单号" value="${orderInfo.order_no}" disabled="disabled"/>
+        </div>
+        <div class="col-sm-4">
+            <#label id="product_no" name="产品编号" value="${orderInfo_plus.product_no}" disabled="disabled"/>
+        </div>
+    </div>
+</div>
+
+<script>
+     //服务包信息
+    let work_package='${order_type_list}';
+     if(work_package!=''){
+         work_package=JSON.parse(work_package);
+         c(work_package);
+         let html=''
+         for(let i=0;i<work_package.length;i++){
+             html+='<div class="row" style="border-top: 1px #20BE84 solid;margin-top: 20px;padding-top: 20px;">';
+            html+='<div class="col-sm-4" style=""><label style="margin-bottom: 2px"  class="col-sm-offset-1 col-sm-11 control-label ">' +
+                '<p class="text-left"><strong><span class="text-primary" style="font-size: 12px; color: #4C4B4B; font-family: 微软雅黑;padding: 0;margin: 0;text-align: right">服务包大类&nbsp：</span><span class="text-danger">'+work_package[i].services_package+'</span></strong></p>' +
+                '</label></div>';
+            html+='<div class="col-sm-4"><label style="margin-bottom: 2px"  class="col-sm-offset-1 col-sm-11 control-label ">' +
+                 '<p class="text-left"><strong><span class="text-primary" style="font-size: 12px; color: #4C4B4B; font-family: 微软雅黑;padding: 0;margin: 0;text-align: right">服务包细项&nbsp：</span><span class="text-danger">'+work_package[i].services_package_son+'</span></strong></p>' +
+                 '</label></div>';
+            html+='<div class="col-sm-4"><label style="margin-bottom: 2px"  class="col-sm-offset-1 col-sm-11 control-label ">' +
+                 '<p class="text-left"><strong><span class="text-primary" style="font-size: 12px; color: #4C4B4B; font-family: 微软雅黑;padding: 0;margin: 0;text-align: right">服务包数量&nbsp：</span><span class="text-danger">'+work_package[i].package_num+'</span></strong></p>' +
+                 '</label></div>';
+            html+='<div class="col-sm-4"><label style="margin-bottom: 2px"  class="col-sm-offset-1 col-sm-11 control-label ">' +
+                 '<p class="text-left"><strong><span class="text-primary" style="font-size: 12px; color: #4C4B4B; font-family: 微软雅黑;padding: 0;margin: 0;text-align: right">实施人员（主）&nbsp：</span><span class="text-danger">'+work_package[i].implement_people+'</span></strong></p>' +
+                 '</label></div>';
+             html+='<div class="col-sm-4"><label style="margin-bottom: 2px"  class="col-sm-offset-1 col-sm-11 control-label ">' +
+                 '<p class="text-left"><strong><span class="text-primary" style="font-size: 12px; color: #4C4B4B; font-family: 微软雅黑;padding: 0;margin: 0;text-align: right">实施人员联系方式&nbsp：</span><span class="text-danger">'+work_package[i].implement_people_phone+'</span></strong></p>' +
+                 '</label></div>';
+             html+='</div>'
+
+         }
+         $("#workPeople").append(html);
+     }
+
+</script>

@@ -1,0 +1,104 @@
+<div id="zsOrder" hidden>
+    <div style="height: 15px"></div>
+    <#title info="正式订单审核" />
+    <div class="row" style="margin-top: 20px">
+        <div class="col-sm-4">
+            <div class="form-group" style="display:flex;align-items: center">
+                <label class="col-sm-4 control-label" style="padding-top: 0">
+                    是否通过
+                </label>
+                <div class="col-sm-8">
+                    <select class="form-control"  id="contract_is_pass"  name="contract_is_pass">
+                        <option value="">请选择</option>
+                        <option value="是">是</option>
+                        <option value="否">否</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+            <div style="display: flex">
+                <label style="margin-bottom: 2px" class=" control-label file_label ">
+                    <p class="text-right "><strong><span class="text-primary" style="font-size: 13px;
+            color: #4C4B4B;
+            font-family: 微软雅黑;
+            padding: 0;margin: 0;text-align: right">客户工单协议</span> <span class="text-danger"></span></strong></p>
+                </label>
+                <div style="display: flex;padding-left: 30px;">
+                    <div>
+                        <button type="button" class="btn btn-primary " style="background-color: #20BE84"
+                                onclick="uploadFile(8)" id="uploadFile8">
+                            选择文件
+                        </button>
+                    </div>
+                    <div id="file_dom8" style="margin-left: 10px">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @if(orderInfo.order_status=="正式订单审核"&&orderInfo.status=="1"&&check_show){
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="form-group" style="display:flex;align-items: center">
+                <label class="col-sm-4 control-label" style="padding-top: 0">
+                    备注
+                </label>
+                <div class="col-sm-8">
+                    <textarea class="form-control" onmousedown="clickTextArea(event,this)" value=""  id="zs_step_remark" name="zs_step_remark" rows="5">
+                    </textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    @}
+    @if(orderInfo.order_status=="正式订单审核"&&orderInfo.status=="1"&&check_show){
+    <div class="row" style="margin-top: 20px">
+        <div class="col-sm-offset-2 col-sm-9">
+            @if(hasAllButton){
+                <button type="button" class="btn btn-primary " style="background-color: #20BE84;margin-left: 100px"
+                        onclick="zsOrder_submit()">
+                    提交
+                </button>
+                <button type="button" class="btn btn-primary " style="background-color: #20BE84;margin-left: 100px"
+                        onclick="refund()">
+                    退单
+                </button>
+            @}
+            @if(hasAllButton||hasSpecialButton){
+                <button type="button" class="btn btn-primary " style="background-color: #20BE84;margin-left: 100px"
+                        onclick="hangup()">
+                    挂起
+                </button>
+                <button type="button" class="btn btn-primary " style="background-color: #20BE84;margin-left: 100px"
+                        onclick="backbefore()">
+                    退回上一步
+                </button>
+            @}
+            <button type="button" class="btn btn-primary " style="background-color: #20BE84;margin-left: 80px"
+                    onclick="cancle()">
+                返回
+            </button>
+        </div>
+    </div>
+    @}
+</div>
+
+<script>
+    function zsOrder_submit() {
+        OrderEdits.clearData();
+        OrderEdits.zsOrderCollectData();
+        OrderEdits.orderInfo.client_order_files=client_order_files;
+        OrderEdits.orderInfo['id'] = '${orderInfo.id}';
+        OrderEdits.orderInfoPlus['id']='${orderInfo_plus.id}';
+        OrderEdits.orderInfo['order_status'] = '待付首款/全款';
+        if($("#zs_step_remark").val()!=''){
+            OrderEdits.remark=$("#zs_step_remark").val().replaceAll(" ","");
+        }
+        submit()
+    }
+</script>

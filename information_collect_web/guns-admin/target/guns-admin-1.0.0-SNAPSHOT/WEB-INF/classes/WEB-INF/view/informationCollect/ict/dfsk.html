@@ -1,0 +1,77 @@
+<div id="dfsk" hidden>
+    <div style="height: 15px"></div>
+    <#title info="待付首款/全款" />
+    <div class="row" style="margin-top: 20px;">
+    <div class="col-sm-4">
+        <#label id="is_pay_all" name="是否支付全款" value="${orderInfo_plus.is_pay_all}" />
+    </div>
+    <div class="col-sm-4">
+        <#label id="buy_name" name="购买方名称" value="${orderInfo_plus.buy_name}" />
+    </div>
+    <div class="col-sm-4">
+        <#label id="buy_tax_payer_no" name="购买方纳税人识别号" value="${orderInfo_plus.buy_tax_payer_no}" />
+    </div>
+</div>
+    <div class="row">
+        <div class="col-sm-4">
+            <#label id="buy_address" name="购买方地址" value="${orderInfo_plus.buy_address}" />
+        </div>
+        <div class="col-sm-4">
+            <#label id="buy_phone" name="购买方电话" value="${orderInfo_plus.buy_phone}" />
+        </div>
+        <div class="col-sm-4">
+            <#label id="buy_open_hang" name="购买方开户行" value="${orderInfo_plus.buy_open_hang}" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+            <#label id="buy_account" name="购买方账号" value="${orderInfo_plus.buy_account}" />
+        </div>
+        <div class="col-sm-4">
+            <label style="margin-bottom: 2px" class="col-sm-4 control-label ">
+                <p class="text-right "><strong><span class="text-primary" style="font-size: 13px;
+            color: #4C4B4B;
+            font-family: 微软雅黑;
+            padding: 0;margin: 0;text-align: right">客户提供的付款证明</span> <span class="text-danger"></span></strong></p>
+            </label>
+            <div class="col-sm-8" style="display: flex">
+                <div>
+                    <button type="button" class="btn btn-primary " style="background-color: #20BE84"
+                            onclick="downloadPayFile()" id="downloadPayFile">
+                        下载文件
+                    </button>
+                </div>
+                <div id="file_dom9" style="margin-left: 10px">
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="" style="margin-bottom: 20px">
+<!--        <div class="" style="display: flex">-->
+<!--            <label style="margin-bottom: 2px" class="control-label file_label ">-->
+<!--                <p class="text-right "><strong><span class="text-primary" style="font-size: 13px;-->
+<!--            color: #4C4B4B;-->
+<!--            font-family: 微软雅黑;-->
+<!--            padding: 0;margin: 0;text-align: right">我司的账户信息</span> <span class="text-danger"></span></strong></p>-->
+<!--            </label>-->
+<!--            <div class="" style="display: flex ;padding-left: 30px;">-->
+<!--                <div>-->
+<!--                    <button type="button" class="btn btn-primary " style="background-color: #20BE84"-->
+<!--                            onclick="uploadFile(4)" id="uploadFile4">-->
+<!--                        选择文件-->
+<!--                    </button>-->
+<!--                </div>-->
+<!--                <div id="file_dom4" style="margin-left: 10px">-->
+
+<!--                </div>-->
+
+<!--            </div>-->
+<!--        </div>-->
+    </div>
+</div>
+
+<script>
+
+</script>

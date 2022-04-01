@@ -1,0 +1,28 @@
+<div id="appraise" hidden>
+
+    <div style="height: 20px"></div>
+    <#title info="满意度评价" />
+    <div style="height: 20px"></div>
+
+    <div class="row">
+        <div class="col-sm-3">
+            <#label id="connect_address" name="客户满意度" value="${appraise.client_appraise}" disabled="disabled"  />
+        </div>
+        <div class="col-sm-offset-1 col-sm-3">
+            <#label id="connect_address" name="需求部门满意度" value="${appraise.need_dept_appraise}" disabled="disabled"  />
+        </div>
+        <div class="col-sm-offset-1 col-sm-3">
+            <#label id="connect_address" name="后端部门满意度" value="${appraise.end_dept_appraise}" disabled="disabled"  />
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-3">
+            <#label id="connect_address" name="集成商满意度" value="${appraise.collect_dept_appraise}" disabled="disabled"  />
+        </div>
+    </div>
+
+</div>
+<script>
+
+</script>

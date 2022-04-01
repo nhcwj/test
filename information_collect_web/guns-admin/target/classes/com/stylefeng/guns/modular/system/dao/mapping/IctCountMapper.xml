@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stylefeng.guns.modular.system.dao.informationCollect.IctCountMapper">
+
+    <select id="select_date" resultType="java.util.Map">
+        SELECT DISTINCT(enter_time) from j_ict_count ORDER BY enter_time DESC
+    </select>
+
+    <select id="select_count_by_date" resultType="java.util.Map">
+        SELECT #{enter_time} AS enter_time,
+        (SELECT count(*) FROM j_ict_count where enter_time=#{enter_time} and role='客户') AS user_count,
+        (SELECT count(*) FROM j_ict_count where enter_time=#{enter_time} and role='客户经理') AS manager_count,
+        (SELECT count(*) FROM j_ict_count where enter_time=#{enter_time}) AS all_count,
+        (SELECT count FROM j_ict_pv WHERE count_time=#{enter_time}) AS pv
+        FROM j_ict_count,j_ict_pv LIMIT 1
+    </select>
+
+</mapper>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stylefeng.guns.modular.system.dao.informationCollect.OrderInfoMapper">
+
+    <select id="selectOrderByOrderNumber" resultType="com.stylefeng.guns.modular.system.model.informationCollect.OrderInfo">
+        select * from j_order_info WHERE order_number=#{orderNumber}
+    </select>
+
+</mapper>

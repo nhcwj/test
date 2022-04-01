@@ -1,0 +1,90 @@
+<div id="sjOrder" hidden>
+    <div style="height: 25px"></div>
+    <#title info="订单信息" />
+    <div class="row" style="margin-top: 20px">
+        <div class="col-sm-4">
+            <#label id="order_no" name="订单编号" value="${orderInfo.order_no}" disabled="disabled"/>
+            <!--<div class="form-group">-->
+                <!--<label class="col-sm-4 control-label">订单编号</label>-->
+                <!--<div class="col-sm-8">-->
+                    <!--<input class="form-control" value="${orderInfo.order_no}" readonly id="order_no" name="order_no" placeholder="单行输入">-->
+                <!--</div>-->
+            <!--</div>-->
+        </div>
+        <div class="col-sm-4">
+            <#label id="order_time" name="下单时间" value="${orderInfo.order_time}" disabled="disabled"/>
+
+            <!--<div class="form-group">-->
+                <!--<label class="col-sm-4 control-label">下单时间</label>-->
+                <!--<div class="col-sm-8">-->
+                    <!--<input class="form-control" value="${orderInfo.order_time}" readonly id="order_time" name="order_time" placeholder="单行输入">-->
+                <!--</div>-->
+            <!--</div>-->
+        </div>
+        <div class="col-sm-4">
+            <#label id="company_name" name="订单状态" value="${orderInfo.order_status}" disabled="disabled"/>
+
+
+            <!--<div class="form-group">-->
+                <!--<label class="col-sm-4 control-label">公司名称</label>-->
+                <!--<div class="col-sm-8">-->
+                    <!--<input class="form-control" value="${orderInfo.company_name}" id="company_name" name="company_name" placeholder="单行输入">-->
+                <!--</div>-->
+            <!--</div>-->
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+            <#label id="company_name" name="公司名称" value="${orderInfo.company_name}" disabled="disabled"/>
+        </div>
+        <div class="col-sm-4">
+            <#label id="client_name" name="客户姓名" value="${orderInfo.client_name}" disabled="disabled"/>
+        </div>
+        <div class="col-sm-4">
+            <#label id="client_link_phone" name="客户联系方式" value="${orderInfo.client_link_phone}" disabled="disabled"/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+            <#label id="client_email" name="客户邮箱地址" value="${orderInfo.client_email}" disabled="disabled"/>
+        </div>
+        <div class="col-sm-4">
+            <#label id="order_region" name="所属区域" value="${orderInfo.order_region}" disabled="disabled"/>
+        </div>
+        <div class="col-sm-4">
+            <#label id="address" name="详细地址" value="${orderInfo.address}" disabled="disabled"/>
+        </div>
+
+    </div>
+    <div style="height: 25px"></div>
+    <#title info="商品信息" />
+    <div class="row" style="margin-top: 20px">
+        <div class="col-sm-4">
+            <#label id="ict_type" name="ICT产品类别" value="${orderInfo.ict_type}" disabled="disabled"/>
+        </div>
+        <div class="col-sm-4">
+            <#label id="ict_num" name="ICT产品数量" value="${orderInfo.ict_num}" disabled="disabled"/>
+        </div>
+        <div class="col-sm-4">
+            <#label id="project_budget" name="项目预算" value="${orderInfo.project_budget}" disabled="disabled"/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+            <#label id="is_need_support" name="是否需要支撑" value="${orderInfo.is_need_support}" disabled="disabled"/>
+        </div>
+        <div class="col-sm-4">
+            <#label id="support_type" name="支撑类型" value="${orderInfo.support_type}" disabled="disabled"/>
+        </div>
+        <div class="col-sm-4">
+            <#label id="need_desc" name="支撑类型" value="${orderInfo.need_desc}" disabled="disabled"/>
+        </div>
+    </div>
+</div>
+<script>
+    let order_region='${orderInfo.order_region}'
+    if(order_region!='' && order_region.indexOf("-")>0){
+        order_region=order_region.split("-")[0];
+        $("#order_region").find(".text-danger").text(order_region)
+    }
+</script>

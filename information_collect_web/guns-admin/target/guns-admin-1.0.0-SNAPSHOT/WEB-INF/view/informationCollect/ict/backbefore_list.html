@@ -1,0 +1,437 @@
+@layout("/common/_container.html"){
+<link rel="stylesheet" href="${ctxPath}/static/css/plugins/bootstrap-select/bootstrap-select.min.css">
+<script src="${ctxPath}/static/js/plugins/bootstrap-select/bootstrap-select.min.js"></script>
+<script src="${ctxPath}/static/js/plugins/bootstrap-select/defaults-zh_CN.min.js"></script>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>退回上一步审核列表</h5>
+            </div>
+            <div class="ibox-content">
+                <div class="row">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="col-sm-3">
+                                <#commonInput name="订单编号:" id="orderNum" labelWidth="4" inputWidth="8"
+                                        placeholder="请输入"/>
+                            </div>
+                            <div class="col-sm-3">
+                                <#commonInput labelWidth="4" inputWidth="8" name="下单时间:" placeholder="请选择时间"
+                                        id="orderTime" clickFun="laydate({istime: false, format: 'YYYY-MM-DD'})"/>
+                            </div>
+                            <div class="col-sm-3">
+                                <#commonSelect id="orderStatus" name="订单状态:" labelWidth="4" inputWidth="8">
+                                    <option value="">请选择</option>
+                                    <option value="商机单受理">商机单受理</option>
+                                    <option value="初步订单审核">初步订单审核</option>
+                                    <option value="设计环节">设计环节</option>
+                                    <option value="订单确认">订单确认</option>
+                                    <option value="正式订单审核">正式订单审核</option>
+                                    <option value="待付首款/全款">待付首款/全款</option>
+                                    <option value="首款/全款确认">首款/全款确认</option>
+                                    <option value="施工环节">施工环节</option>
+                                    <option value="已验收待尾款">已验收待尾款</option>
+                                    <option value="尾款确认">尾款确认</option>
+                                    <option value="订单结束">订单结束</option>
+                                </#commonSelect>
+                            </div>
+                            <div class="col-sm-3">
+                                <#commonInput name="公司名:" id="companyName" labelWidth="4" inputWidth="8" placeholder="请输入"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="col-sm-3">
+                                <#commonInput name="客户姓名:" id="customerName" labelWidth="4" inputWidth="8"
+                                        placeholder="请输入"/>
+                            </div>
+                            <div class="col-sm-3">
+                                <#commonInput name="客户联系方式:" id="customerPhone" labelWidth="4" inputWidth="8"
+                                        placeholder="请输入"/>
+                            </div>
+                            <div class="col-sm-3">
+                                <#commonInput name="客户经理:" id="managerName" labelWidth="4" inputWidth="8"
+                                        placeholder="请输入"/>
+                            </div>
+                            <div class="col-sm-3">
+                                <#commonInput name="客户经理电话:" id="managerPhone" labelWidth="4" inputWidth="8"
+                                        placeholder="请输入"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="col-sm-3">
+                                <#commonInput name="集团编码:" id="groupNum" labelWidth="4" inputWidth="8" placeholder="请输入"/>
+                            </div>
+                            <div class="row" style="text-align: left">
+                                <button type="button" class="btn btn-primary "
+                                        style="background-color: #20BE84;margin-left: 10px" onclick="search()" id="search">
+                                    查询
+                                </button>
+                                <button type="button" class="btn btn-primary "
+                                        style="background-color: #20BE84;margin-left: 10px" onclick="reset()" id="reset">
+                                    重置
+                                </button>
+                                <button type="button" class="btn btn-primary "
+                                        style="background-color: #20BE84;margin-left: 10px" onclick="verify()" id="edit">
+                                    审核
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <#table id="orderTable"/>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+<script>
+
+    var queryData = {};
+
+    var Order = {
+        id: "orderTable",
+        setItem: null,
+        table: null,
+    };
+
+    initOrderColumn = function () {
+        return [
+            {field: 'selectItem', radio: true},
+            {field: 'id', visible: false},
+            <!-- 工单基本信息-->
+            {
+                title: '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;订单编号&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
+                field: 'order_no',
+                visible: true,
+                align: 'center',
+                valign: 'middle',
+                formatter: function (value, row, index) {
+                    if (value == '' || value == null) {
+                        return '<span >--</span>';
+                    } else {
+                        return  value ;
+                    }
+                }
+            },
+            {
+                title: '订单金额(万元)',
+                field: 'order_amount',
+                visible: true,
+                align: 'center',
+                valign: 'middle',
+                formatter: function (value, row, index) {
+                    if (value == '' || value == null) {
+                        return '<span >--</span>';
+                    } else {
+                        return value;
+                    }
+                }
+            },
+            {
+                title: '网格',
+                title: '&nbsp;&nbsp;&nbsp;网格&nbsp;&nbsp;&nbsp;',
+                field: 'wg',
+                visible: true,
+                align: 'center',
+                valign: 'middle',
+                formatter: function (value, row, index) {
+                    if (value == '' || value == null) {
+                        return '<span >--</span>';
+                    } else {
+                        return value;
+                    }
+                }
+            },
+            {
+                title: '所属区域',
+                field: 'order_region',
+                visible: true,
+                align: 'center',
+                valign: 'middle',
+                formatter: function (value, row, index) {
+                    if (value == '' || value == null) {
+                        return '<span >--</span>';
+                    } else {
+                        return value;
+                    }
+                }
+            },
+            {
+                title: '项目预算(万元)',
+                field: 'project_budget',
+                visible: true,
+                align: 'center',
+                valign: 'middle',
+                formatter: function (value, row, index) {
+                    if (value == '' || value == null) {
+                        return '<span >--</span>';
+                    } else {
+                        return value;
+                    }
+                }
+            },
+            {
+                title: '&nbsp;&nbsp;&nbsp;下单时间&nbsp;&nbsp;&nbsp;',
+                field: 'order_time',
+                visible: true,
+                align: 'center',
+                valign: 'middle',
+                formatter: function (value, row, index) {
+                    if (value == '' || value == null) {
+                        return '<span >--</span>';
+                    } else {
+                        return value;
+                    }
+                }
+            },
+            {
+                title: '订单状态',
+                field: 'order_status',
+                visible: true,
+                align: 'center',
+                valign: 'middle',
+                formatter: function (value, row, index) {
+                    if (value == '' || value == null) {
+                        return '<span >--</span>';
+                    } else {
+                        return value;
+                    }
+                }
+            },
+            {
+                title: '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;公司名&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
+                field: 'company_name',
+                visible: true,
+                align: 'center',
+                valign: 'middle',
+                formatter: function (value, row, index) {
+                    if (value == '' || value == null) {
+                        return '<span >--</span>';
+                    } else {
+                        return value;
+                    }
+                }
+            },
+            {
+                title: '客户姓名',
+                field: 'client_name',
+                visible: true,
+                align: 'center',
+                valign: 'middle',
+                formatter: function (value, row, index) {
+                    if (value == '' || value == null) {
+                        return '<span >--</span>';
+                    } else {
+                        return value;
+                    }
+                }
+            },
+            {
+                title: '客户联系方式',
+                field: 'client_link_phone',
+                visible: true,
+                align: 'center',
+                valign: 'middle',
+                formatter: function (value, row, index) {
+                    if (value == '' || value == null) {
+                        return '<span >--</span>';
+                    } else {
+                        return value;
+                    }
+                }
+            },
+            {
+                title: '客户经理',
+                field: 'client_manager',
+                visible: true,
+                align: 'center',
+                valign: 'middle',
+                formatter: function (value, row, index) {
+                    if (value == '' || value == null) {
+                        return '<span >--</span>';
+                    } else {
+                        return value;
+                    }
+                }
+            },
+            {
+                title: '客户经理电话',
+                field: 'client_manager_phone',
+                visible: true,
+                align: 'center',
+                valign: 'middle',
+                formatter: function (value, row, index) {
+                    if (value == '' || value == null) {
+                        return '<span >--</span>';
+                    } else {
+                        return value;
+                    }
+                }
+            },
+            {
+                title: '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;需求描述&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
+                field: 'need_desc',
+                visible: true,
+                align: 'center',
+                valign: 'middle',
+                formatter: function (value, row, index) {
+                    if (value == '' || value == null) {
+                        return '<span >--</span>';
+                    } else {
+                        return value;
+                    }
+                }
+            },
+            {
+                title: '集团编码',
+                field: 'company_no',
+                visible: true,
+                align: 'center',
+                valign: 'middle',
+                formatter: function (value, row, index) {
+                    if (value == '' || value == null) {
+                        return '<span >--</span>';
+                    } else {
+                        return value;
+                    }
+                }
+            },
+            {
+                title: '服务包类型',
+                field: 'ict_type',
+                visible: true,
+                align: 'center',
+                valign: 'middle',
+                formatter: function (value, row, index) {
+                    if (value == '' || value == null) {
+                        return '<span >--</span>';
+                    } else {
+                        return value;
+                    }
+                }
+            },
+            {
+                title: '前勘人员',
+                field: 'pre_people',
+                visible: true,
+                align: 'center',
+                valign: 'middle',
+                formatter: function (value, row, index) {
+                    if (value == '' || value == null) {
+                        return '<span >--</span>';
+                    } else {
+                        return value;
+                    }
+                }
+            },
+            {
+                title: '是否客户经理下单',
+                field: 'is_manager_register',
+                visible: true,
+                align: 'center',
+                valign: 'middle',
+                formatter: function (value, row, index) {
+                    if (value == '' || value == null ) {
+                        return '<span >--</span>';
+                    } else  {
+                        return  value;
+                    }
+                }
+            }
+        ];
+    }
+    $(function () {
+        var defaultColumns = initOrderColumn();
+        var table = new BSTable(Order.id, "/ict_pc/getOrderList1?status=5", defaultColumns);
+        table.setPaginationType("client");
+        Order.table = table.init();
+    })
+
+
+    function search() {
+        var orderNum = $("#orderNum").val()
+        var orderStatus = $("#orderStatus").val()
+        var companyName = $("#companyName").val()
+        var customerName = $("#customerName").val()
+        var customerPhone = $("#customerPhone").val()
+        var managerName = $("#managerName").val()
+        var managerPhone = $("#managerPhone").val()
+        var ICTProductName = $("#ICTProductName").val()
+        var groupNum = $("#groupNum").val()
+        var orderTime = $("#orderTime").val()
+
+        let query = {
+            order_number: orderNum,
+            current_process: orderStatus,
+            company_name: companyName,
+            custom_name: customerName,
+            custom_phone: customerPhone,
+            custom_manager: managerName,
+            custom_manager_phone: managerPhone,
+            ICT_product: ICTProductName,
+            group_code: groupNum,
+            order_time: orderTime
+        }
+
+        Order.table.setQueryParams(query)
+        Order.table.refresh()
+    }
+
+    function reset() {
+        clear('orderNum');
+        clear('orderTime');
+        clear('orderStatus');
+        clear('companyName');
+        clear('customerName');
+        clear('customerPhone');
+        clear('managerName');
+        clear('managerPhone');
+        clear('ICTProductName');
+        clear('groupNum');
+
+        $("#orderTime").val('')
+        queryData = {};
+
+        Order.table.setQueryParams(queryData)
+        Order.table.refresh()
+    }
+
+    function clear(key) {
+        $("#" + key).val(null)
+    }
+
+    function verify() {
+        var order = $('#orderTable').bootstrapTable('getSelections', function (row) {
+            return row;
+        });
+
+        if (order.length !== 0) {
+            let id = order[0].id;
+            Order.layerIndex = openWindow("退回上一步审核",1500,750,"/ict_pc/verifyPage?id="+id+"&type=51&order_status=5","");
+            layer.full(Order.layerIndex);
+        }
+    }
+
+    function enter(id) {
+        var index = layer.open({
+            type: 2,
+            title: '查看',
+            area: ['1350px', '600px'], //宽高
+            fix: false, //不固定
+            maxmin: true,
+            content: Feng.ctxPath + '/ict_pc/orderEdit?id=' + id,
+        });
+        this.layerIndex = index
+    }
+
+</script>
+
+@}

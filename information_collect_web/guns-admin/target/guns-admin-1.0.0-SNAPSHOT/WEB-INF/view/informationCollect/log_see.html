@@ -1,0 +1,128 @@
+@layout("/common/_container.html"){
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>日志</h5>
+                <br>
+                <div class="row">
+                    <div class="col-sm-4"><#commonInput name="姓名:" id="name" labelWidth="4" inputWidth="8" placeholder="请输入"/></div>
+                    <div class="col-sm-4">
+                        <button type="button" class="btn btn-primary " style="background-color: #20BE84;margin-left: 10px" id="query" onclick="choose_log_see()">
+                            查询
+                        </button>
+
+                        <button type="button" class="btn btn-primary " style="background-color: #20BE84;margin-left: 10px" onclick="clearAll()" id="return">
+                            重置
+                        </button>
+                    </div>
+                </div>
+                <br>
+                <#table id="informationLogTable"/>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var information = {
+        id: "informationLogTable",	//表格id
+        seItem: null,		//选中的条目
+        table: null,
+        layerIndex: -1,
+        name:"日志",
+    };
+    var informationData={};
+    information.initColumn = function () {
+        return [
+            {field: 'selectItem',visible:true,radio:true},
+            {title: '操作时间', field: 'time', visible: true, align: 'center',sortable:true , valign: 'middle',formatter:function(value){
+                    if(value==""||value==null){
+                        return '<span style="color:red;">--</span>'
+                    }else{
+                        return value;
+                    }
+                }},
+
+            {title: '姓名', field: 'user_name', visible: true, align: 'center',sortable:true , valign: 'middle',formatter:function(value){
+                    if(value==""||value==null){
+                        return '<span style="color:red;">--</span>'
+                    }else{
+                        return value;
+                    }
+                }},
+            {title: '电话', field: 'user_phone', visible: true, align: 'center',sortable:true , valign: 'middle',formatter:function(value,row){
+                    if(value==""||value==null){
+                        return '<span style="color:red;">--</span>'
+                    }else{
+                        return value;
+                    }
+                }},
+            {title: '操作', field: 'operate', visible: true, align: 'center',sortable:true , valign: 'middle',formatter:function(value){
+                    if(value==""||value==null){
+                        return '<span style="color:red;">--</span>'
+                    }else{
+                        return value
+                    }
+                }},
+            {title: '操作详情', field: 'content', visible: true, align: 'center',sortable:true , valign: 'middle',formatter:function(value){
+                    if(value==""||value==null){
+                        return '<span style="color:red;">--</span>'
+                    }else{
+                        return value;
+                    }
+                }},
+            {title: '操作工单编码', field: 'user_dept', visible: true, align: 'center',sortable:true , valign: 'middle',formatter:function(value,row){
+                    if(value==""||value==null){
+                        return '<span style="color:red;">--</span>'
+                    }else{
+                        return '<a href="#" onclick="openSeeInfo(\''+row.order_id+ '\')">'+ value +'</a>';
+                    }
+                }},
+
+
+        ];
+    };
+    var defaultColunms = information.initColumn();
+    var table = new BSTable(information.id, "/informationCollect/getlog",defaultColunms,600);
+    set('name')
+    table.setQueryParams(informationData)
+    table.setPaginationType("client");
+    information.table = table.init();
+
+    function openSeeInfo(value){
+        var index = layer.open({
+            type: 2,
+            title: '查看',
+            area: ['1350px', '600px'], //宽高
+            fix: false, //不固定
+            maxmin: true,
+            content: Feng.ctxPath + '/informationCollect/edit_see?id='+value,
+        });
+        this.layerIndex = index
+    }
+    function choose_log_see(){
+        set('name')
+        table.refresh(informationData)
+    }
+    function clearAll(){
+        clear('name')
+    }
+    function clear(key){
+        $("#" + key).val(null)
+    }
+    function set (key, value) {
+        if (typeof key == "object") {
+            for (var i in key) {
+                if (typeof i == "function")
+                    continue;
+                this.informationData[i] = key[i];
+            }
+        } else {
+            this.informationData[key] = (typeof value == "undefined") ? $("#" + key).val() : value;
+        }
+        return this;
+    }
+</script>
+@}

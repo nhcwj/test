@@ -1,0 +1,243 @@
+<!--<div class="row">-->
+<!--    <div class="col-sm-offset-1 col-sm-6">-->
+<!--        <label class="control-label" style="font-size: 16px;-->
+<!--            color: #4C4B4B;-->
+<!--            font-family: 微软雅黑;-->
+<!--            padding: 0;margin: 5px 0px 5px 0px;text-align: right">全量售中项目情况</label>-->
+<!--    </div>-->
+<!--</div>-->
+<div style="height: 20px"></div>
+<div id="all_doing_project_station_main" style="width: 100%;height:600px;"></div>
+<script>
+    var app = {};
+    var all_doing_project_station_data=['政企客户中心','顺德分公司','南海分公司','禅城分公司','三水分公司','高明分公司'];
+    var all_doing_project_station_chartDom = document.getElementById('all_doing_project_station_main');
+    var all_doing_project_station_Chart = echarts.init(all_doing_project_station_chartDom);
+    var all_doing_project_station_option;
+    var all_doing_project_station_count1=[42,68,52,48,15,25]
+    var all_doing_project_station_count2=[1,45,38,37,12,11]
+    var all_doing_project_station_count3=[21,18,20,19,0,2]
+    var all_doing_project_station_count4=[64,131,110,104,27,38]
+    var all_doing_project_station_count5=[85.94,88.55,88.18,85.58,85.19,86.84]
+    var all_doing_project_station_count6=[55,116,97,89,23,33]
+    var all_doing_project_station_count7=[9,15,13,15,4,5]
+
+    var point_itemStyle={
+        normal: {
+            color: function(params) {
+                var colorList = ['#ffffff']
+                return colorList[params.dataIndex]
+            }
+        },
+    }
+    var first_itemStyle={
+        normal: {
+            color: '#2eccc0'
+        },
+    }
+    var second_itemStyle={
+        normal: {
+            color: '#4ceae6'
+        },
+    }
+    var line_itemStyle={
+        normal: {
+            color: '#1a8faa'
+        },
+    }
+    var pie_itemStyle={
+        normal: {
+            color: function(params) {
+                var colorList = ['#0066cc','#1779c9','#0091e2','#44a2ff',
+                    '#7ac0ff','#7ac0ff','#aedcff']
+                return colorList[params.dataIndex]
+            }
+        },
+    }
+
+    all_doing_project_station_option = {
+        color:['#0fafb7','#11d3d3','#97fffc',
+            '#2eccc0','#4ceae6',],
+        title: {
+            // text: '集团专线服开归档情况',
+            // subtext: '数据来源.....'
+        },
+        tooltip: {
+            // trigger: 'axis',
+            // axisPointer: {            // Use axis to trigger tooltip
+            //     type: 'shadow'        // 'shadow' as default; can also be 'line' or 'shadow'
+            // }
+        },
+        legend: {
+            left: 'left',
+            data: ['系统项目实施状态', '系统项目验收状态','实际已验收，未同步系统','售中项目总数','进度正常','进度落后','总和','项目数目','合同金额','交付及时率']
+        },
+        grid: {
+            top:'15%',
+            left: '8%',
+            right: '8%',
+            bottom: '3%',
+            containLabel: true
+        },
+        yAxis: [{
+            type: 'value',
+            name: '数量(个)',
+            // max:200,
+            // min:0,
+
+
+        },{
+            // type: 'value',
+            // name: '及时率',
+            max:150,
+            // min:0,
+            axisLabel:{
+                show:false
+            },
+            splitLine: {show: false}
+        }],
+        xAxis: [{
+            type: 'category',
+            data: all_doing_project_station_data
+        }],
+        series: [
+            {
+                name: '系统项目实施状态',
+                type: 'bar',
+                stack: 'total',
+                barWidth:50,
+                // itemStyle:qdsqk_itemStyle1,
+                label: {
+                    show: true
+                },
+                emphasis: {
+                    focus: 'series'
+                },
+                data: all_doing_project_station_count1
+            },
+            {
+                name: '系统项目验收状态',
+                type: 'bar',
+                stack: 'total',
+                barWidth:50,
+                // itemStyle:qdsqk_itemStyle2,
+                label: {
+                    show: true
+                },
+                emphasis: {
+                    focus: 'series'
+                },
+                data: all_doing_project_station_count2
+            },
+            {
+                name: '实际已验收，未同步系统',
+                type: 'bar',
+                stack: 'total',
+                barWidth:50,
+                // itemStyle:qdsqk_itemStyle3,
+                label: {
+                    show: true
+                },
+                emphasis: {
+                    focus: 'series'
+                },
+                data: all_doing_project_station_count3
+            },
+
+            {
+                name: '售中项目总数',
+                type: 'scatter',
+                itemStyle:point_itemStyle,
+                label: {
+                    position: 'top',
+                    show: true
+                },
+                emphasis: {
+                    focus: 'series'
+                },
+                data: all_doing_project_station_count4
+            },
+            {
+                name: '交付及时率',
+                type: 'line',
+                yAxisIndex: 1,
+                itemStyle: line_itemStyle,
+                label: {
+                    position: 'top',
+                    show: true,
+                    formatter:'{c}%'
+                },
+                emphasis: {
+                    focus: 'series'
+                },
+                data: all_doing_project_station_count5
+            },
+            {
+                name: '进度正常',
+                type: 'bar',
+                stack: 'timeline',
+                barWidth:50,
+                itemStyle:first_itemStyle,
+                label: {
+                    show: true
+                },
+                emphasis: {
+                    focus: 'series'
+                },
+                data: all_doing_project_station_count6
+            },
+            {
+                name: '进度落后',
+                type: 'bar',
+                stack: 'timeline',
+                barWidth:50,
+                itemStyle:second_itemStyle,
+                label: {
+                    show: true
+                },
+                emphasis: {
+                    focus: 'series'
+                },
+                data: all_doing_project_station_count7
+            },
+            {
+                name: '项目金额',
+                type: 'pie',
+                center: ['75%', '15%'],
+                radius: ['15%','25%'],
+                itemStyle:pie_itemStyle,
+                z: 100,
+                label: {
+                    show: true,
+                    formatter:'{b}-{c}'
+                },
+                data: [
+                    {name: '政企客户中心', value: 24242.96261},
+                    {name: '顺德分公司', value: 35998.00709},
+                    {name: '南海分公司', value: 87176.26025},
+                    {name: '禅城分公司', value: 44313.81816},
+                    {name: '三水分公司', value: 10377.33403},
+                    {name: '高明分公司', value: 4917.61284},
+                ]
+            },
+            {
+                name: '项目金额',
+                type: 'pie',
+                center: ['75%', '15%'],
+                radius: '15%',
+                itemStyle:pie_itemStyle1,
+                z: 100,
+                label: {
+                    show: true,
+                    position: 'center',
+                    formatter:'合计\n{c}\n万元'
+                },
+                data: [
+                    {name: '项目金额总数', value: 207025.99498},
+                ]
+            }
+        ]
+    };
+
+    all_doing_project_station_option && all_doing_project_station_Chart.setOption(all_doing_project_station_option);
+</script>

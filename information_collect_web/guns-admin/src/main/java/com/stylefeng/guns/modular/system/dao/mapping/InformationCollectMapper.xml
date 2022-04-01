@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stylefeng.guns.modular.system.dao.informationCollect.InformationCollectMapper">
+
+	<select id="get_export_content" resultType="java.util.Map">
+		SELECT fic.*,ficbi.*,ficwr.*,jica.*,jp.* from f_information_collect fic LEFT JOIN f_information_collect_budget_info ficbi ON fic.id=ficbi.information_collect_id
+	LEFT JOIN f_information_collect_weekly_report ficwr ON fic.id=ficwr.information_collect_id
+	LEFT JOIN j_information_collect_appraise jica ON fic.id=jica.order_id
+	LEFT JOIN j_prescripti jp on fic.id=jp.information_id
+	where
+	FIND_IN_SET(fic.id,#{Ids})
+	ORDER BY fic.id
+	</select>
+</mapper>

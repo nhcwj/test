@@ -1,0 +1,465 @@
+<link rel="stylesheet" type="text/css" href="/static/css/steps.css">
+<div id="timeline" hidden>
+
+    <div style="height: 20px"></div>
+    <#title info="合同信息" />
+    <div style="height: 20px"></div>
+    <div class="row">
+        <div class="col-sm-4">
+            <label class="col-sm-4 control-label" style="font-size: 12px;
+		color: #4C4B4B;
+		font-family: 微软雅黑;
+		padding: 0;margin: 7px 0px ;text-align: right">
+                <text style="margin: 0;padding: 0">合同签订时间:</text>
+            </label>
+            <div class="col-sm-8">
+                <input class="form-control" value="${prescripti.contract_sign_time}" placeholder="开始月份" type="text" name="contract_sign_time" id="contract_sign_time" onclick="laydate({istime: false, format: 'YYYY-MM-DD',choose:function (){change_time()}})" class="input" onfocus=this.blur()>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <label class="col-sm-4 control-label" style="font-size: 12px;
+		color: #4C4B4B;
+		font-family: 微软雅黑;
+		padding: 0;margin: 0px 0px ;text-align: right">
+                <text style="margin: 0;padding: 0">计划交付时间:<br/>(以合同为准)</text>
+
+            </label>
+            <div class="col-sm-8">
+                <input class="form-control" value="${prescripti.plan_pay_time}" placeholder="开始月份" type="text" name="plan_pay_time" id="plan_pay_time" onclick="laydate({istime: false, format: 'YYYY-MM-DD'})" class="input" onfocus=this.blur()>
+            </div>
+        </div>
+    </div>
+
+    <div style="height: 20px"></div>
+    <#title info="项目实际时间" />
+    <div style="height: 20px"></div>
+
+    <div class="row">
+        <div class="col-sm-4">
+            <#commonSelect id="project_stage" name="项目阶段(省公司):" labelWidth="4" inputWidth="8">
+                <option id="project_stage_select1" value="">请选择</option>
+                <option id="project_stage_select2" value="项目启动">项目启动</option>
+                <option id="project_stage_select3" value="项目规划">项目规划</option>
+                <option id="project_stage_select4" value="项目实施">项目实施</option>
+                <option id="project_stage_select5" value="初验">初验</option>
+                <option id="project_stage_select6" value="试运行">试运行</option>
+                <option id="project_stage_select7" value="终验">终验</option>
+                <option id="project_stage_select8" value="交维与归档">交维与归档</option>
+            </#commonSelect>
+        </div>
+        <div class="col-sm-4">
+            <#commonSelect id="stage_activity" name="阶段活动(省公司):" labelWidth="4" inputWidth="8">
+                <option value="">请选择</option>
+                <option id="a21" value="交底确认" hidden>交底确认</option>
+                <option id="a22" value="进度变化配置" hidden>进度变化配置</option>
+                <option id="a23" value="任务拆解" hidden>任务拆解</option>
+                <option id="a24" value="团队组建" hidden>团队组建</option>
+                <option id="a31" value="客户对接" hidden>客户对接</option>
+                <option id="a32" value="实施方案与计划" hidden>实施方案与计划</option>
+                <option id="a33" value="评审方案与计划" hidden>评审方案与计划</option>
+                <option id="a41" value="项目实施" hidden>项目实施</option>
+                <option id="a42" value="成联调测试" hidden>成联调测试</option>
+                <option id="a51" value="客户初验" hidden>客户初验</option>
+                <option id="a52" value="内部初验" hidden>内部初验</option>
+                <option id="a53" value="客户培训" hidden>客户培训</option>
+                <option id="a61" value="试运行" hidden>试运行</option>
+                <option id="a71" value="客户终验" hidden>客户终验</option>
+                <option id="a72" value="内部终验" hidden>内部终验</option>
+                <option id="a81" value="项目交维" hidden>项目交维</option>
+                <option id="a82" value="资料归档" hidden>资料归档</option>
+            </#commonSelect>
+        </div>
+        <div class="col-sm-4">
+            <label class="col-sm-4 control-label" style="font-size: 12px;
+                color: #4C4B4B;
+                font-family: 微软雅黑;
+                padding: 0;margin: 7px 0px ;text-align: right">
+                <text style="margin: 0;padding: 0">项目实际时间:</text>
+
+            </label>
+            <div class="col-sm-8">
+                <input class="form-control" value="" placeholder="开始月份" type="text" name="project_reality_time" id="project_reality_time" onclick="laydate({istime: false, format: 'YYYY-MM-DD hh:mm:ss'})" class="input" onfocus=this.blur()>
+            </div>
+        </div>
+    </div>
+
+    <div style="height: 20px"></div>
+    <#title info="工期进度" />
+    <div style="height: 20px"></div>
+
+    <div class="row">
+        <div class="col-sm-4">
+            <#commonInput name="合同工期天数:" type="number" id="contract_work_day" labelWidth="4" inputWidth="8" placeholder="数字" value="${prescripti.contract_work_day}"/>
+        </div>
+        <div class="col-sm-4">
+            <label style="margin-bottom: 2px" class="col-sm-offset-1 col-sm-11 control-label "><p class="text-left "><strong><span class="text-primary" style="font-size: 12px;
+		color: #4C4B4B;
+		font-family: 微软雅黑;
+		padding: 0;margin: 0;text-align: right">已实施工期天数</span> : <span id="worked_day" class="text-danger">${prescripti.worked_day}</span></strong></p></label>
+        </div>
+        <div class="col-sm-4">
+            <label style="margin-bottom: 2px" class="col-sm-offset-1 col-sm-11 control-label "><p class="text-left "><strong><span class="text-primary" style="font-size: 12px;
+		color: #4C4B4B;
+		font-family: 微软雅黑;
+		padding: 0;margin: 0;text-align: right">时间进度差</span> : <span id="time_level_compare" class="text-danger"> </span></strong></p></label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-3">
+            <button onclick="addWrokTime(this)" type="button" class="btn btn-primary " style="background-color: #20BE84" id="uploadFile2">
+                进度填报
+            </button>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="steps col-sm-2" style="margin-left: 20px" id="progress_time">
+            <!--<div class="step step-completed-h">-->
+                <!--<div class="step-main-h" style="color: #76c474;">2021年9月23日 12：13</div>-->
+            <!--</div>-->
+            <!--<div class="step-line-h step-completed-h"></div>-->
+            <!--<div class="step step-completed-h">-->
+                <!--<div class="step-main-h" style="color: #76c474;">2021年9月21日 12：13</div>-->
+            <!--</div>-->
+            <!--<div class="step-line-h step-completed-h"></div>-->
+            <!--<div class="step step-completed-h">-->
+                <!--<div class="step-main-h" style="color: #76c474;">2021年9月20日 12：13</div>-->
+            <!--</div>-->
+            <!--<div class="step-line-h step-completed-h"></div>-->
+            <!--<div class="step"></div>-->
+
+        </div>
+        <div class="col-sm-9" id="progress_detail_info">
+            <!--<div style="height: 20px"></div>-->
+            <!--<div style="font-weight: bold;margin-top: 35px;margin-left:-190px;border: 2px solid  #76c474;border-radius:2px;width: 100%;height: 165px;">-->
+                <!--<div class="row" style="margin-left: 50px;margin-top: 20px">-->
+                    <!--进度: XXXXXXX-->
+                <!--</div>-->
+                <!--<div class="row" style="margin-left: 50px;margin-top: 15px">-->
+                    <!--分类: XXXXXXX-->
+                <!--</div>-->
+                <!--<div class="row" style="margin-left: 50px;margin-top: 15px">-->
+                    <!--说明: XXXXXXX-->
+                <!--</div>-->
+                <!--<div class="row" style="margin-left: 50px;margin-top: 15px">-->
+                    <!--措施: XXXXXXX-->
+                <!--</div>-->
+            <!--</div>-->
+
+            <!--<div style="font-weight: bold;margin-top: 35px;margin-left:-190px;border: 2px solid  #76c474;border-radius:2px;width: 100%;height: 165px;">-->
+                <!--<div class="row" style="margin-left: 50px;margin-top: 20px">-->
+                    <!--进度: XXXXXXX-->
+                <!--</div>-->
+                <!--<div class="row" style="margin-left: 50px;margin-top: 15px">-->
+                    <!--分类: XXXXXXX-->
+                <!--</div>-->
+                <!--<div class="row" style="margin-left: 50px;margin-top: 15px">-->
+                    <!--说明: XXXXXXX-->
+                <!--</div>-->
+                <!--<div class="row" style="margin-left: 50px;margin-top: 15px">-->
+                    <!--措施: XXXXXXX-->
+                <!--</div>-->
+            <!--</div>-->
+
+            <!--<div style="font-weight: bold;margin-top: 35px;margin-left:-190px;border: 2px solid  #76c474;border-radius:2px;width: 100%;height: 165px;">-->
+                <!--<div class="row" style="margin-left: 50px;margin-top: 20px">-->
+                    <!--进度: XXXXXXX-->
+                <!--</div>-->
+                <!--<div class="row" style="margin-left: 50px;margin-top: 15px">-->
+                    <!--分类: XXXXXXX-->
+                <!--</div>-->
+                <!--<div class="row" style="margin-left: 50px;margin-top: 15px">-->
+                    <!--说明: XXXXXXX-->
+                <!--</div>-->
+                <!--<div class="row" style="margin-left: 50px;margin-top: 15px">-->
+                    <!--措施: XXXXXXX-->
+                <!--</div>-->
+            <!--</div>-->
+        </div>
+    </div>
+
+    <div class="row" style="margin-top: 40px; font-size: 14px;">
+        <div class="col-sm-4"></div>
+        <div class="col-sm-1">
+            <button type="button" class="btn btn-primary" onclick="submit_prescripti()">保存</button>
+        </div>
+        <div class="col-sm-1">
+        </div>
+        <div class="col-sm-1">
+            <button type="button" class="btn btn-primary" onclick="go_back()">取消</button>
+        </div>
+        <div class="col-sm-5">
+        </div>
+    </div>
+</div>
+
+<script>
+    let temp_option=-1
+    let last_project_stage="";
+    let last_stage_activity="";
+    let project_stage_option=""
+    let stage_activity_option=""
+    let last_project_reality_time=""
+
+    $(function (){
+        let contract_work_day=$('#contract_work_day').val()
+        let worked_day = parseInt((new Date().getTime()-new Date($('#contract_sign_time').val()).getTime())/(3600000*24))
+        console.log(worked_day)
+        $('#worked_day').text(worked_day)
+        if(contract_work_day!=null && contract_work_day!='' &&worked_day!=null && worked_day!=''){
+            $('#time_level_compare').text(Number(contract_work_day)-Number(worked_day))
+        }
+        if('${prescripti.contract_sign_time}'!=''){
+            $("#contract_sign_time").attr("disabled",true);
+        }
+        if('${prescripti.plan_pay_time}'!=''){
+            $("#plan_pay_time").attr("disabled",true);
+        }
+    })
+    $('#contract_work_day').on("change", function (){
+        let contract_work_day=$('#contract_work_day').val()
+        let worked_day=parseInt((new Date().getTime()-new Date($('#contract_sign_time').val()).getTime())/(3600000*24))
+        if(contract_work_day!=null && contract_work_day!='' &&worked_day!=null && worked_day!=''){
+            $('#time_level_compare').text(Number(contract_work_day)-Number(worked_day))
+        }
+    })
+    // $('#worked_day').on("change", function (){
+    //     let contract_work_day=$('#contract_work_day').val()
+    //     let worked_day=$('#worked_day').val()
+    //     if(contract_work_day!=null && contract_work_day!='' &&worked_day!=null && worked_day!=''){
+    //         $('#connect_address').text(Number(contract_work_day)-Number(worked_day))
+    //     }
+    // })
+    function change_time(){
+        let contract_work_day=$('#contract_work_day').val()
+        let worked_day = parseInt((new Date().getTime()-new Date($('#contract_sign_time').val()).getTime())/(3600000*24))
+        console.log(worked_day)
+        $('#worked_day').text(worked_day)
+        if(contract_work_day!=null && contract_work_day!='' &&worked_day!=null && worked_day!=''){
+            $('#time_level_compare').text(Number(contract_work_day)-Number(worked_day))
+        }
+    }
+    function addWrokTime(){
+        var index = layer.open({
+            type: 2,
+            title: '新建',
+            area: ['1000px', '550px'], //宽高
+            fix: false, //不固定
+            maxmin: true,
+            content: Feng.ctxPath + '/informationCollect/add_worktime'
+        });
+        this.layerIndex = index;
+    }
+    var prescriptis = {
+        id:'PrescriptiTable',
+        seItem: null,		//选中的条目
+        table: null,
+        layerIndex:-1,
+        orderInfo:{},
+        initData:function () {
+            $("#progress_detail_info").html('<div style="height: 20px"></div>');
+            $("#progress_time").html('');
+            for(let i=prescriptis.orderInfo.progress_write.length-1;i>=0;i--){
+                let current_progress=prescriptis.orderInfo.progress_write[i];
+                let progress=current_progress.progress;
+                let classify=current_progress.classify;
+                let declare=current_progress.declare;
+                let act=current_progress.act;
+                let add_time=current_progress.add_time;
+                let Progress_Html='<div style="font-weight: bold;margin-top: 35px;margin-left:-190px;border: 2px solid  #76c474;border-radius:2px;width: 100%;height: 165px;">'+
+                    '<div class="row" style="margin-left: 50px;margin-top: 15px">进度:'+
+                    progress.replaceAll("n","").substr(0,65)+
+                    '</div>'+
+                    '<div class="row" style="margin-left: 50px;margin-top: 10px">分类:'+
+                    classify.replaceAll("n","").substr(0,65)+
+                    '</div>'+
+                    '<div class="row" style="margin-left: 50px;margin-top: 10px">说明:'+
+                    declare.replaceAll("n","").substr(0,65)+
+                    '</div>'+
+                    '<div class="row" style="margin-left: 50px;margin-top: 10px">措施:'+
+                    act.replaceAll("n","").substr(0,65)+
+                    '</div><a href="javascript:void(0)" onclick="change_timeline('+i+')" style="margin-left: 90%">修改</a>'+
+                    '</div>'
+                let Progress_Time='<div class="step step-completed-h">'+
+                    '<div class="step-main-h" style="color: #76c474;">'+add_time+'</div></div>';
+                Progress_Time+='<div class="step-line-h step-completed-h"></div>';
+                $("#progress_detail_info").append(Progress_Html);
+                $("#progress_time").append(Progress_Time);
+            }
+            if(prescriptis.orderInfo.progress_write.length>0){
+                let Progress_Time='<div class="step"></div>';
+                $("#progress_time").append(Progress_Time);
+            }
+        }
+    }
+    getProgressInfo();
+    function getProgressInfo() {
+        var ajax = new $ax(Feng.ctxPath + "/informationCollect/getProgressInfo", function (data) {
+            if(data.id!=''){
+                //非首次编辑
+                prescriptis.orderInfo=data;
+                let temp_project_stage=data.project_stage
+                let temp_stage_activity=data.stage_activity
+                let temp_project_reality_time=data.project_reality_time
+                if(temp_project_stage!=null&&temp_project_stage!=""){
+                    last_project_stage=temp_project_stage.split(",")[temp_project_stage.split(",").length-1]
+                }
+                if(temp_stage_activity!=null&&temp_stage_activity!=""){
+                    last_stage_activity=temp_stage_activity.split(",")[temp_stage_activity.split(",").length-1]
+                }
+                if(temp_project_reality_time!=null&&temp_project_reality_time!=""){
+                    last_project_reality_time=temp_project_reality_time.split(",")[temp_project_reality_time.split(",").length-1]
+                }
+                init_project_stage_option(last_project_stage)
+                $("#project_stage").val(last_project_stage)
+                $("#stage_activity").val(last_stage_activity)
+                $("#project_reality_time").val(last_project_reality_time)
+                prescriptis.orderInfo.progress_write=JSON.parse(prescriptis.orderInfo.progress_write)
+                prescriptis.initData();
+            }else{
+                //首次编辑
+                init_project_stage_option(last_project_stage)
+                prescriptis.orderInfo.information_id=data.information_id;
+                prescriptis.orderInfo.progress_write=[];
+            }
+        }, function (data) {
+
+        });
+        ajax.set("information_id","${info.id}");
+        ajax.start();
+    }
+    prescriptis.clearData = function () {
+        this.orderInfo = {};
+    };
+    prescriptis.set = function (key, value) {
+        this.orderInfo[key] = (typeof value == "undefined") ? $("#" + key).val() : value;
+        return this;
+    };
+    prescriptis.get = function (key) {
+        return $("#" + key).val();
+    };
+    prescriptis.collectData = function () {
+        this.set('contract_sign_time').set('plan_pay_time').set('contract_work_day')
+        this.orderInfo['time_level_compare']=$('#time_level_compare').text()
+        this.orderInfo['worked_day']=$('#worked_day').text()
+    };
+    function checkInput() {
+        if($("#project_stage").val()==""){
+            return tip("项目阶段(省公司)","project_stage")
+        }
+        if($("#stage_activity").val()==""){
+            return tip("阶段活动(省公司)","stage_activity")
+        }
+        if($("#project_reality_time").val()==""){
+            return tip("项目实际时间","project_reality_time")
+        }
+        return true;
+    }
+
+    function tip(text, id) {
+        swal({
+            text: text + "未填写",
+            timer: 1500,
+            showConfirmButton: false,
+            confirmButtonText: '确定',
+            confirmButtonColor: '#20BE84',
+            type: 'error',
+        })
+        document.body.scrollIntoView({block: 'center'});
+        $("#" + id).addClass("errorTip");
+        setTimeout(function () {
+            $("#" + id).removeClass("errorTip");
+        }, 2000)
+        setTimeout(function () {
+            document.getElementById(id).scrollIntoView({block: 'center'});
+        }, 1500)
+        return false;
+    }
+
+    function submit_prescripti() {
+        if(checkInput()){
+            Feng.confirm("确认保存吗",function () {
+
+                prescriptis.collectData();
+                if($("#project_stage").val()==last_project_stage&&$("#stage_activity").val()==last_stage_activity){
+                }else{
+                    prescriptis.orderInfo.project_stage?prescriptis.orderInfo.project_stage+=","+$("#project_stage").val():prescriptis.orderInfo.project_stage=$("#project_stage").val()
+                    prescriptis.orderInfo.stage_activity?prescriptis.orderInfo.stage_activity+=","+$("#stage_activity").val():prescriptis.orderInfo.stage_activity=$("#stage_activity").val()
+                    prescriptis.orderInfo.project_reality_time?prescriptis.orderInfo.project_reality_time+=","+$("#project_reality_time").val():prescriptis.orderInfo.project_reality_time=$("#project_reality_time").val()
+                }
+                prescriptis.orderInfo.information_id="${info.id}";
+                prescriptis.orderInfo.progress_write=JSON.stringify(prescriptis.orderInfo.progress_write).replace(/[\\]/g, '');
+
+
+                    var ajax = new $ax(Feng.ctxPath + "/informationCollect/edit_prescripti", function (data) {
+                        if(data=="success"){
+                            Feng.success("提交成功");
+                            setInterval(function () {
+                                go_back()
+                            },800)
+                        }else {
+                            Feng.error("文件未上传无法更改时效内容");
+                        }
+
+                    }, function (data) {
+                        Feng.error("提交失败");
+                    });
+                    ajax.set(prescriptis.orderInfo)
+                    ajax.start();
+
+            })
+        }
+    }
+
+    $("#project_stage").change(function () {
+        $("#stage_activity").val("")
+        change_option($("#project_stage").val(),last_stage_activity)
+    })
+    function init_project_stage_option(last_project_stage) {
+        for (var i = 1; i < 9; i++) {
+            $("#project_stage_select" + i).hide()
+            if($("#project_stage_select"+i).val()==last_project_stage){
+                temp_option=i
+            }
+        }
+        $("#project_stage_select" + temp_option).show()
+        $("#project_stage_select" + (temp_option+1)).show()
+        change_option(last_project_stage,last_stage_activity)
+    }
+    function change_timeline(i){
+        var index = layer.open({
+            type: 2,
+            title: '修改',
+            area: ['1000px', '550px'], //宽高
+            fix: false, //不固定
+            maxmin: true,
+            content: Feng.ctxPath + '/informationCollect/change_timeline?row='+i
+        });
+        Weekly.layerIndex = index;
+    }
+    function change_option(now_project_stage,now_stage_activity) {
+        for (var i = 1; i < 9; i++) {
+            for(var k=1;k<5;k++){
+                $("#a"+i+""+k).hide()
+            }
+            if($("#project_stage_select"+i).val()==now_project_stage){
+                if(i==temp_option){
+                    let flag=false
+                    for(var j=1;j<5;j++){
+                        if($("#a"+temp_option+""+j).val()==now_stage_activity){
+                            flag=true
+                        }
+                        if(flag){
+                            $("#a"+temp_option+""+(j+1)).show()
+                        }
+                    }
+                }else if(i==(temp_option+1)){
+                    for(var j=1;j<5;j++){
+                        $("#a"+(temp_option+1)+""+j).show()
+                    }
+                }else{}
+            }
+        }
+    }
+</script>

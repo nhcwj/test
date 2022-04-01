@@ -1,0 +1,225 @@
+@layout("/common/_container.html"){
+<link rel="stylesheet" href="${ctxPath}/static/css/plugins/bootstrap-select/bootstrap-select.min.css">
+<script src="${ctxPath}/static/js/plugins/bootstrap-select/bootstrap-select.min.js"></script>
+<script src="${ctxPath}/static/js/plugins/bootstrap-select/defaults-zh_CN.min.js"></script>
+<style>
+    .btn-default {
+        color: #6f6c6c;
+        background-color: #fffdfd;
+    }
+</style>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>文件列表</h5>
+            </div>
+            <div class="ibox-content">
+                <div class="row">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="col-sm-3">
+                                <div class="form-group" style="display: flex;align-items: center;margin-top: 5px">
+                                    <label class="col-sm-4 control-label" style="text-align: right">
+                                        环节
+                                    </label>
+                                    <div class="col-sm-8" style="margin:-10px;">
+                                        <select class="form-control selectpicker" multiple data-live-search="true"
+                                                id="project_stage" name="project_stage" onchange="change(this)">
+                                            <option value="初验">初验</option>
+                                            <option value="试运行">试运行</option>
+                                            <option value="终验">终验</option>
+                                            <option value="项目启动">项目启动</option>
+                                            <option value="项目实施">项目实施</option>
+                                            <option value="交维与归档">交维与归档</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <#commonInput name="项目编号:" id="DICI_system_num" labelWidth="4" inputWidth="8"
+                                placeholder="请输入"/>
+                            </div>
+                            <div class="col-sm-3">
+                                <#commonInput name="附件名称:" id="file_name" labelWidth="4" inputWidth="8"
+                                placeholder="请输入"/>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="col-sm-6">
+                                    <button type="button" class="btn btn-primary "
+                                            style="background-color: #20BE84;margin-left: 10px" id="query"
+                                            onclick="query()">
+                                        查询
+                                    </button>
+                                </div>
+                                <div class="col-sm-6">
+                                    <button type="button" class="btn btn-primary "
+                                            style="background-color: #20BE84;margin-left: 10px" id="download"
+                                            onclick="download()">
+                                        批量下载
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <#commonInput name="项目名称:" id="project_name" labelWidth="4" inputWidth="8"
+                            placeholder="请输入"/>
+                        </div>
+                    </div>
+                </div>
+                <#table id="fileTable"/>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    var queryData={};
+
+    var File = {
+        id: "fileTable",
+        setItem: null,
+        table: null,
+        layerIndex: -1,
+    }
+
+    initFileColumn = function () {
+        return [
+            {field: 'selectItem', checkbox: true},
+            <!-- 工单基本信息-->
+            {
+                title: '附件名称',
+                field: 'file_name',
+                visible: true,
+                align: 'center',
+                valign: 'middle',
+                formatter: function (value, row, index) {
+                    if (value == '' || value == null) {
+                        return '<span >--</span>';
+                    } else {
+                        //return '<a href="javascript:void(0)" onclick="detail(\''+row.order_number+'\')">'+value+'</a>';
+                        return value;
+                    }
+                }
+            },
+            {
+                title: '&nbsp;&nbsp;&nbsp;文件名&nbsp;&nbsp;&nbsp;',
+                field: 'fileName',
+                visible: true,
+                align: 'center',
+                valign: 'middle',
+                formatter: function (value, row, index) {
+                    if (value == '' || value == null) {
+                        return '<span >--</span>';
+                    } else {
+                        return value.replaceAll(',','<br>');
+                    }
+                }
+            },
+            {
+                title: '项目名称',
+                field: 'project_name',
+                visible: true,
+                align: 'center',
+                valign: 'middle',
+                formatter: function (value, row, index) {
+                    if (value == '' || value == null) {
+                        return '<span >--</span>';
+                    } else {
+                        return value;
+                    }
+                }
+            },
+            {
+                title: '工单编号',
+                field: 'DICI_system_num',
+                visible: true,
+                align: 'center',
+                valign: 'middle',
+                formatter: function (value, row, index) {
+                    if (value == '' || value == null) {
+                        return '<span >--</span>';
+                    } else {
+                        return value;
+                    }
+                }
+            },
+            {
+                title: '合同金额（万元）',
+                field: 'project_money',
+                visible: true,
+                align: 'center',
+                valign: 'middle',
+                formatter: function (value, row, index) {
+                    if (value == '' || value == null) {
+                        return '<span >--</span>';
+                    } else {
+                        return value;
+                    }
+                }
+            },
+            {
+                title: '环节',
+                field: 'project_stage',
+                visible: true,
+                align: 'center',
+                valign: 'middle',
+                formatter: function (value, row, index) {
+                    if (value == '' || value == null) {
+                        return '<span >--</span>';
+                    } else {
+                        return value;
+                    }
+                }
+            },
+        ];
+    }
+
+    function getData(){
+        queryData['project_stage']=$.trim($("#project_stage").val());
+        queryData['DICI_system_num']=$.trim($("#DICI_system_num").val());
+        queryData['file_name']=$.trim($("#file_name").val());
+        queryData['project_name']=$.trim($("#project_name").val());
+        return queryData;
+    }
+
+    function query(){
+        queryData=getData();
+        File.table.setQueryParams(queryData);
+        File.table.refresh();
+    }
+
+    $(function () {
+        var defaultColumns = initFileColumn();
+        var table = new BSTable(File.id, "/informationFile/getAllFileList", defaultColumns);
+        table.setPaginationType("client");
+        File.table = table.init();
+    })
+
+    function change(e) {
+        if ($(e).val() !== null) {
+            $(e).next().find(".filter-option").css('color', '#0d8ddb')
+        } else {
+            $(e).next().find(".filter-option").css('color', '#999999')
+        }
+    }
+
+    function download() {
+        var fileArray = $('#fileTable').bootstrapTable('getSelections', function (row) {
+            return row;
+        });
+        fileArray.forEach((item, index) => {
+            let files=JSON.parse(item.files)
+            for(let i in files){
+                c(files[i].file_path)
+                window.location.href = "/base/downloadFile?fileName=" + files[i].filename + "&filePath=" + files[i].file_path;
+            }
+        })
+    }
+</script>
+
+@}

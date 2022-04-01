@@ -1,0 +1,258 @@
+@layout("/common/_container.html"){
+<link rel="stylesheet" href="${ctxPath}/static/css/plugins/bootstrap-select/bootstrap-select.min.css">
+<script src="${ctxPath}/static/js/plugins/bootstrap-select/bootstrap-select.min.js"></script>
+<script src="${ctxPath}/static/js/plugins/bootstrap-select/defaults-zh_CN.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/static/css/steps.css">
+<!-- DICT系统订单列表-->
+<style>
+    .form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
+        background-color: #f8f8f8;
+    }
+
+    .btn-default {
+        color: #6f6c6c;
+        background-color: #fffdfd;
+    }
+</style>
+<div class="ibox float-e-margins" xmlns="http://www.w3.org/1999/html">
+    <div class="ibox-content">
+        <div class="form-horizontal" id="landForm">
+            <#title info="订单状态" />
+            <div class="split"></div>
+            <!-- 订单状态 -->
+            <div class="row" style="margin-top: 10px;height: 200px">
+                <div class="steps col-sm-offset-1 col-sm-10" id="project_first_time_step" style="display: flex">
+                    <div class="step"
+                         style="background-color:#fff; border-color: #267af5;margin: 0px;width: 24px;height:24px;">
+                        <div class="step-text" style="color: #267af5">✓</div>
+                    </div>
+                    <div style="display: flex;flex-direction: column;margin-top: 3px;">
+                        <div style="width: 70px;margin-left: 5px;">下单成功</div>
+                        <div style="margin-left:5px;width: 70px;margin-top: 15px;" id="xdcg_dom">2022-1-6</div>
+                    </div>
+                    <!--<div class="step-line-new" style="height: 1px;background-color:#267af5;"></div>-->
+                    <div class="step-line-new" style="height: 1px;background-color:#267af5;"></div>
+                    <div class="step"
+                         style="width: 24px;height:24px;margin: 0px;background-color:#267af5;border-color: #267af5;border-radius: 50%;border-width: 1px;">
+                        <div class="step-text" style="color: #fff;">2</div>
+                    </div>
+                    <div style="display: flex;flex-direction: column;margin-top: 3px;">
+                        <div style="width: 70px;margin-left: 5px;">设计环节</div>
+                        <div style="margin-left:5px;width: 70px;margin-top: 15px;" id="sjhj_dom">2022-1-6</div>
+                    </div>
+                    <!--<div class="step-line-new" style="height: 1px;"></div>-->
+                    <div class="step-line-new" style="height: 1px;"></div>
+                    <div class="step" style="width: 24px;height: 24px;margin: 0px;">
+                        <div class="step-text">3</div>
+                    </div>
+                    <div style="display: flex;flex-direction: column;margin-top: 3px;">
+                        <div style="width: 70px;margin-left: 5px;">施工环节</div>
+                        <div style="margin-left:5px;width: 70px;margin-top: 15px;" id="sghj_dom">2022-1-6</div>
+                    </div>
+                    <div class="step-line-new" style="height: 1px;"></div>
+                    <div class="step" style="width: 24px;height:24px;margin: 0px;">
+                        <div class="step-text">4</div>
+                    </div>
+                    <div style="display: flex;flex-direction: column;margin-top: 3px;">
+                        <div style="width: 70px;margin-left: 5px;">验收交维</div>
+                        <div style="margin-left:5px;width: 70px;margin-top: 15px;" id="ysjw_dom">2022-1-6</div>
+                    </div>
+                </div>
+            </div>
+            <#title info="订单信息" />
+            <div class="row" style="margin-top: 30px">
+                <div class="col-sm-3 col-sm-offset-1">
+                    <label style="margin-bottom: 2px" class="col-sm-12 control-label ">
+                        <p class="text-left "><strong><span class="text-primary" style="font-size: 12px;
+            color: #4C4B4B;
+            font-family: 微软雅黑;
+            padding: 0;margin: 0;text-align: left">订单编号</span> : <span
+                                class="text-danger">${orderInfo.order_number}</span></strong></p></label>
+
+                </div>
+                <div class="col-sm-3">
+                    <label style="margin-bottom: 2px" class="col-sm-12 control-label ">
+                        <p class="text-left "><strong><span class="text-primary" style="font-size: 12px;
+            color: #4C4B4B;
+            font-family: 微软雅黑;
+            padding: 0;margin: 0;text-align: right">下单时间</span> : <span
+                                class="text-danger">${orderInfo.down_order_time}</span></strong></p>
+                    </label>
+                </div>
+                <div class="col-sm-3">
+                    <label style="margin-bottom: 2px" class="col-sm-12 control-label ">
+                        <p class="text-left "><strong><span class="text-primary" style="font-size: 12px;
+            color: #4C4B4B;
+            font-family: 微软雅黑;
+            padding: 0;margin: 0;text-align: right">订单状态</span> : <span
+                                class="text-danger">${orderInfo.order_status}</span></strong></p>
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3 col-sm-offset-1">
+                    <label style="margin-bottom: 2px" class="col-sm-12 control-label ">
+                        <p class="text-left "><strong><span class="text-primary" style="font-size: 12px;
+            color: #4C4B4B;
+            font-family: 微软雅黑;
+            padding: 0;margin: 0;text-align: left">公 司 名</span> : <span
+                                class="text-danger">${orderInfo.company_name}</span></strong></p></label>
+
+                </div>
+                <div class="col-sm-3">
+                    <label style="margin-bottom: 2px" class="col-sm-12 control-label ">
+                        <p class="text-left "><strong><span class="text-primary" style="font-size: 12px;
+            color: #4C4B4B;
+            font-family: 微软雅黑;
+            padding: 0;margin: 0;text-align: right">客户姓名</span> : <span
+                                class="text-danger">${orderInfo.custom_name}</span></strong></p></label>
+                </div>
+                <div class="col-sm-3">
+                    <label style="margin-bottom: 2px" class="col-sm-12 control-label ">
+                        <p class="text-left "><strong><span class="text-primary" style="font-size: 12px;
+            color: #4C4B4B;
+            font-family: 微软雅黑;
+            padding: 0;margin: 0;text-align: right">客户联系方式</span> : <span
+                                class="text-danger">${orderInfo.custom_phone}</span></strong></p>
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3 col-sm-offset-1">
+                    <label style="margin-bottom: 2px" class="col-sm-12 control-label ">
+                        <p class="text-left "><strong><span class="text-primary" style="font-size: 12px;
+            color: #4C4B4B;
+            font-family: 微软雅黑;
+            padding: 0;margin: 0;text-align: left">客户经理</span> : <span
+                                class="text-danger">${orderInfo.custom_manager}</span></strong></p></label>
+
+                </div>
+                <div class="col-sm-3">
+                    <label style="margin-bottom: 2px" class="col-sm-12 control-label ">
+                        <p class="text-left "><strong><span class="text-primary" style="font-size: 12px;
+            color: #4C4B4B;
+            font-family: 微软雅黑;
+            padding: 0;margin: 0;text-align: right">客户经理电话</span> : <span class="text-danger">${orderInfo.custom_manager_phone}</span></strong>
+                        </p>
+                    </label>
+                </div>
+            </div>
+            <div class="row" style="margin-bottom: 20px">
+                <div class="col-sm-offset-1 col-sm-11">
+                    <label style="margin-bottom: 2px" class="col-sm-12 control-label ">
+                        <p class="text-left "><strong><span class="text-primary" style="font-size: 12px;
+            color: #4C4B4B;
+            font-family: 微软雅黑;
+            padding: 0;margin: 0;text-align: right">需求描述</span> : <span class="text-danger">${orderInfo.request_describe}</span></strong>
+                        </p></label>
+                </div>
+            </div>
+            <#title info="商品信息" />
+            <div class="row" style="margin-top: 30px">
+                <div class="col-sm-3 col-sm-offset-1">
+                    <label style="margin-bottom: 2px" class="col-sm-12 control-label ">
+                        <p class="text-left "><strong><span class="text-primary" style="font-size: 12px;
+            color: #4C4B4B;
+            font-family: 微软雅黑;
+            padding: 0;margin: 0;text-align: right">ICT产品名称</span> : <span class="text-danger">${orderInfo.ICT_product_name}</span></strong>
+                        </p>
+                    </label>
+                </div>
+                <div class="col-sm-3">
+                    <label style="margin-bottom: 2px" class="col-sm-12 control-label ">
+                        <p class="text-left "><strong><span class="text-primary" style="font-size: 12px;
+            color: #4C4B4B;
+            font-family: 微软雅黑;
+            padding: 0;margin: 0;text-align: right">ICT产品数量</span> : <span class="text-danger">${orderInfo.ICT_product_quantity}</span></strong>
+                        </p>
+                    </label>
+                </div>
+                <div class="col-sm-3">
+                    <label style="margin-bottom: 2px" class="col-sm-12 control-label ">
+                        <p class="text-left "><strong><span class="text-primary" style="font-size: 12px;
+            color: #4C4B4B;
+            font-family: 微软雅黑;
+            padding: 0;margin: 0;text-align: right">客户经理</span> : <span
+                                class="text-danger">${orderInfo.custom_manager}</span></strong></p></label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3 col-sm-offset-1">
+                    <label style="margin-bottom: 2px" class="col-sm-12 control-label ">
+                        <p class="text-left "><strong><span class="text-primary" style="font-size: 12px;
+            color: #4C4B4B;
+            font-family: 微软雅黑;
+            padding: 0;margin: 0;text-align: left">集团编码</span> : <span
+                                class="text-danger">${orderInfo.group_code}</span></strong></p></label>
+
+                </div>
+                <div class="col-sm-3">
+                    <label style="margin-bottom: 2px" class="col-sm-12 control-label ">
+                        <p class="text-left "><strong><span class="text-primary" style="font-size: 12px;
+            color: #4C4B4B;
+            font-family: 微软雅黑;
+            padding: 0;margin: 0;text-align: left">前勘人信息</span> : <span
+                                class="text-danger">xxxxxx</span></strong></p></label>
+
+                </div>
+                <div class="col-sm-3">
+                    <label style="margin-bottom: 2px" class="col-sm-12 control-label ">
+                        <p class="text-left "><strong><span class="text-primary" style="font-size: 12px;
+            color: #4C4B4B;
+            font-family: 微软雅黑;
+            padding: 0;margin: 0;text-align: left">实施人信息</span> : <span
+                                class="text-danger">xxxxxxxxx</span></strong></p></label>
+
+                </div>
+                <div class="row">
+                    <div class="col-sm-3 col-sm-offset-1" style="display: flex;">
+                        <label style="margin-bottom: 2px" class="col-sm-3 control-label ">
+                            <p class="text-left "><strong><span class="text-primary" style="font-size: 12px;
+            color: #4C4B4B;
+            font-family: 微软雅黑;
+            padding: 0;margin: 0;text-align: right">附件:</span></strong></p>
+                        </label>
+                        <div class="col-sm-9" style="display: flex">
+                            <div id="file_dom" style="margin-left: 10px;font-size: 14px;">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    var apply_time = '${orderInfo.apply_time}'
+    var design_time = '${orderInfo.design_time}'
+    var work_time = '${orderInfo.work_time}'
+    var end_time = '${orderInfo.end_time}'
+
+    $("#xdcg_dom").html(apply_time)
+    $("#sjhj_dom").html(design_time)
+    $("#sghj_dom").html(work_time)
+    $("#ysjw_dom").html(end_time)
+
+    $(function () {
+        let orderFiles = '${orderFiles}';
+        if (orderFiles.length > 0) {
+            orderFiles = JSON.parse(orderFiles);
+        }
+        if (orderFiles !== "" && orderFiles !== undefined && orderFiles != null && orderFiles.length > 0) {
+            let html = ''
+            orderFiles.forEach((item, index) => {
+                html += '<div style="margin-top: 4px;"><a href="#" style="margin-right: 15px;" onclick="downloadFile(\'' + item.file_path + '\',\'' + item.file_name + '\')">' + item.file_name + '</a></div>'
+            })
+            $("#file_dom").append(html)
+        }
+    })
+
+    function downloadFile(filePath, fileName) {
+        window.location.href = "/base/downloadFile?fileName=" + fileName + "&filePath=" + filePath;
+    }
+</script>
+
+@}

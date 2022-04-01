@@ -1,0 +1,112 @@
+@layout("/common/new_container.html"){
+<style>
+    td, th {
+        width: auto;
+        height: 40px;
+        text-align: center;
+        padding: 2px;
+        font-size: 14px;
+    }
+
+    td span {
+        cursor: pointer;
+    }
+
+    .titleInfo {
+        font-size: 14px;
+        color: #525151;
+        font-family: 微软雅黑;
+        font-weight: bold;
+    }
+
+    .control-label {
+        font-size: 12px;
+        color: #4C4B4B;
+        font-family: 微软雅黑;
+        padding: 0 0;
+    }
+
+    input::-webkit-input-placeholder {
+        font-size: 12px;
+        color: #4C4B4B;
+        font-family: 微软雅黑;
+
+    }
+
+    .form-control {
+        font-size: 12px;
+        color: #4C4B4B;
+        font-family: 微软雅黑;
+    }
+
+    .top {
+        margin-top: 5px;
+        /*display: flex;*/
+        /*justify-content: center;*/
+        /*align-items: center;*/
+    }
+
+    .split {
+        height: 1px;
+        width: 100%;
+        background-color: #BBBBBB;
+        margin-top: 5px;
+        margin-bottom: 25px;
+
+    }
+
+    .point {
+        color: red;
+        font-size: 16px;
+        position: absolute;
+        right: 65%
+    }
+
+    .errorTip {
+        border: 2px solid red !important;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+</style>
+<div class="ibox float-e-margins">
+    <div class="ibox-content">
+        <#title info="订单报障"/>
+        <div class="row" style="margin-top: 20px">
+            <div class="col-sm-12">
+                <div class="col-sm-4">
+                    <div class="form-group" style="display:flex;align-items: center">
+                        <label class="col-sm-4 control-label" style="padding-top: 0;">
+                            <span style="color: red;">*</span><span>订单编号</span>
+                        </label>
+                        <div class="col-sm-8">
+                            <input class="form-control" value="${warranty.order_num}" id="order_num" readonly="readonly" name="order_num" placeholder="单行输入">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <#commonInput labelWidth="5" readonly="readonly" inputWidth="7" name="联系人" placeholder="请输入" id="appler_name" value="${warranty.appler_name}"/>
+                </div>
+                <div class="col-sm-4">
+                    <#commonInput labelWidth="5" readonly="readonly" inputWidth="7" name="联系人电话" placeholder="请输入" id="appler_phone" value="${warranty.appler_phone}"/>
+                </div>
+                <div class="col-sm-12" style="margin-top: 10px">
+                    <div class="col-sm-12">
+                        <div class="form-group" style="display:flex;align-items: center">
+                            <label class="col-sm-1 control-label" style="padding-top: 0">
+                                <span style="color:red;font-size: 16px;vertical-align: sub">*</span>问题反馈
+                            </label>
+                            <div class="col-sm-9">
+								<textarea class="form-control" readonly="readonly" id="problem" name="problem" rows="5">${warranty.problem}
+                                </textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+</script>
+@}

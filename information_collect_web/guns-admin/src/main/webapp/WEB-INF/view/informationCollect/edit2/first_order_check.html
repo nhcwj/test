@@ -1,0 +1,387 @@
+<link rel="stylesheet" href="${ctxPath}/static/css/plugins/bootstrap-select/bootstrap-select.min.css">
+<script src="${ctxPath}/static/js/plugins/bootstrap-select/bootstrap-select.min.js"></script>
+<script src="${ctxPath}/static/js/plugins/bootstrap-select/defaults-zh_CN.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/static/css/steps.css">
+<!-- DICT系统订单列表-->
+<style>
+    .form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
+        background-color: #f8f8f8;
+    }
+
+    .btn-default {
+        color: #6f6c6c;
+        background-color: #fffdfd;
+    }
+</style>
+
+<div id="first_order_check" hidden>
+
+    <div class="ibox float-e-margins" xmlns="http://www.w3.org/1999/html">
+        <div class="ibox-content">
+            <div class="form-horizontal" id="landForm">
+                <div class="submitDiv" style="display: none">
+                    <input type="file" id="file" name="file" multiple="multiple">
+                </div>
+                <#title info="订单信息" />
+                <div class="row">
+                    <div class="col-sm-3 col-sm-offset-1">
+                        <label style="margin-bottom: 2px" class="col-sm-12 control-label ">
+                            <p class="text-left "><strong><span class="text-primary" style="font-size: 12px;
+            color: #4C4B4B;
+            font-family: 微软雅黑;
+            padding: 0;margin: 0;text-align: left">订单编号</span> : <span
+                                    class="text-danger">${orderInfo.order_number}</span></strong></p></label>
+
+                    </div>
+                    <div class="col-sm-3">
+                        <label style="margin-bottom: 2px" class="col-sm-12 control-label ">
+                            <p class="text-left "><strong><span class="text-primary" style="font-size: 12px;
+            color: #4C4B4B;
+            font-family: 微软雅黑;
+            padding: 0;margin: 0;text-align: right">下单时间</span> : <span
+                                    class="text-danger">${orderInfo.apply_time}</span></strong></p>
+                        </label>
+                    </div>
+                    <div class="col-sm-3">
+                        <#label value="${orderInfo.order_status}" name="订单状态" placeholder="" id="order_status1"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3 col-sm-offset-1">
+                        <label style="margin-bottom: 2px" class="col-sm-12 control-label ">
+                            <p class="text-left "><strong><span class="text-primary" style="font-size: 12px;
+            color: #4C4B4B;
+            font-family: 微软雅黑;
+            padding: 0;margin: 0;text-align: left">公司名称</span> : <span
+                                    class="text-danger">${orderInfo.company_name}</span></strong></p></label>
+
+                    </div>
+                    <div class="col-sm-3">
+                        <label style="margin-bottom: 2px" class="col-sm-12 control-label ">
+                            <p class="text-left "><strong><span class="text-primary" style="font-size: 12px;
+            color: #4C4B4B;
+            font-family: 微软雅黑;
+            padding: 0;margin: 0;text-align: right">客户姓名</span> : <span
+                                    class="text-danger">${orderInfo.custom_name}</span></strong></p></label>
+                    </div>
+                    <div class="col-sm-3">
+                        <#label value="${orderInfo.custom_phone}" name="客户联系方式" placeholder="" id="custom_phone1"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3 col-sm-offset-1">
+                        <label style="margin-bottom: 2px" class="col-sm-12 control-label ">
+                            <p class="text-left "><strong><span class="text-primary" style="font-size: 12px;
+            color: #4C4B4B;
+            font-family: 微软雅黑;
+            padding: 0;margin: 0;text-align: left">公司区域</span> : <span
+                                    class="text-danger" id="company_city" >${orderInfo.company_city}</span></strong></p></label>
+                    </div>
+                    <div class="col-sm-3">
+                        <label style="margin-bottom: 2px" class="col-sm-12 control-label ">
+                            <p class="text-left "><strong><span class="text-primary" style="font-size: 12px;
+            color: #4C4B4B;
+            font-family: 微软雅黑;
+            padding: 0;margin: 0;text-align: right">详细地址</span> : <span class="text-danger"id="company_address" >${orderInfo.company_address}</span></strong>
+                            </p>
+                        </label>
+                    </div>
+                    <div class="col-sm-3">
+                        <#label value="${orderInfo.ICT_product}" name="ICT产品类型" placeholder="" id="ICT_product1"/>
+                    </div>
+                </div>
+                <#title info="商品信息" />
+                <div class="row" style="margin-top: 30px;margin-left: 70px">
+                    <div class="col-sm-3">
+                        <#commonInput labelWidth="5" value="${orderInfo.ICT_product_name}" inputWidth="7"
+                                name="ICT产品名称" placeholder="" id="ICT_product_name"/>
+                    </div>
+                    <div class="col-sm-3">
+                        <#commonInput labelWidth="5" value="${orderInfo.ICT_product_quantity}" inputWidth="7"
+                                name="ICT产品数量" placeholder="" id="ICT_product_quantity"/>
+                    </div>
+                    <div class="col-sm-3">
+                        <#commonInput labelWidth="5" value="${orderInfo.group_code}" inputWidth="7"
+                                name="集团编码" placeholder="" id="group_code"/>
+                    </div>
+                </div>
+                <div class="row" style="margin-top: 20px;margin-left: 70px">
+                    <div class="col-sm-3" id="has_manager">
+                        <label style="margin-bottom: 2px;margin-left: 100px" class="col-sm-12 control-label ">
+                            <p class="text-left "><strong><span class="text-primary" style="font-size: 12px;
+            color: #4C4B4B;
+            font-family: 微软雅黑;
+            padding: 0;margin: 0;text-align: right">客户经理</span> : <span class="text-danger" id="manager_id"></span> <img src="/static/img/close.png" style="margin-left: 10px;" onclick="deleteCustom()"></strong></p></label>
+                    </div>
+                    <div class="col-sm-3" id="no_manager">
+                        <label style="margin-bottom: 2px;margin-left: 100px" class="col-sm-8 control-label ">
+                            <p class="text-left "><strong><span class="text-primary" style="font-size: 12px;
+            color: #4C4B4B;
+            font-family: 微软雅黑;
+            padding: 0;margin: 0;text-align: right">客户经理</span> :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="border: grey 1px solid; padding: 3px 6px;" onclick="choose_custom()">请选择</span></strong></p></label>
+                    </div>
+                    <div class="col-sm-3">
+                        <#commonInput labelWidth="5" value="${orderInfo.custom_manager_phone}" inputWidth="7"
+                                name="客户经理联系方式" placeholder="" id="custom_manager_phone" disabled="1"/>
+                    </div>
+                </div>
+                <div class="row" style="margin-top: 20px;margin-left: 70px">
+                    <div class="col-sm-3">
+                        <#commonInput labelWidth="5" value="${orderInfo.qk_info}" inputWidth="7"
+                                name="前勘人员" placeholder="" id="qk_info"/>
+                    </div>
+                    <div class="col-sm-3">
+                        <#commonInput labelWidth="5" value="${orderInfo.qk_phone}" inputWidth="7"
+                                name="前勘人员联系方式" placeholder="" id="qk_phone"/>
+                    </div>
+                </div>
+                <div class="row" style="margin-top: 20px;margin-left: 70px">
+                    <div class="col-sm-3">
+                        <#commonInput labelWidth="5" value="${orderInfo.ss_info}" inputWidth="7"
+                                name="实施人员" placeholder="" id="ss_info"/>
+                    </div>
+                    <div class="col-sm-3">
+                        <#commonInput labelWidth="5" value="${orderInfo.ss_phone}" inputWidth="7"
+                                name="实施人员联系方式" placeholder="" id="ss_phone"/>
+                    </div>
+                </div>
+                <div class="row" style="margin-top: 20px;margin-left: 70px">
+                    <div class="col-sm-3">
+                        <#commonInput labelWidth="5" value="${orderInfo.cj}" inputWidth="7"
+                                name="厂家" placeholder="" id="cj"/>
+                    </div>
+                    <div class="col-sm-3">
+                        <#commonInput labelWidth="5" value="${orderInfo.cj_phone}" inputWidth="7"
+                                name="厂家联系方式" placeholder="" id="cj_phone"/>
+                    </div>
+                </div>
+
+            </div>
+            @if(orderInfo.curren_process=="初步订单审核"){
+            <div class="row btn-group-m-t" style="">
+                <div class="col-sm-offset-3 col-sm-7">
+                    <button type="button" class="btn btn-primary " style="background-color: #20BE84;margin-left: 100px"
+                            onclick="save()" id="save">
+                        保存
+                    </button>
+                    <button type="button" class="btn btn-primary " style="background-color: #20BE84;margin-left: 100px"
+                            onclick="first_submit()" id="submit1">
+                        提交
+                    </button>
+                    <button type="button" class="btn btn-primary " style="background-color: #20BE84;margin-left: 80px"
+                            onclick="go_back()" id="cancel">
+                        返回
+                    </button>
+                </div>
+            </div>
+            @}
+        </div>
+    </div>
+</div>
+
+<script>
+
+    var orderNum = "${orderInfo.order_number}";
+    var custom_manager = '${orderInfo.client_manager_id}'
+
+    var apply_time = '${orderInfo.apply_time}'
+    var design_time = '${orderInfo.design_time}'
+    var work_time = '${orderInfo.work_time}'
+    var end_time = '${orderInfo.end_time}'
+
+    $("#xdcg_dom").html(apply_time)
+    $("#sjhj_dom").html(design_time)
+    $("#sghj_dom").html(work_time)
+    $("#ysjw_dom").html(end_time)
+
+    if (custom_manager!=null && custom_manager != '' && custom_manager!=undefined){
+        $("#manager_id").html('${orderInfo.custom_manager}')
+        $("#custom_manager_phone").html('${orderInfo.custom_manager_phone}')
+        $("#has_manager").show()
+        $("#no_manager").hide()
+        $("#custom_manager_phone").show()
+
+    }else{
+        $("#has_manager").hide()
+        $("#no_manager").show()
+        $("#custom_manager_phone").hide()
+    }
+    let orderFile = [];
+
+    var OrderEdits = {
+        setItem: null,
+        table: null,
+        layerIndex: -1,
+        orderInfo: {},
+    }
+
+    function choose_custom() {
+        OrderEdits.layerIndex=openWindow("转派操作",1200,600,"/orderInfo_temp/openAlfredPage?alfred_id="+ '${orderInfo.id}');
+        layer.full(OrderEdits.layerIndex);
+    }
+
+    OrderEdits.chooseCustomWrite = function (user_id, user_name, user_phone) {
+        $("#custom_manager_phone").val(user_phone)
+
+        var str = user_name
+        // str += '<img src="/static/img/close.png" style="margin-left: 10px;" onclick="deleteCustom()">'
+
+        $("#manager_id").html(str)
+
+        $("#has_manager").show()
+        $("#no_manager").hide()
+        $("#custom_manager_phone").show()
+        custom_manager = user_id
+    }
+
+    function deleteCustom(){
+        $("#has_manager").hide()
+        $("#no_manager").show()
+        $("#custom_manager_phone").hide()
+        $("#custom_manager_phone").val("")
+        $("#manager_id").html("")
+
+        custom_manager = ''
+    }
+
+    $(function () {
+
+    })
+
+    function downloadFile(filePath, fileName) {
+        window.location.href = "/base/downloadFile?fileName=" + fileName + "&filePath=" + filePath;
+    }
+
+    function uploadFile() {
+        $("#file").click();
+    }
+
+    function initFileInput(ctrlName) {
+        var control = $('#' + ctrlName);
+        control.fileinput({
+            language: 'zh', //设置语言
+            uploadUrl: "/orderInfo_temp/uploadFiles", //上传的地址
+            uploadAsync: false, //默认异步上传,,false为同步上传
+            showUpload: false, //是否显示上传按钮
+            showRemove: true, //显示移除按钮
+            showPreview: false, //是否显示预览
+            showCaption: true,//是否显示标题
+            browseClass: "btn btn-primary", //按钮样式
+            dropZoneEnabled: false,//是否显示拖拽区域
+            maxFileCount: 10, //表示允许同时上传的最大文件个数
+            enctype: 'multipart/form-data',
+            validateInitialCount: true,
+            previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+            msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
+            uploadExtraData: function (previewId, index) {   //额外参数
+//                var obj = UserInfoDlg.userInfoData;
+                return {};
+            }
+        });
+        //导入文件上传完成之后的事件
+        $("#file").on("filebatchuploadsuccess", function (event, data, previewId, index) {
+            let fileList = data.response.fileList;
+            let html = ''
+            data.files.forEach((item, i) => {
+                let fileName = item.name;
+                let pointIndex = fileName.indexOf(".");
+                html = '<div><span>' + fileName + '&nbsp<span data-file="' + fileList[i] + '" data-index="' + i + '"  data-name="' + item.name + '" style="color:red;font-size: 16px;text-align: right;cursor: pointer" onclick="remove(this)" class="remove">X</span></span>&nbsp&nbsp</div>'
+                $("#file_dom").append(html);
+                orderFile.push(fileList[i]);
+            })
+            $("#loading").modal('hide')
+        });
+        $("#file").on("filebatchselected", function (event, files) {
+            $('#file').fileinput("upload");
+            $("#loading").modal('show')
+        });
+    }
+
+    function remove(a) {
+        Feng.confirm("是否确认删除", function () {
+            let fileId = $(a).data("file")
+            $(a).parent().remove();
+            orderFile.splice(orderFile.indexOf(fileId), 1);
+        })
+    }
+
+    function save() {
+        let files = '';
+        if (orderFile.length > 0) {
+            files = orderFile.join(",");
+        }
+
+        if(custom_manager == null || custom_manager == '' || custom_manager == undefined){
+            return Feng.error("请选择客户经理")
+        }
+
+        OrderEdits.orderInfo['ICT_product_name'] = $.trim($("#ICT_product_name").val());
+        OrderEdits.orderInfo['ICT_product_quantity'] = $.trim($("#ICT_product_quantity").val());
+        OrderEdits.orderInfo['custom_manager_id'] = custom_manager;
+        OrderEdits.orderInfo['custom_manager'] = $("#manager_id").html();
+        OrderEdits.orderInfo['custom_manager_phone'] = $("#custom_manager_phone").val();
+        OrderEdits.orderInfo['group_code'] = $.trim($("#group_code").val());
+        OrderEdits.orderInfo['qk_info'] = $.trim($("#qk_info").val());
+        OrderEdits.orderInfo['ss_info'] = $.trim($("#ss_info").val());
+        OrderEdits.orderInfo['qk_phone'] = $.trim($("#qk_phone").val());
+        OrderEdits.orderInfo['ss_phone'] = $.trim($("#ss_phone").val());
+        OrderEdits.orderInfo['cj'] = $.trim($("#cj").val());
+        OrderEdits.orderInfo['cj_phone'] = $.trim($("#cj_phone").val());
+        OrderEdits.orderInfo['orderNum'] = orderNum;
+        OrderEdits.orderInfo['files'] = files;
+        OrderEdits.orderInfo['id'] = '${orderInfo.id}';
+        Feng.confirm("是否保存？",function () {
+            var ajax = new $ax(Feng.ctxPath + "/orderInfo_temp/edit", function (data) {
+                Feng.success("编辑成功");
+                window.parent.Order.table.refresh();
+                var index = parent.layer.getFrameIndex(window.name)
+                parent.layer.close(index);
+            }, function (data) {
+                Feng.error("下拉框数据加载失败");
+            });
+
+            ajax.set(OrderEdits.orderInfo)
+            ajax.start();
+        })
+    }
+
+    function first_submit() {
+        let files = '';
+        if (orderFile.length > 0) {
+            files = orderFile.join(",");
+        }
+
+        if(custom_manager == null || custom_manager == '' || custom_manager == undefined){
+            return Feng.error("请选择客户经理")
+        }
+
+        OrderEdits.orderInfo['ICT_product_name'] = $.trim($("#ICT_product_name").val());
+        OrderEdits.orderInfo['ICT_product_quantity'] = $.trim($("#ICT_product_quantity").val());
+        OrderEdits.orderInfo['custom_manager_id'] = custom_manager;
+        OrderEdits.orderInfo['custom_manager'] = $("#manager_id").html();
+        OrderEdits.orderInfo['custom_manager_phone'] = $("#custom_manager_phone").val();
+        OrderEdits.orderInfo['group_code'] = $.trim($("#group_code").val());
+        OrderEdits.orderInfo['qk_info'] = $.trim($("#qk_info").val());
+        OrderEdits.orderInfo['ss_info'] = $.trim($("#ss_info").val());
+        OrderEdits.orderInfo['qk_phone'] = $.trim($("#qk_phone").val());
+        OrderEdits.orderInfo['ss_phone'] = $.trim($("#ss_phone").val());
+        OrderEdits.orderInfo['cj'] = $.trim($("#cj").val());
+        OrderEdits.orderInfo['cj_phone'] = $.trim($("#cj_phone").val());
+        OrderEdits.orderInfo['orderNum'] = orderNum;
+        OrderEdits.orderInfo['files'] = files;
+        OrderEdits.orderInfo['id'] = '${orderInfo.id}';
+        Feng.confirm("是否保存？",function () {
+            var ajax = new $ax(Feng.ctxPath + "/orderInfo_temp/first_submit", function (data) {
+                Feng.success("编辑成功");
+                window.parent.Order.table.refresh();
+                var index = parent.layer.getFrameIndex(window.name)
+                parent.layer.close(index);
+            }, function (data) {
+                Feng.error("下拉框数据加载失败");
+            });
+
+            ajax.set(OrderEdits.orderInfo)
+            ajax.start();
+        })
+    }
+</script>

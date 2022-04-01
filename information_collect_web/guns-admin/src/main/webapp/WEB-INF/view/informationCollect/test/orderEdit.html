@@ -1,0 +1,1165 @@
+@layout("/common/_container.html"){
+<link rel="stylesheet" href="${ctxPath}/static/css/plugins/bootstrap-select/bootstrap-select.min.css">
+<script src="${ctxPath}/static/js/plugins/bootstrap-select/bootstrap-select.min.js"></script>
+<script src="${ctxPath}/static/js/plugins/bootstrap-select/defaults-zh_CN.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/static/css/steps.css">
+<!-- DICT系统订单列表-->
+<style>
+    .form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
+        background-color: #f8f8f8;
+    }
+
+    .btn-default {
+        color: #6f6c6c;
+        background-color: #fffdfd;
+    }
+</style>
+<div class="ibox float-e-margins" xmlns="http://www.w3.org/1999/html">
+    <input hidden name="client_manager_id" id="client_manager_id">
+    <div class="ibox-content">
+        <div class="form-horizontal" id="landForm">
+            <div class="submitDiv" style="display: none">
+                <input type="file" id="file" name="file" multiple="multiple">
+            </div>
+            <#title info="订单状态" />
+            <div class="split"></div>
+            <!-- 订单状态 -->
+            <div class="row" style="margin-top: 10px;">
+                <div class="col-sm-4">
+                    <div class="form-group" style="display:flex;align-items: center">
+                        <label class="col-sm-4 control-label" style="padding-top: 0">
+                            订单状态
+                        </label>
+                        <div class="col-sm-8">
+                            <select class="form-control"  id="order_status"  name="order_status">
+                                <option value="">请选择</option>
+                                <option value="商机单受理">商机单受理</option>
+                                <option value="初步订单审核">初步订单审核</option>
+                                <option value="设计环节">设计环节</option>
+                                <option value="订单确认">订单确认</option>
+                                <option value="正式订单审核">正式订单审核</option>
+                                <option value="待付首款/全款">待付首款/全款</option>
+                                <option value="首款/全款确认">首款/全款确认</option>
+                                <option value="施工环节">施工环节</option>
+                                <option value="已验收待尾款">已验收待尾款</option>
+                                <option value="尾款确认">尾款确认</option>
+                                <option value="订单结束">订单结束</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <#title info="商机单受理" />
+            <div class="row" style="margin-top: 20px">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">订单编号</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" value="${orderInfo.order_no}" readonly id="order_no" name="order_no" placeholder="单行输入">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">下单时间</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" value="${orderInfo.order_time}" readonly id="order_time" name="order_time" placeholder="单行输入">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">公司名称</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" value="${orderInfo.company_name}" id="company_name" name="company_name" placeholder="单行输入">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">客户姓名</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" value="${orderInfo.client_name}" id="client_name" name="client_name" placeholder="单行输入">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">客户邮箱地址</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" value="${orderInfo.client_email}" id="client_email" name="client_email" placeholder="单行输入">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">客户联系方式</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" value="${orderInfo.client_link_phone}" id="client_link_phone" name="client_link_phone" placeholder="单行输入">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group" style="display:flex;align-items: center">
+                        <label class="col-sm-4 control-label" style="padding-top: 0">
+                            所属区域
+                        </label>
+                        <div class="col-sm-8">
+                            <select class="form-control"  id="region"  name="region">
+                                <option value="">请选择</option>
+                                <option value="禅城">禅城</option>
+                                <option value="顺德">顺德</option>
+                                <option value="南海">南海</option>
+                                <option value="三水">三水</option>
+                                <option value="高明">高明</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group" style="display:flex;align-items: center">
+                        <label class="col-sm-4 control-label" style="padding-top: 0">
+                            镇街
+                        </label>
+                        <div class="col-sm-8">
+                            <select class="form-control" id="zhen" name="zhen">
+                                <option value="">请选择-镇</option>
+                            </select>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">详细地址</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" value="${orderInfo.address}" id="address" name="address" placeholder="单行输入">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">ICT产品数量</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" value="${orderInfo.ict_num}" id="ict_num" name="ict_num" placeholder="单行输入">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">项目预算</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" value="${orderInfo.project_budget}" id="project_budget" name="project_budget" placeholder="单行输入">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group" style="display:flex;align-items: center">
+                        <label class="col-sm-4 control-label" style="padding-top: 0">
+                            是否需要支撑
+                        </label>
+                        <div class="col-sm-8">
+                            <select class="form-control"  id="is_need_support"  name="is_need_support">
+                                <option value="">请选择</option>
+                                <option value="是">是</option>
+                                <option value="否">否</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="margin-bottom: 20px">
+                <div class="col-sm-4">
+                    <div class="form-group" style="display:flex;align-items: center">
+                        <label class="col-sm-4 control-label" style="padding-top: 0">
+                            ICT产品类别
+                        </label>
+                        <div class="col-sm-8">
+                            <select class="form-control selectpicker" multiple data-live-search="true"
+                                    id="ict_type" name="ict_type" style="">
+                                <option value="AI智慧识别">AI智慧识别</option>
+                                <option value="视频监控">视频监控</option>
+                                <option value="综合布线">综合布线</option>
+                                <option value="智能组网">智能组网</option>
+                                <option value="立体化安防">立体化安防</option>
+                                <option value="IT运维">IT运维</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group" style="display:flex;align-items: center">
+                        <label class="col-sm-4 control-label" style="padding-top: 0">
+                            支撑类型
+                        </label>
+                        <div class="col-sm-8">
+                            <select class="form-control"  id="support_type"  name="support_type">
+                                <option value="">请选择</option>
+                                <option value="前勘">前勘</option>
+                                <option value="产品演示">产品演示</option>
+                                <option value="其他">其他</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group" style="display:flex;align-items: center">
+                        <label class="col-sm-4 control-label" style="padding-top: 0">
+                            需求描述
+                        </label>
+                        <div class="col-sm-8">
+								<textarea class="form-control"  style="resize: none;"  id="need_desc" name="need_desc" rows="5">${orderInfo.need_desc}</textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <#title info="初步订单审核" />
+            <div class="row" style="margin-top: 20px">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">前勘人员</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" value="${orderInfo.pre_people}" id="pre_people" name="pre_people" placeholder="单行输入">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">前勘人员联系方式</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" value="${orderInfo.pre_people_phone}" id="pre_people_phone" name="pre_people_phone" placeholder="单行输入">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">实施人员</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" value="${orderInfo.implement_people}" id="implement_people" name="implement_people" placeholder="单行输入">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">实施人员联系方式</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" value="${orderInfo.implement_people_phone}" id="implement_people_phone" name="implement_people_phone" placeholder="单行输入">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">厂家</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" value="${orderInfo.factory}" id="factory" name="factory" placeholder="单行输入">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">厂家联系方式</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" value="${orderInfo.factory_phone}" id="factory_phone" name="factory_phone" placeholder="单行输入">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4" id="has_manager" style="display: flex;align-items: center">
+                    <label style="" class="col-sm-4 control-label ">
+                        <p class="">
+                            <span class="text-primary" style="
+            ">客户经理</span>
+                        </p>
+                    </label>
+                    <div class="col-sm-8">
+                        <strong><span class="text-danger" id="manager_id"></span>
+                            <img src="/static/img/close.png" style="margin-left: 10px;" onclick="deleteCustom()"></strong>
+                    </div>
+                </div>
+                <div class="col-sm-4" id="choose_manager" style="display: flex;align-items: center">
+                    <label style="" class="col-sm-4 control-label ">
+                        <p class=""><span class="text-primary" style="">客户经理</span>
+                            </p></label>
+                    <div class="col-sm-8">
+                        <span style="border: grey 1px solid; padding: 3px 6px;" onclick="choose_custom()">请选择</span>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">客户经理电话</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" value="${orderInfo.client_manager_phone}" readonly id="client_manager_phone" name="client_manager_phone" placeholder="单行输入">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">集团编码</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" value="${orderInfo.company_no}"  id="company_no" name="company_no" placeholder="单行输入">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <#title info="设计环节" />
+            <div class="row" style="margin-top: 20px">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">服务包名称</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" value="${orderInfo.service_name}"  id="service_name" name="service_name" placeholder="单行输入">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">服务包数量</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" value="${orderInfo.service_num}"  id="service_num" name="service_num" placeholder="单行输入">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">服务包单价</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" value="${orderInfo.service_price}"  id="service_price" name="service_price" placeholder="单行输入">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" >
+                <div class="col-sm-4" >
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label" id="tag_1">服务包总价</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" value="${orderInfo.service_total_price}"  id="service_total_price" name="service_total_price" placeholder="单行输入">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">项目总价</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" value="${orderInfo.project_total_price}"  id="project_total_price" name="project_total_price" placeholder="单行输入">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">建设完成时间</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" value="${orderInfo.build_finish_time}"  id="build_finish_time" name="build_finish_time" placeholder="单行输入">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="" style="margin-bottom: 20px">
+                <div class="" style="display: flex">
+                    <label style="margin-bottom: 2px"  class="control-label file_label" >
+                        <p class="text-right "><strong><span class="text-primary" style="font-size: 13px;
+            color: #4C4B4B;
+            font-family: 微软雅黑;
+            padding: 0;margin: 0;text-align: right">项目方案附件</span> <span class="text-danger"></span></strong></p>
+                    </label>
+                    <div class="" style="display: flex;padding-left: 30px;">
+                        <div>
+                            <button type="button" class="btn btn-primary " style="background-color: #20BE84"
+                                    onclick="uploadFile(1)" id="uploadFile">
+                                选择文件
+                            </button>
+                        </div>
+                        <div id="file_dom" style="margin-left: 10px">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="" style="display: flex">
+                    <label style="margin-bottom: 2px" class=" control-label file_label ">
+                        <p class="text-right "><strong><span class="text-primary" style="font-size: 13px;
+            color: #4C4B4B;
+            font-family: 微软雅黑;
+            padding: 0;margin: 0;text-align: right">项目报价附件</span> <span class="text-danger"></span></strong></p>
+                    </label>
+                    <div class="" style="display: flex;padding-left: 30px;">
+                        <div>
+                            <button type="button" class="btn btn-primary " style="background-color: #20BE84"
+                                    onclick="uploadFile(2)" id="uploadFile2">
+                                选择文件
+                            </button>
+                        </div>
+                        <div id="file_dom2" style="margin-left: 10px">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="" style="display: flex">
+                    <label style="margin-bottom: 2px" class=" control-label file_label">
+                        <p class="text-right "><strong><span class="text-primary" style="font-size: 13px;
+            color: #4C4B4B;
+            font-family: 微软雅黑;
+            padding: 0;margin: 0;text-align: right">客户合同附件</span> <span class="text-danger"></span></strong></p>
+                    </label>
+                    <div class="" style="display: flex ;padding-left: 30px;">
+                        <div>
+                            <button type="button" class="btn btn-primary " style="background-color: #20BE84"
+                                    onclick="uploadFile(3)" id="uploadFile3">
+                                选择文件
+                            </button>
+                        </div>
+                        <div id="file_dom3" style="margin-left: 10px">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <#title info="订单确认" />
+            <div class="row" style="margin-top: 20px">
+                <div class="col-sm-4">
+                    <div class="form-group" style="display:flex;align-items: center">
+                        <label class="col-sm-4 control-label" style="padding-top: 0">
+                            是否通过
+                        </label>
+                        <div class="col-sm-8">
+                            <select class="form-control"  id="order_is_pass"  name="order_is_pass">
+                                <option value="">请选择</option>
+                                <option value="是">是</option>
+                                <option value="否">否</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">意见</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" value="${orderInfo.order_pass_suggest}"  id="order_pass_suggest" name="order_pass_suggest" placeholder="单行输入">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="" style="margin-bottom: 20px">
+                <div class="" style="display: flex">
+                    <label style="margin-bottom: 2px" class="control-label file_label ">
+                        <p class="text-right "><strong><span class="text-primary" style="font-size: 13px;
+            color: #4C4B4B;
+            font-family: 微软雅黑;
+            padding: 0;margin: 0;text-align: right">上传签署后的合同</span> <span class="text-danger"></span></strong></p>
+                    </label>
+                    <div class="" style="display: flex ;padding-left: 30px;">
+                        <div>
+                            <button type="button" class="btn btn-primary " style="background-color: #20BE84"
+                                    onclick="uploadFile(6)" id="uploadFile6">
+                                选择文件
+                            </button>
+                        </div>
+                        <div id="file_dom6" style="margin-left: 10px">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <#title info="正式订单审核" />
+            <div class="row" style="margin-top: 20px">
+                <div class="col-sm-4">
+                    <div class="form-group" style="display:flex;align-items: center">
+                        <label class="col-sm-4 control-label" style="padding-top: 0">
+                            是否通过
+                        </label>
+                        <div class="col-sm-8">
+                            <select class="form-control"  id="contract_is_pass"  name="contract_is_pass">
+                                <option value="">请选择</option>
+                                <option value="是">是</option>
+                                <option value="否">否</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <#title info="待付首款/全款" />
+            <div class="row" style="margin-top: 20px;">
+                <div class="col-sm-4">
+                    <div class="form-group" style="display:flex;align-items: center">
+                        <label class="col-sm-4 control-label" style="padding-top: 0">
+                            是否支付全款
+                        </label>
+                        <div class="col-sm-8">
+                            <select class="form-control"  id="is_pay_all"  name="is_pay_all">
+                                <option value="">请选择</option>
+                                <option value="是">是</option>
+                                <option value="否">否</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">购买方名称</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" value="${orderInfo.buy_name}"  id="buy_name" name="buy_name" placeholder="单行输入">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">购买方纳税人识别号</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" value="${orderInfo.buy_tax_payer_no}"  id="buy_tax_payer_no" name="buy_tax_payer_no" placeholder="单行输入">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">购买方地址</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" value="${orderInfo.buy_address}"  id="buy_address" name="buy_address" placeholder="单行输入">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">购买方电话</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" value="${orderInfo.buy_phone}"  id="buy_phone" name="buy_phone" placeholder="单行输入">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">购买方开户行</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" value="${orderInfo.buy_open_hang}"  id="buy_open_hang" name="buy_open_hang" placeholder="单行输入">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">购买方账号</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" value="${orderInfo.buy_account}"  id="buy_account" name="buy_account" placeholder="单行输入">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <label style="margin-bottom: 2px" class="col-sm-4 control-label ">
+                        <p class="text-right "><strong><span class="text-primary" style="font-size: 13px;
+            color: #4C4B4B;
+            font-family: 微软雅黑;
+            padding: 0;margin: 0;text-align: right">客户提供的付款证明</span> <span class="text-danger"></span></strong></p>
+                    </label>
+                    <div class="col-sm-8" style="display: flex">
+                        <div>
+                            <button type="button" class="btn btn-primary " style="background-color: #20BE84"
+                                    onclick="downloadPayFile()" id="downloadPayFile">
+                                选择文件
+                            </button>
+                        </div>
+                        <div id="file_dom9" style="margin-left: 10px">
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="" style="margin-bottom: 20px">
+                <div class="" style="display: flex">
+                    <label style="margin-bottom: 2px" class="control-label file_label ">
+                        <p class="text-right "><strong><span class="text-primary" style="font-size: 13px;
+            color: #4C4B4B;
+            font-family: 微软雅黑;
+            padding: 0;margin: 0;text-align: right">我司的账户信息</span> <span class="text-danger"></span></strong></p>
+                    </label>
+                    <div class="" style="display: flex ;padding-left: 30px;">
+                        <div>
+                            <button type="button" class="btn btn-primary " style="background-color: #20BE84"
+                                    onclick="uploadFile(4)" id="uploadFile4">
+                                选择文件
+                            </button>
+                        </div>
+                        <div id="file_dom4" style="margin-left: 10px">
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <#title info="首款/全款确认" />
+            <div class="row" style="margin-top: 20px">
+                <div class="col-sm-4">
+                    <div class="form-group" style="display:flex;align-items: center">
+                        <label class="col-sm-4 control-label" style="padding-top: 0">
+                            是否通过
+                        </label>
+                        <div class="col-sm-8">
+                            <select class="form-control"  id="first_is_pass"  name="first_is_pass">
+                                <option value="">请选择</option>
+                                <option value="是">是</option>
+                                <option value="否">否</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">意见</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" value="${orderInfo.first_suggest}"  id="first_suggest" name="first_suggest" placeholder="单行输入">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <#title info="施工环节" />
+            <div class="row" style="margin-top: 20px;margin-bottom: 20px">
+                <div class="col-sm-4">
+                    <label style="margin-bottom: 2px" class="col-sm-5 control-label ">
+                        <p class="text-right "><strong><span class="text-primary" style="font-size: 13px;
+            color: #4C4B4B;
+            font-family: 微软雅黑;
+            padding: 0;margin: 0;text-align: right">客户验收证明附件</span> <span class="text-danger"></span></strong></p>
+                    </label>
+                    <div class="col-sm-7" style="display: flex">
+                        <div>
+                            <button type="button" class="btn btn-primary " style="background-color: #20BE84"
+                                    onclick="uploadFile(5)" id="uploadFile5">
+                                选择文件
+                            </button>
+                        </div>
+                        <div id="file_dom5" style="margin-left: 10px">
+
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <#title info="已验收待尾款" />
+            <div class="row" style="margin-top: 20px;">
+                <div class="col-sm-4">
+                    <label style="margin-bottom: 2px" class="col-sm-5 control-label ">
+                        <p class="text-right "><strong><span class="text-primary" style="font-size: 13px;
+            color: #4C4B4B;
+            font-family: 微软雅黑;
+            padding: 0;margin: 0;text-align: right">客户提供的尾款证明</span> <span class="text-danger"></span></strong></p>
+                    </label>
+                    <div class="col-sm-7" style="display: flex">
+                        <div>
+                            <button type="button" class="btn btn-primary " style="background-color: #20BE84"
+                                    onclick="uploadFile(7)" id="uploadFile7">
+                                选择文件
+                            </button>
+                        </div>
+                        <div id="file_dom7" style="margin-left: 10px">
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <#title info="尾款确认" />
+            <div class="row" style="margin-top: 20px;">
+
+                <div class="col-sm-4">
+                    <div class="form-group" style="display:flex;align-items: center">
+                        <label class="col-sm-4 control-label" style="padding-top: 0">
+                            是否通过
+                        </label>
+                        <div class="col-sm-8">
+                            <select class="form-control"  id="last_is_pass"  name="last_is_pass">
+                                <option value="">请选择</option>
+                                <option value="是">是</option>
+                                <option value="否">否</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">意见</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" value="${orderInfo.last_suggest}"  id="last_suggest" name="last_suggest" placeholder="单行输入">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row btn-group-m-t" style="">
+            <div class="col-sm-offset-3 col-sm-7">
+                <button type="button" class="btn btn-primary " style="background-color: #20BE84;margin-left: 100px"
+                        onclick="save()" id="save">
+                    保存
+                </button>
+                <button type="button" class="btn btn-primary " style="background-color: #20BE84;margin-left: 80px"
+                        onclick="cancel()" id="cancel">
+                    返回
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    let width=$("#tag_1").width();
+    $(".file_label").width(width);
+
+    let testList={
+        "禅城":[
+            "张槎","南庄","石湾镇", "祖庙镇"
+        ],
+        "南海":[
+            "桂城","平洲","大沥","黄岐","盐步","里水","和顺","罗村","官窑","松岗",
+            "狮山","小塘","西樵","沙头","九江","丹灶","金沙"
+        ],
+        "顺德":[
+            "乐从","陈村","北滘","容桂","大良","伦教","勒流","龙江","均安","杏坛"
+        ],
+        "三水":[
+            "西南云东海","白坭","乐平","大塘","芦苞"
+        ],
+        "高明":[
+            "荷城","杨和","明城","更合"
+        ]
+    }
+    let own_add_time='${own_add_time}';
+    let receive_add_time='${receive_add_time}';
+
+
+    let pay_files='${client_pay_files}' //客户付款证明附件
+
+    
+    let project_scheme_files="";
+    let project_quote_files="";
+    let client_contract_files="";
+    let own_company_files="";
+    let client_receive_files="";
+
+    let order_confirm_files="";
+    let last_pay_files="";
+    //赋值
+    let order_region='${orderInfo.order_region}';
+    if(order_region!=''){
+        if(order_region.indexOf("-")>0){
+            let region=order_region.split("-")[0].substring(0,2);
+            let zhena=order_region.split("-")[1]
+            $("#region").val(region);
+            let zhen=testList[region];
+            let html='';
+            html+='<option value="">请选择-镇</option>';
+            zhen.forEach((item,i)=>{
+                html+='<option value="'+item+'">'+item+'</option>';
+            })
+            $("#zhen").html(html);
+            $("#zhen").val(zhena);
+        }else{
+            let region=order_region.split("-")[0].substring(0,2);
+            $("#region").val(region);
+            let zhen=testList[region];
+            let html='';
+            html+='<option value="">请选择-镇</option>';
+            zhen.forEach((item,i)=>{
+                html+='<option value="'+item+'">'+item+'</option>';
+            })
+            $("#zhen").html(html);
+        }
+    }
+    let ict_type='${orderInfo.ict_type}'
+    if(ict_type!=''){
+        $("#ict_type").val(ict_type.split(","));
+    }
+//    $("#order_region").val('${orderInfo.order_region}')
+    $("#order_status").val('${orderInfo.order_status}')
+//    $("#ict_type").val('${orderInfo.ict_type}')
+    $("#is_pay_all").val('${orderInfo.is_pay_all}')
+
+    $("#order_is_pass").val('${orderInfo.order_is_pass}');
+    $("#contract_is_pass").val('${orderInfo.contract_is_pass}')
+    $("#first_is_pass").val('${orderInfo.first_is_pass}')
+    $("#last_is_pass").val('${orderInfo.last_is_pass}')
+
+    $("#is_need_support").val('${orderInfo.is_need_support}')
+    $("#support_type").val('${orderInfo.support_type}')
+
+
+    var client_manager_id = '${orderInfo.client_manager_id}'
+    if(client_manager_id!='' & client_manager_id!='0'){
+        $("#manager_id").html('${orderInfo.client_manager}')
+
+        $("#has_manager").show()
+        $("#choose_manager").hide()
+    }else{
+        $("#has_manager").hide()
+        $("#choose_manager").show()
+    }
+
+
+
+    $("#region").change(function () {
+        if($(this).val()!=''){
+            let zhen=testList[$(this).val()];
+            let html='';
+            html+='<option value="">请选择-镇</option>';
+            zhen.forEach((item,i)=>{
+                html+='<option value="'+item+'">'+item+'</option>';
+            })
+            $("#zhen").html(html);
+        }
+    })
+
+
+    var OrderEdits = {
+        setItem: null,
+        table: null,
+        layerIndex: -1,
+        orderInfo: {},
+    }
+    OrderEdits.clearData = function () {
+        this.orderInfo = {};
+    };
+    OrderEdits.set = function (key, value) {
+        this.orderInfo[key] = (typeof value == "undefined") ? $("#" + key).val(): value;
+        return this;
+    };
+    OrderEdits.get = function (key) {
+        return $("#" + key).val();
+    };
+    OrderEdits.collectData = function () {
+        this.set('order_status').set('order_no').set('order_time').set('company_name').set('client_name')
+            .set('client_email').set("client_link_phone").set("address").set("ict_type").set("need_desc")
+            .set("pre_people").set("pre_people_phone").set("implement_people").set("implement_people_phone").set("factory")
+            .set("factory_phone").set("client_manager_id").set("client_manager").set("client_manager_phone").set("company_no")
+            .set("service_name").set("service_num").set("service_price").set("service_total_price").set("project_scheme_files")
+            .set("project_quote_files").set("client_contract_files").set("build_finish_time").set("project_total_price").set("is_pay_all")
+            .set("own_company_files").set("buy_name").set("buy_tax_payer_no").set("buy_address").set("buy_phone")
+            .set("buy_open_hang").set("buy_account").set("client_receive_files").set("client_pay_files").set("order_is_pass")
+            .set("order_pass_suggest").set("contract_is_pass").set("first_is_pass").set("first_suggest").set("last_is_pass")
+            .set("last_suggest").set("ict_num").set("project_budget").set("is_need_support").set("support_type")
+
+    };
+    function choose_custom() {
+        OrderEdits.layerIndex=openWindow("转派操作",1200,600,"/orderInfo_temp/openAlfredPage?alfred_id="+ '${orderInfo.id}');
+        layer.full(OrderEdits.layerIndex);
+    }
+
+    OrderEdits.chooseCustomWrite = function (user_id, user_name, user_phone) {
+        client_manager_id=user_id;
+//        $("#client_manager_id").val(user_id);
+        $("#client_manager_phone").val(user_phone)
+        var str = user_name
+        $("#manager_id").html(str)
+        $("#has_manager").show()
+        $("#choose_manager").hide()
+    }
+
+    function deleteCustom(){
+        $("#has_manager").hide()
+        $("#choose_manager").show()
+
+        $("#client_manager_phone").val("")
+        $("#manager_id").html("")
+        client_manager_id='';
+    }
+    function s(e,a)
+    {
+        if ( e && e.preventDefault )
+            e.preventDefault();
+        else
+            window.event.returnValue=false;
+        a.focus();
+    }
+    $(function () {
+
+        if(pay_files==""){
+            $("#downloadPayFile").html("暂无附件")
+            $("#downloadPayFile").attr("disabled",true);
+        }
+        //初始化file
+        let project_scheme_file='${project_scheme_files}'
+        let project_quote_file='${project_quote_files}'
+        let client_contract_file='${client_contract_files}'
+        let own_company_file='${own_company_files}'
+        let client_receive_file='${client_receive_files}'
+
+        let order_confirm_file='${order_confirm_files}';
+        let last_pay_file='${last_pay_files}';
+
+        if (project_scheme_file.length > 0) {
+            project_scheme_file = JSON.parse(project_scheme_file);
+        }
+        if (project_scheme_file !== "" && project_scheme_file !== undefined && project_scheme_file != null && project_scheme_file.length > 0) {
+            let html = ''
+            project_scheme_file.forEach((item, index) => {
+                html = '<div><a href="#" style="margin-right: 15px;" onclick="downloadFile(\'' + item.file_path + '\',\'' + item.file_name + '\')">' + item.file_name + '</a><span data-file="' + item.files + '" data-type="' + 1 + '"  data-name="' + item.file_name + '"  style="color:red;font-size: 16px;text-align: right;cursor: pointer" onclick="remove(this)" class="remove">X</span>&nbsp&nbsp</div>'
+                project_scheme_files=item.files;
+                $("#file_dom").append(html)
+            })
+        }
+
+        if (project_quote_file.length > 0) {
+            project_quote_file = JSON.parse(project_quote_file);
+        }
+        if (project_quote_file !== "" && project_quote_file !== undefined && project_quote_file != null && project_quote_file.length > 0) {
+            let html = ''
+            project_quote_file.forEach((item, index) => {
+                html = '<div><a href="#" style="margin-right: 15px;" onclick="downloadFile(\'' + item.file_path + '\',\'' + item.file_name + '\')">' + item.file_name + '</a><span data-file="' + item.files + '" data-type="' + 2 + '"  data-name="' + item.file_name + '" style="color:red;font-size: 16px;text-align: right;cursor: pointer" onclick="remove(this)" class="remove">X</span>&nbsp&nbsp</div>'
+                project_quote_files=item.files;
+                $("#file_dom2").append(html)
+            })
+        }
+
+        if (client_contract_file.length > 0) {
+            client_contract_file = JSON.parse(client_contract_file);
+        }
+        if (client_contract_file !== "" && client_contract_file !== undefined && client_contract_file != null && client_contract_file.length > 0) {
+            let html = ''
+            client_contract_file.forEach((item, index) => {
+                html = '<div><a href="#" style="margin-right: 15px;" onclick="downloadFile(\'' + item.file_path + '\',\'' + item.file_name + '\')">' + item.file_name + '</a><span data-file="' + item.files + '" data-type="' + 3 + '"  data-name="' + item.file_name + '" style="color:red;font-size: 16px;text-align: right;cursor: pointer" onclick="remove(this)" class="remove">X</span>&nbsp&nbsp</div>'
+                client_contract_files=item.files;
+                $("#file_dom3").append(html)
+            })
+        }
+
+        if (own_company_file.length > 0) {
+            own_company_file = JSON.parse(own_company_file);
+        }
+        if (own_company_file !== "" && own_company_file !== undefined && own_company_file != null && own_company_file.length > 0) {
+            let html = ''
+            own_company_file.forEach((item, index) => {
+                html = '<div><a href="#" style="margin-right: 15px;" onclick="downloadFile(\'' + item.file_path + '\',\'' + item.file_name + '\')">' + item.file_name + '</a><span data-file="' + item.files + '" data-type="' + 4 + '"  data-name="' + item.file_name + '" style="color:red;font-size: 16px;text-align: right;cursor: pointer" onclick="remove(this)" class="remove">X</span>&nbsp&nbsp</div>'
+                own_company_files=item.files;
+                $("#file_dom4").append(html)
+            })
+            let add_time='<div>'+own_add_time+'</div>'
+            c(add_time);
+            $("#file_dom4").append(add_time)
+        }
+
+        if (client_receive_file.length > 0) {
+            client_receive_file = JSON.parse(client_receive_file);
+        }
+        if (client_receive_file !== "" && client_receive_file !== undefined && client_receive_file != null && client_receive_file.length > 0) {
+            let html = ''
+            client_receive_file.forEach((item, index) => {
+                html = '<div><a href="#" style="margin-right: 15px;" onclick="downloadFile(\'' + item.file_path + '\',\'' + item.file_name + '\')">' + item.file_name + '</a><span data-file="' + item.files + '" data-type="' + 5 + '"  data-name="' + item.file_name + '" style="color:red;font-size: 16px;text-align: right;cursor: pointer" onclick="remove(this)" class="remove">X</span>&nbsp&nbsp</div>'
+                client_receive_files=item.files;
+                $("#file_dom5").append(html)
+            })
+            let add_time='<div>'+receive_add_time+'</div>'
+            $("#file_dom5").append(add_time)
+        }
+
+        if (order_confirm_file.length > 0) {
+            order_confirm_file = JSON.parse(order_confirm_file);
+        }
+        if (order_confirm_file !== "" && order_confirm_file !== undefined && order_confirm_file != null && order_confirm_file.length > 0) {
+            let html = ''
+            order_confirm_file.forEach((item, index) => {
+                html = '<div><a href="#" style="margin-right: 15px;" onclick="downloadFile(\'' + item.file_path + '\',\'' + item.file_name + '\')">' + item.file_name + '</a><span data-file="' + item.files + '" data-type="' + 6 + '"  data-name="' + item.file_name + '" style="color:red;font-size: 16px;text-align: right;cursor: pointer" onclick="remove(this)" class="remove">X</span>&nbsp&nbsp</div>'
+                order_confirm_files=item.files;
+                $("#file_dom6").append(html)
+            })
+        }
+
+        if (last_pay_file.length > 0) {
+            last_pay_file = JSON.parse(last_pay_file);
+        }
+        if (last_pay_file !== "" && last_pay_file !== undefined && last_pay_file != null && last_pay_file.length > 0) {
+            let html = ''
+            last_pay_file.forEach((item, index) => {
+                html = '<div><a href="#" style="margin-right: 15px;" onclick="downloadFile(\'' + item.file_path + '\',\'' + item.file_name + '\')">' + item.file_name + '</a><span data-file="' + item.files + '" data-type="' + 7 + '"  data-name="' + item.file_name + '" style="color:red;font-size: 16px;text-align: right;cursor: pointer" onclick="remove(this)" class="remove">X</span>&nbsp&nbsp</div>'
+                last_pay_files=item.files;
+                $("#file_dom7").append(html)
+            })
+        }
+
+        var pay_filess="";
+        if (pay_files.length > 0) {
+            pay_filess = JSON.parse(pay_files);
+        }
+        if (pay_filess !== "" && pay_filess !== undefined && pay_filess != null && pay_filess.length > 0) {
+            let html = ''
+            pay_filess.forEach((item, index) => {
+                html = '<div>' + item.file_name + '</div>'
+                $("#file_dom9").append(html)
+            })
+        }
+        initFileInput("file");
+    })
+
+    function downloadFile(filePath, fileName) {
+        window.location.href = "/base/downloadFile?fileName=" + fileName + "&filePath=" + filePath;
+    }
+    let type=0;
+
+    function uploadFile(t) {
+        type=t
+        $("#file").click();
+    }
+
+    function initFileInput(ctrlName) {
+        var control = $('#' + ctrlName);
+        control.fileinput({
+            language: 'zh', //设置语言
+            uploadUrl: "/orderInfo_temp/uploadFiles", //上传的地址
+            uploadAsync: false, //默认异步上传,,false为同步上传
+            showUpload: false, //是否显示上传按钮
+            showRemove: true, //显示移除按钮
+            showPreview: false, //是否显示预览
+            showCaption: true,//是否显示标题
+            browseClass: "btn btn-primary", //按钮样式
+            dropZoneEnabled: false,//是否显示拖拽区域
+            maxFileCount: 10, //表示允许同时上传的最大文件个数
+            enctype: 'multipart/form-data',
+            validateInitialCount: true,
+            previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+            msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
+            uploadExtraData: function (previewId, index) {   //额外参数
+//                var obj = UserInfoDlg.userInfoData;
+                return {};
+            }
+        });
+        //导入文件上传完成之后的事件
+        $("#file").on("filebatchuploadsuccess", function (event, data, previewId, index) {
+            let fileList = data.response.fileList;
+            let html = ''
+            data.files.forEach((item, i) => {
+                let fileName = item.name;
+                let pointIndex = fileName.indexOf(".");
+                html = '<div><span>' + fileName + '&nbsp<span data-file="' + fileList[i] + '" data-type="' + type + '"  data-name="' + item.name + '" style="color:red;font-size: 16px;text-align: right;cursor: pointer" onclick="remove(this)" class="remove">X</span></span>&nbsp&nbsp</div>'
+                if(type==1){
+                    $("#file_dom").html(html);
+                    project_scheme_files=fileList[i];
+                }else if(type==2){
+                    $("#file_dom2").html(html);
+                    project_quote_files=fileList[i];
+                }else if(type==3){
+                    $("#file_dom3").html(html);
+                    client_contract_files=fileList[i]
+                }else if(type==4){
+                    $("#file_dom4").html(html);
+                    own_company_files=fileList[i]
+                }else if(type==5){
+                    $("#file_dom5").html(html);
+                    client_receive_files=fileList[i]
+                }else if(type==6){
+                    $("#file_dom6").html(html);
+                    order_confirm_files=fileList[i]
+                }else if(type==7){
+                    $("#file_dom7").html(html);
+                    last_pay_files=fileList[i]
+                }
+            })
+            $("#loading").modal('hide')
+        });
+        $("#file").on("filebatchselected", function (event, files) {
+            $('#file').fileinput("upload");
+            $("#loading").modal('show')
+        });
+    }
+
+    function remove(a) {
+        Feng.confirm("是否确认删除", function () {
+            let fileId = $(a).data("file")
+            let t=$(a).data("type");
+            $(a).parent().remove();
+            if(t==1){
+                project_scheme_files="";
+            }else if(t==2){
+                project_quote_files="";
+            }else if(t==3){
+                client_contract_files="";
+            }else if(t==4){
+                own_company_files="";
+            }else if(t==5){
+                client_receive_files="";
+            }else if(t==6){
+                order_confirm_files=""
+            }else if(t==7){
+                last_pay_files="";
+            }
+        })
+    }
+
+    function save() {
+        OrderEdits.clearData();
+        OrderEdits.collectData();
+        OrderEdits.orderInfo.project_scheme_files=project_scheme_files;
+        OrderEdits.orderInfo.project_quote_files=project_quote_files;
+        OrderEdits.orderInfo.client_contract_files=client_contract_files;
+        OrderEdits.orderInfo.own_company_files=own_company_files;
+        OrderEdits.orderInfo.client_receive_files=client_receive_files;
+
+        OrderEdits.orderInfo.order_confirm_files=order_confirm_files;
+        OrderEdits.orderInfo.last_pay_files=last_pay_files;
+        let region=$("#region").val();
+        let zhen=$("#zhen").val();
+        if(region!=''){
+            OrderEdits.orderInfo.order_region=region+"区";
+        }
+        if(zhen!=''){
+            OrderEdits.orderInfo.order_region=region+"区-"+zhen;
+        }
+        if(OrderEdits.orderInfo.ict_type!=null && OrderEdits.orderInfo.ict_type.length>0){
+            OrderEdits.orderInfo.ict_type=OrderEdits.orderInfo.ict_type.join(",");
+        }
+        OrderEdits.orderInfo['id'] = '${orderInfo.id}';
+        OrderEdits.orderInfo.need_desc=OrderEdits.orderInfo.need_desc.replaceAll("\t","");
+        OrderEdits.orderInfo.need_desc=OrderEdits.orderInfo.need_desc.replaceAll(" ","");
+        OrderEdits.orderInfo.client_manager_id=client_manager_id||0;
+        OrderEdits.orderInfo.client_manager=$("#manager_id").html();
+        c(OrderEdits.orderInfo);
+        Feng.confirm("是否保存？",function () {
+            var ajax = new $ax(Feng.ctxPath + "/orderInfoTest/edit", function (data) {
+                Feng.success("编辑成功");
+                window.parent.Order.table.refresh();
+                var index = parent.layer.getFrameIndex(window.name)
+                parent.layer.close(index);
+            }, function (data) {
+                Feng.error("下拉框数据加载失败");
+            });
+
+            ajax.set(OrderEdits.orderInfo)
+            ajax.start();
+        })
+    }
+    
+    function downloadPayFile() {
+        if(pay_files==""){
+            Feng.error("暂无付款证明附件");
+        }else{
+            pay_files = JSON.parse(pay_files);
+            if (pay_files !== "" && pay_files !== undefined && pay_files != null && pay_files.length > 0) {
+                let file_path=pay_files[0].file_path;
+                let file_name=pay_files[0].file_name;
+                downloadFile(file_path,file_name);
+            }
+        }
+    }
+</script>
+
+@}

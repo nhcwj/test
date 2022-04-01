@@ -1,0 +1,378 @@
+@layout("/common/_container.html"){
+<link href="${ctxPath}/static/css/radioAndCheckBox.css" rel="stylesheet">
+<link href="${ctxPath}/static/css/hover.css" rel="stylesheet">
+<link href="${ctxPath}/static/css/spinkit.css" rel="stylesheet">
+<link  rel="stylesheet" href="${ctxPath}/static/css/plugins/bootstrap-select/bootstrap-select.min.css">
+<script src="${ctxPath}/static/js/plugins/bootstrap-select/bootstrap-select.min.js"></script>
+<script src="${ctxPath}/static/js/plugins/bootstrap-select/defaults-zh_CN.min.js"></script>
+<style>
+    .example {
+        margin: auto;
+        position: absolute;
+        top: 0; left: 0; bottom: 0; right: 0;
+        width: 200px;
+        height: 200px;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+
+        justify-content: center;
+        align-items: center;
+    }
+    .option:hover{
+        background-color: #efefef;
+    }
+</style>
+<div class="row" id="content_body">
+    <div class="col-sm-12">
+
+
+
+        <div class="">
+            <div class="ibox-content"  >
+                <div class="row row-lg">
+                    <div id="openDiv" class="col-sm-12" style="position: absolute;right: 1%;top:-2%;height: auto;width: auto;opacity:1;display: none;z-index:100;text-align: center;padding: 5px">
+                        <div id="openBtn" title="展开" style="display: flex;cursor: pointer;align-items: center;justify-content: center">
+                            <img style="" src="/static/img/open.png">
+                        </div>
+                    </div>
+                    <div class="col-sm-12" id="queryDiv" style="background-color:white;padding:10px;position: absolute;left: 2%;top:2%;height: auto;width: 90%;opacity:1;border:1px  solid #888888;z-index: 100; ">
+                        <div class="row" style="margin-top: 1%;">
+                            <div class="col-sm-4" style="margin: 0;padding: 0"  id="suggestDiv">
+                                <div class="form-group">
+                                    <div class="col-sm-12" style="position: relative">
+                                        <input class="form-control hvr-shadow"  placeholder="请输入地址" id="address" name="address" style=""/>
+                                        <div style="position: absolute;right: 6%;top:25%;">
+                                            <i class="fa fa-arrow-left" style="cursor: pointer" id="back"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3" style="padding: 0px;margin: 0px">
+                                <div class="form-group" style="display: flex;align-items: center;justify-content: center">
+                                    <div style="text-align: right;width: 20%">
+                                        <label class="control-label ">
+                                            资源类型
+                                        </label>
+                                    </div>
+                                    <div style="z-index: 500;width: 75%;margin-left: 4%">
+                                        <select  id="resource_type" class="selectpicker  hvr-shadow  show-menu-arrow form-control" multiple title="请选择资源类型"  data-style="btn-inverse" >
+                                            <option value="站点">站点</option>
+                                            <option value="机房">机房</option>
+                                            <option value="交光箱">交光箱</option>
+                                            <option value="分光器">分光器</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3" style="">
+                                <div class="form-group" style="display: flex;align-items: center">
+                                    <div  style="text-align: right;width: 30%">
+                                        <label class="control-label ">
+                                            资源覆盖情况
+                                        </label>
+                                    </div>
+                                    <div  style="z-index: 500;width: 50%;margin-left: 10%">
+                                        <div class="row form-control" id="resource_input" style="width:300px;cursor:pointer;background-color: #efefef;display: flex;justify-content: flex-start;align-items: center;position: relative;height: auto;">
+                                            <div id="resource_cover_div" style="">请选择</div>
+                                            <div style="float: right;position: absolute;right: 5px;top:5px">
+                                                <i class="fa fa-sort-down"></i>
+                                            </div>
+                                        </div>
+
+                                        <!--<select id="resource_cover" class=" hvr-shadow selectpicker  show-menu-arrow form-control" multiple title="请选择资源覆盖情况"  data-style="btn-inverse" >-->
+                                            <!--&lt;!&ndash;<option value="">请选择</option>&ndash;&gt;-->
+                                            <!--<option value="5-厚覆盖-入楼成端">5-厚覆盖-入楼成端><i class="fa  fa-hand"></i></option>-->
+                                            <!--<option value="6-厚覆盖-垂直覆盖">6-厚覆盖-垂直覆盖</option>-->
+                                            <!--<option value="6-厚覆盖-垂直覆盖（插旗）">6-厚覆盖-垂直覆盖（插旗）</option>-->
+                                            <!--<option value="7-厚覆盖-水平覆盖">7-厚覆盖-水平覆盖</option>-->
+                                            <!--<option value="薄覆盖">薄覆盖</option>-->
+                                            <!--<option value="无覆盖">无覆盖</option>-->
+                                        <!--</select>-->
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4" style="margin: 0;padding: 0">
+                                <div class="form-group" style="display:flex;align-items: center">
+                                    <label class="col-sm-4 control-label" style="text-align: right">
+                                        楼宇资源查询
+                                    </label>
+                                    <div class="col-sm-8" style="display: flex;align-items: center;padding: 0 0">
+                                        <div class="col-sm-12">
+                                            <select class="form-control  hvr-shadow" id="area" name="area">
+                                                <option value="">区</option>
+                                                <option value="市属集团">市属集团</option>
+                                                <option value="禅城分公司">禅城分公司</option>
+                                                <option value="南海分公司">南海分公司</option>
+                                                <option value="顺德分公司">顺德分公司</option>
+                                                <option value="三水分公司">三水分公司</option>
+                                                <option value="高明分公司">高明分公司</option>
+                                                <option value="省级">省级</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6" style="margin: 0;padding: 0">
+                                <div class="col-sm-4">
+                                    <select class="form-control  hvr-shadow" id="zhen" name="zhen">
+                                        <option value="">镇</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-4">
+                                    <input class="form-control  hvr-shadow"  id="road" name="road" placeholder="路">
+                                </div>
+                                <div class="col-sm-4">
+                                    <input class="form-control  hvr-shadow" id="floor" name="floor" placeholder="楼">
+                                </div>
+                            </div>
+                            <div class="col-sm-2" style="margin: 0;padding: 0">
+                                <div class="col-sm-6">
+                                    <button type="button" class="btn btn-primary hvr-grow-shadow" style="background-color: #20BE84" onclick="query()" id="query">
+                                        查询
+                                    </button>
+                                </div>
+                                <div class="col-sm-6" style="display: flex;justify-content: flex-end">
+                                    <img id="QuerySlideUp" class="hvr-grow-shadow" src="/static/img/up.png" style="width: 32px;height: 32px;cursor: pointer">
+
+                                </div>
+                            </div>
+                            <!--<div class="col-sm-2 " style="display: flex;justify-content: flex-end">-->
+                            <!--</div>-->
+                        </div>
+                    </div>
+                    <br>
+                    <div id="container" style="width: 100%;height: 800px;margin-top: 0%"></div>
+                    <div id="floorInfo" style="background-color:white;padding:10px;display: none;position: absolute;right: 2%;top:15%;height: auto;width: 28%;opacity:1;border:2px solid #888888;z-index: 100">
+                        <div class="content">
+                            <div class="" style="display: flex;flex-direction: column;justify-content: center;align-items: center">
+                                <h3 id="floor_name" style="color:#20BE84 ">狮山奥园广场</h3>
+                                <p id="addressName">佛山市南海区狮山镇科技北路6号奥园广场4座(中小企)</p>
+                            </div>
+                            <div style="height: 1px;background-color: #E8E7E6"></div>
+                            <div class="row" style="margin-top: 20px;padding-left: 20px;padding-right: 20px" >
+                                <div class="" style="display: flex;justify-content: space-between">
+                                    <div style="font-weight: bold">资源到达情况</div>
+                                    <div id="resource"></div>
+                                </div>
+                                <div class="" style="display: flex;justify-content: space-between">
+                                    <div style="font-weight: bold">预计工期</div>
+                                    <div id="xday">GPON-天/非GPON-天</div>
+                                </div>
+                                <div class="remark" style="display: flex;justify-content: center;margin-top: 20px">
+                                    <div style="font-size: 10px"><span style="color: red">*</span>GPON需求可直接ESOP系统提单建设</div>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top: 20px;display: flex;margin-left: 20px;margin-right: 20px">
+                                <!--<div style="width: 50%">-->
+                                    <!--<button type="button" class="btn btn-primary btn-block" style="background-color: #20BE84;width: 100%" onclick="consult()" id="submit">-->
+                                        <!--新建咨询前勘单-->
+                                    <!--</button>-->
+                                <!--</div>-->
+                                <div style="width: 50%">
+                                    <button type="button" class="btn btn-primary btn-block" style="background-color: #20BE84;" onclick="build()" id="submit">
+                                        建设资源准备
+                                    </button>
+                                </div>
+                                <div style="width: 50%">
+                                    <button type="button" class="btn btn-primary btn-block" style="margin-left:10px;background-color: #20BE84;" onclick="business()" id="submit">
+                                        商机报备
+                                    </button>
+                                </div>
+
+                            </div>
+                            <!--<div class="row" style="margin-top: 20px;display: flex;margin-left: 20px;margin-right: 20px">-->
+
+                            <!--</div>-->
+                            <!-- 收起按钮-->
+                            <div class="row"  style="margin-top: 20px;">
+                                <div class="col-sm-12" style="display: flex;justify-content: flex-end">
+                                    <img id="FloorSlideUp" src="/static/img/slideUp.png" style="width: 32px;height: 32px;cursor: pointer">
+                                </div>
+                                <!--<div class="col-sm-12" style="display: flex;justify-content: flex-end">-->
+                                    <!--<button type="button" id="FloorSlideUp" class="btn btn-primary hvr-grow-shadow " style="background-color: #20BE84;">收起</button>-->
+                                <!--</div>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!--智能搜索框-->
+    <div id="searchResultPanel" class="searchResultPanel" style="z-index:100;border:1px solid #20BE84;width: 300px;  height:auto; display:none;background-color: white">
+    </div>
+    <div id="concreteInfo" style="position: absolute;padding:10px;left: 3%;top:180px;z-index: 1000;display: none;border: 1px solid #888888;background-color: white;width: 380px;">
+        <div style="width: 95%;margin: 0 auto">
+            <div id="point_name">
+
+            </div>
+            <div id="point_address" style="margin-top: 0px">
+
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="loadingModal">
+        <div class="example">
+            <div class="sk-wave">
+                <div class="sk-wave-rect" style="background-color:#20BE84 "></div>
+                <div class="sk-wave-rect"  style="background-color:#20BE84 "></div>
+                <div class="sk-wave-rect"  style="background-color:#20BE84 "></div>
+                <div class="sk-wave-rect"  style="background-color:#20BE84 "></div>
+                <div class="sk-wave-rect"  style="background-color:#20BE84 "></div>
+            </div>
+            <div style="font-weight: bold;font-size: 18px;color: white">数据加载中...</div>
+        </div>
+    </div>
+    <div style="width:300px;position:absolute;display:none;background-color: white;z-index: 600;border: 1px #888888 solid;" id="select_option">
+        <div class="option" id="six" style="cursor: pointer;padding:10px;border-bottom: 1px dashed #888888">1-无覆盖
+            &nbsp;
+            <img style="width: 16px;height: 16px" src="/static/img/floor/1-wu.png">
+        </div>
+        <div class="option"  style="cursor: pointer;padding:10px;border-bottom: 1px dashed #888888">2-薄覆盖-接入区覆盖
+            &nbsp;
+            <img style="width: 16px;height: 16px" src="/static/img/floor/2-bao-jie.png">
+        </div>
+        <div class="option"  style="cursor: pointer;padding:10px;border-bottom: 1px dashed #888888">3-薄覆盖-微网格覆盖
+            &nbsp;
+            <img style="width: 16px;height: 16px" src="/static/img/floor/3-bao-wei.png">
+        </div>
+
+        <div class="option"  style="cursor: pointer;padding:10px;border-bottom: 1px dashed #888888">3-厚覆盖-微网格覆盖
+            &nbsp;
+            <img style="width: 16px;height: 16px" src="/static/img/floor/3-hou-wei.png">
+        </div>
+
+        <div class="option"  style="cursor: pointer;padding:10px;border-bottom: 1px dashed #888888">4-薄覆盖-同侧50米内成端
+            &nbsp;
+            <img style="width: 16px;height: 16px" src="/static/img/floor/4-bao-tong.png">
+        </div>
+        <div class="option"  style="cursor: pointer;padding:10px;border-bottom: 1px dashed #888888">4-厚覆盖-同侧50米内成端
+            &nbsp;
+            <img style="width: 16px;height: 16px" src="/static/img/floor/4-hou-tong.png">
+        </div>
+
+
+
+        <div class="option" id="one" style="cursor: pointer;padding:10px;border-bottom: 1px dashed #888888">5-厚覆盖-入楼成端&nbsp;
+            <img style="width: 16px;height: 16px" src="/static/img/floor/5-hou-ru.png">
+        </div>
+
+        <div class="option" id="two" style="cursor: pointer;padding:10px;border-bottom: 1px dashed #888888">6-厚覆盖-垂直覆盖
+            &nbsp;
+            <img style="width: 16px;height: 16px" src="/static/img/floor/6-hou-chui.png">
+        </div>
+        <div class="option" id="four" style="cursor: pointer;padding:10px;border-bottom: 1px dashed #888888">7-厚覆盖-水平覆盖
+            &nbsp;
+            <img  style="width: 16px;height: 16px" src="/static/img/floor/7-hou-shui.png">
+        </div>
+
+
+    </div>
+</div>
+<script src="${ctxPath}/static/js/common/echarts.min.js"></script>
+<script src="${ctxPath}/static/js/viewer.min.js"></script>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=k2MWn54jI2aySQarb7OSECgT2bGBB0wI"></script>
+<script src="${ctxPath}/static/js/jquery.imgbox.pack.js"></script>
+<script src="${ctxPath}/static/js/map.js"></script>
+<script type="text/javascript" src="${ctxPath}/static/js/infoBox.js"></script>
+<script>
+    let resourceList=[];
+    let displayList=[];
+    let obj={"1-无覆盖":"1-wu","2-薄覆盖-接入区覆盖":"2-bao-jie","3-薄覆盖-微网格覆盖":"3-bao-wei","3-厚覆盖-微网格覆盖":"3-hou-wei"
+    ,"4-薄覆盖-同侧50米内成端":"4-bao-tong","4-厚覆盖-同侧50米内成端":"4-hou-tong","5-厚覆盖-入楼成端":"5-hou-ru"
+    ,"6-厚覆盖-垂直覆盖":"6-hou-chui","7-厚覆盖-水平覆盖":"7-hou-shui"}
+    let dict={"1-wu":"1-无覆盖","2-bao-jie":"2-薄覆盖-接入区覆盖","3-bao-wei":"3-薄覆盖-微网格覆盖","3-hou-wei":"3-厚覆盖-微网格覆盖"
+        ,"4-bao-tong":"4-薄覆盖-同侧50米内成端","4-hou-tong":"4-厚覆盖-同侧50米内成端","5-hou-ru":"5-厚覆盖-入楼成端"
+        ,"6-hou-chui":"6-厚覆盖-垂直覆盖","7-hou-shui":"7-厚覆盖-水平覆盖"}
+    $("#area").change(function (){
+        let area=$(this).val();
+        let html='';
+        if(area===""){
+            html+='<option value="">镇</option>';
+            $("#zhen").html(html);
+            return;
+        }
+        let zhen=Feng.zhenList[area];
+        html+='<option value="">镇</option>';
+        zhen.forEach((item,i)=>{
+            html+='<option value="'+item+'">'+item+'</option>';
+        })
+        $("#zhen").html(html);
+    })
+    function build() {
+        var layerIndex=openWindow("建设资源准备单",1000,450,'/qyw/beforeInfo/build?region='+region+"&zhen="+zhen+"&resource_cover_condition="+resource_cover_condition+"&floorId="+floorId);
+        c(region)
+        c(zhen);
+        layer.full(layerIndex);
+    }
+    function consult() {
+        var layerIndex=openWindow("咨询资源准备单",1000,450,'/qyw/beforeInfo/consult?region='+region+"&zhen="+zhen);
+        layer.full(layerIndex);
+    }
+    function business() {
+        var layerIndex=openWindow("商机单",1000,450,'/qyw/beforeInfo/businessOrder');
+        layer.full(layerIndex);
+    }
+    $("#QuerySlideUp").click(function () {
+        $("#queryDiv").slideUp(500);
+        $("#openDiv").css('display','');
+    })
+    let isHave=0;
+    $("#openBtn").click(function () {
+        $("#queryDiv").slideDown(500);
+        $("#openDiv").css('display','none');
+    })
+    $("#resource_input").click(function (event) {
+        var index=$("#resource_input").css('height').indexOf('px');
+        var suggestHeight=Number($("#resource_input").css('height').substring(0,index))+2;
+        $("#select_option").css({
+            top:$("#resource_input").offset().top+suggestHeight,
+            left:$("#resource_input").offset().left,
+        })
+        $("#select_option").css("display",'');
+        event.stopPropagation(); // 只执行button的click，如果注释掉该行，将执行button、p和div的click （同类型的事件）
+
+    })
+    $(".option").click(function (event) {
+        let removeIndex=-1;
+        let text=$(this).text().trim();
+        let display_text=$(this).text().trim();
+        text=obj[text];
+        if(resourceList.indexOf(text)===-1){
+            resourceList.push(text);
+            displayList.push(display_text);
+            let html='<i class="fa fa-check icon " style="float:right;color: #20BE84"></i>'
+            $(this).append(html);
+        }else{
+            resourceList.forEach((item,index)=>{
+                if(item===text){
+                    removeIndex=index;
+                }
+            })
+            resourceList.splice(removeIndex,1);
+            displayList.splice(removeIndex,1);
+            $(this).find("i").remove();
+
+        }
+        let value=displayList.join(",");
+        if(value.length>25){
+            value=value.substring(0,25)+"...";
+        }
+        if(value!==''){
+            $("#resource_cover_div").html(value);
+        }else{
+            $("#resource_cover_div").html('请选择');
+        }
+        event.stopPropagation(); // 只执行button的click，如果注释掉该行，将执行button、p和div的click （同类型的事件）
+
+    })
+    $("#content_body").bind("click",function (e) {
+        $("#select_option").hide();
+    });
+</script>
+@}

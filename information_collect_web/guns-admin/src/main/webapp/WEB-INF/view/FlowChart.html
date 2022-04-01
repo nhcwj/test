@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link href="${ctxPath}/static/css/hover.css" rel="stylesheet">
+    <style>
+        #diagramContainer {
+            position: relative;
+            font-size: smaller;
+            padding: 20px;
+            height: 550px;
+            background: #fff;
+            /*background-image:*/
+                    /*linear-gradient(#bab5b54d 1px, transparent 0),*/
+                    /*linear-gradient(90deg, #bab5b54d 1px, transparent 0),*/
+                    /*linear-gradient(#bab5b54d 1px, transparent 0),*/
+                    /*linear-gradient(90deg, #bab5b54d 1px, transparent 0);*/
+            /*background-size: 15px 15px, 15px 15px, 75px 75px, 75px 75px;*/
+            overflow-x: auto;
+        }
+        .rectangle-size {
+            position: absolute;
+            text-align: center;
+            line-height: 40px;
+            height: 40px;
+            width: 60px;
+            padding: 5px;
+            font-family: 宋体;
+            border-radius: 5px;
+            cursor: pointer;
+            background-image: url(../../static/img/green_block.png); background-repeat: no-repeat;background-size: 100% 100%
+        }
+        .big_rectangle-size {
+            position: absolute;
+            text-align: center;
+            height: 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 70px;
+            font-family: 宋体;
+            border-radius: 5px;
+            box-sizing: border-box;
+            cursor: pointer;
+            background-image: url(../../static/img/yellow_block.png);
+            background-repeat: no-repeat;background-size: 100% 100%
+        }
+        .active{
+            font-family: 宋体;
+            font-weight: bolder;
+            background-image: url(../../static/img/yellow_block_active.png);
+            background-repeat: no-repeat;background-size: 100% 100%;
+            color: red;
+        }
+    </style>
+</head>
+
+<body style="">
+<div id="diagramContainer">
+    <div id="esop_system" class="rectangle-size hvr-shadow" style="background-image: url(../../static/img/green_block.png); background-repeat: no-repeat;background-size: 100% 100%">ESOP系统</div>
+    <div id="open_system" class="rectangle-size hvr-shadow" style="margin-left:120px;background-image: url(../../static/img/red_block.png); background-repeat: no-repeat;background-size: 100% 100%">服开系统</div>
+    <div id="system" class="rectangle-size hvr-shadow" style="margin-left:240px;background-image: url(../../static/img/yellow_block.png); background-repeat: no-repeat;background-size: 100% 100%">本系统</div>
+
+    <div id="business_get" class="rectangle-size hvr-shadow" style="margin-top: 100px;">商机获取</div>
+
+    <div id="esop" class="rectangle-size hvr-shadow" style="margin-left:100px;margin-top: 100px">ESOP开单</div>
+    <div id="business_verify" class="rectangle-size hvr-shadow" style="margin-left:200px;margin-top: 100px">业务初审</div>
+    <div id="electric_seal" class="rectangle-size hvr-shadow" style="margin-left:300px;margin-top: 100px">电子签章</div>
+
+    <div id="contract_signing" class="rectangle-size hvr-shadow" style="margin-left:400px;margin-top: 100px">合同签订</div>
+
+    <div id="contract_upload" class="rectangle-size hvr-shadow" style="margin-left:500px;margin-top: 100px">合同上传</div>
+
+    <div id="order_collection" class="rectangle-size hvr-shadow" style="margin-left:600px;margin-top: 100px">订单补录</div>
+
+    <div id="business_second_verify" class="rectangle-size hvr-shadow" style="margin-left:700px;margin-top: 100px">业务复审</div>
+
+    <div id="service_open_bill_dispatch_center" class="rectangle-size hvr-shadow" style="margin-left:800px;height: 40px;margin-top: 100px;padding: 5px;font-size: 12px;background-image: url(../../static/img/red_block.png); background-repeat: no-repeat;background-size: 100% 100%">服开开单</div>
+
+    <div id="server_opening_data" class="rectangle-size hvr-shadow" style="margin-left:900px;height: 40px;margin-top: 100px;padding: 5px;background-image: url(../../static/img/red_block.png); background-repeat: no-repeat;background-size: 100% 100%">开通数据</div>
+
+    <div id="server_opening_archive" class="rectangle-size hvr-shadow" style="margin-left:1000px;margin-top: 100px;padding: 5px;background-image: url(../../static/img/red_block.png); background-repeat: no-repeat;background-size: 100% 100%">服开归档</div>
+
+    <div id="business_acceptance" class="rectangle-size hvr-shadow" style="margin-left:1100px;margin-top: 100px;padding: 5px">商务验收</div>
+
+
+    <div id="map_query" class="big_rectangle-size hvr-shadow" style="margin-left:100px;margin-top: 300px;padding: 5px">地图资源覆盖查询</div>
+
+    <div id="build" class="big_rectangle-size hvr-shadow" style="margin-left:200px;margin-top: 300px;padding: 10px;font-size: 12px">创建本系统资源准备单</div>
+
+    <div id="resource_judge" class="big_rectangle-size hvr-shadow" style="margin-left:300px;margin-top: 300px;padding: 5px">资源判断</div>
+
+    <div id="create_order" class="big_rectangle-size hvr-shadow" style="margin-left:400px;margin-top: 300px;padding: 15px;">创建开通单</div>
+
+    <div id="design" class="big_rectangle-size hvr-shadow" style="margin-left:500px;margin-top: 300px;padding: 5px">设计方案</div>
+
+    <div id="verify" class="big_rectangle-size hvr-shadow" style="margin-left:600px;margin-top: 300px;padding: 5px">审批</div>
+
+    <div id="check_data" class="big_rectangle-size hvr-shadow" style="margin-left:700px;margin-top: 300px;padding: 5px">核查数据</div>
+
+    <div id="jump" class="big_rectangle-size hvr-shadow" style="margin-left:800px;margin-top: 200px;padding: 5px">跳纤</div>
+
+    <div id="end" class="big_rectangle-size hvr-shadow" style="margin-left:800px;margin-top: 300px;padding: 5px">末端光缆施工</div>
+
+    <div id="install_device" class="big_rectangle-size hvr-shadow" style="margin-left:900px;margin-top: 300px;padding: 5px">安装设备</div>
+
+    <div id="organization" class="big_rectangle-size hvr-shadow" style="margin-left:1000px;margin-top: 300px;padding: 5px">组织交维</div>
+
+    <div id="confirm" class="big_rectangle-size hvr-shadow" style="margin-left:1100px;margin-top: 300px;padding: 5px">确认交维</div>
+
+    <div id="archive" class="big_rectangle-size hvr-shadow" style="margin-left:1200px;margin-top: 300px;padding: 5px;width: 60px">归档</div>
+
+    <div id="scene_scheme_design" class="big_rectangle-size hvr-shadow" style="margin-left:400px;margin-top: 450px;padding: 5px">现场资源准备工单</div>
+
+    <div id="system_scheme_design" class="big_rectangle-size hvr-shadow" style="margin-left:500px;margin-top: 450px;padding: 5px">系统方案设计</div>
+
+
+    <div id="webmaster_verify" class="big_rectangle-size hvr-shadow" style="margin-left:600px;margin-top: 450px;padding: 5px;">网管审批</div>
+
+    <div id="cover_order" class="big_rectangle-size hvr-shadow" style="margin-left:700px;margin-top: 450px;padding: 5px">预覆盖工单</div>
+
+    <div id="cover_order_design" class="big_rectangle-size hvr-shadow" style="margin-left:800px;margin-top: 450px;padding: 5px">设计方案</div>
+
+    <div id="cover_order_work" class="big_rectangle-size hvr-shadow" style="margin-left:900px;margin-top: 450px;padding: 5px">管道光缆施工</div>
+
+    <div id="cover_order_finish" class="big_rectangle-size hvr-shadow" style="margin-left:1000px;margin-top: 450px;padding: 5px">管道光缆完工</div>
+
+    <div id="cover_order_archive" class="big_rectangle-size hvr-shadow" style="margin-left:1100px;margin-top: 450px;width:90px;padding: 15px">补充覆盖工单归档</div>
+
+</div>
+<script src="${ctxPath}/static/js/jquery.min.js?v=2.1.4"></script>
+<script src="${ctxPath}/static/js/flowChart/jsPlumb.js"></script>
+<script>
+    let con={};
+    function makeStyle() {
+        return {
+            connector: ['Flowchart', {
+                gap: 0,
+                cornerRadius: 5,
+                alwaysRespectStubs: true
+            }],
+            endpoint: ['Dot', {
+                radius: 0.1,
+                fill: '#763434'
+            }],
+            connectorOverlays: [
+                ['Arrow', {
+                    width: 10,
+                    length: 10,
+                    location: 1
+                }]
+            ],
+
+        };
+    }
+    jsPlumb.ready(function () {
+        let pointStyle = makeStyle();
+
+        jsPlumb.setContainer('diagramContainer');
+        //商机获取
+        jsPlumb.addEndpoint('business_get', {uuid: 'business_get_b', anchor: 'Bottom'}, pointStyle);
+
+        //ESOP开单
+        jsPlumb.addEndpoint('esop', {uuid: 'esop_b', anchor: 'Bottom'}, pointStyle);
+        jsPlumb.addEndpoint('esop', {uuid: 'esop_r', anchor: 'Right'}, pointStyle);
+
+        //业务初审
+        jsPlumb.addEndpoint('business_verify', {uuid: 'business_verify_l', anchor: 'Left'}, pointStyle);
+        jsPlumb.addEndpoint('business_verify', {uuid: 'business_verify_r', anchor: 'Right'}, pointStyle);
+
+        //电子签章
+        jsPlumb.addEndpoint('electric_seal', {uuid: 'electric_seal_l', anchor: 'Left'}, pointStyle);
+        jsPlumb.addEndpoint('electric_seal', {uuid: 'electric_seal_r', anchor: 'Right'}, pointStyle);
+        jsPlumb.addEndpoint('electric_seal', {uuid: 'electric_seal_b', anchor: 'Bottom'}, pointStyle);
+
+
+        //合同签订
+        jsPlumb.addEndpoint('contract_signing', {uuid: 'contract_signing_l', anchor: 'Left'}, pointStyle);
+        jsPlumb.addEndpoint('contract_signing', {uuid: 'contract_signing_r', anchor: 'Right'}, pointStyle);
+
+        //合同上传
+        jsPlumb.addEndpoint('contract_upload', {uuid: 'contract_upload_l', anchor: 'Left'}, pointStyle);
+        jsPlumb.addEndpoint('contract_upload', {uuid: 'contract_upload_r', anchor: 'Right'}, pointStyle);
+
+        //订单补录
+        jsPlumb.addEndpoint('order_collection', {uuid: 'order_collection_l', anchor: 'Left'}, pointStyle);
+        jsPlumb.addEndpoint('order_collection', {uuid: 'order_collection_r', anchor: 'Right'}, pointStyle);
+
+        //业务复审
+        jsPlumb.addEndpoint('business_second_verify', {uuid: 'business_second_verify_l', anchor: 'Left'}, pointStyle);
+        jsPlumb.addEndpoint('business_second_verify', {uuid: 'business_second_verify_r', anchor: 'Right'}, pointStyle);
+
+        //服开开单调度中心
+        jsPlumb.addEndpoint('service_open_bill_dispatch_center', {uuid: 'service_open_bill_dispatch_center_l', anchor: 'Left'}, pointStyle);
+        jsPlumb.addEndpoint('service_open_bill_dispatch_center', {uuid: 'service_open_bill_dispatch_center_r', anchor: 'Right'}, pointStyle);
+
+        //服开开通数据
+        jsPlumb.addEndpoint('server_opening_data', {uuid: 'server_opening_data_l', anchor: 'Left'}, pointStyle);
+        jsPlumb.addEndpoint('server_opening_data', {uuid: 'server_opening_data_r', anchor: 'Right'}, pointStyle);
+
+        //服开归档
+        jsPlumb.addEndpoint('server_opening_archive', {uuid: 'server_opening_archive_l', anchor: 'Left'}, pointStyle);
+        jsPlumb.addEndpoint('server_opening_archive', {uuid: 'server_opening_archive_r', anchor: 'Right'}, pointStyle);
+
+        //商务验收
+        jsPlumb.addEndpoint('business_acceptance', {uuid: 'business_acceptance_l', anchor: 'Left'}, pointStyle);
+
+        //地图资源查询
+        jsPlumb.addEndpoint('map_query', {uuid: 'map_query_l', anchor: 'Left'}, pointStyle);
+        jsPlumb.addEndpoint('map_query', {uuid: 'map_query_r', anchor: 'Right'}, pointStyle);
+        jsPlumb.addEndpoint('map_query', {uuid: 'map_query_t', anchor: 'Top'}, pointStyle);
+//        jsPlumb.addEndpoint('map_query', {uuid: 'map_query_b', anchor: 'Bottom'}, pointStyle);
+
+
+        //前勘单
+        jsPlumb.addEndpoint('build', {uuid: 'build_l', anchor: 'Left'}, pointStyle);
+        jsPlumb.addEndpoint('build', {uuid: 'build_r', anchor: 'Right'}, pointStyle);
+
+        //资源判断
+        jsPlumb.addEndpoint('resource_judge', {uuid: 'resource_judge_l', anchor: 'Left'}, pointStyle);
+        jsPlumb.addEndpoint('resource_judge', {uuid: 'resource_judge_r', anchor: 'Right'}, pointStyle);
+        jsPlumb.addEndpoint('resource_judge', {uuid: 'resource_judge_b', anchor: 'Bottom'}, pointStyle);
+
+        //创建开通单
+        jsPlumb.addEndpoint('create_order', {uuid: 'create_order_l', anchor: 'Left'}, pointStyle);
+        jsPlumb.addEndpoint('create_order', {uuid: 'create_order_r', anchor: 'Right'}, pointStyle);
+        jsPlumb.addEndpoint('create_order', {uuid: 'create_order_t', anchor: 'Top'}, pointStyle);
+        jsPlumb.addEndpoint('create_order', {uuid: 'create_order_b', anchor: 'Bottom'}, pointStyle);
+
+        //设计
+        jsPlumb.addEndpoint('design', {uuid: 'design_l', anchor: 'Left'}, pointStyle);
+        jsPlumb.addEndpoint('design', {uuid: 'design_r', anchor: 'Right'}, pointStyle);
+
+        //审批
+        jsPlumb.addEndpoint('verify', {uuid: 'verify_l', anchor: 'Left'}, pointStyle);
+        jsPlumb.addEndpoint('verify', {uuid: 'verify_r', anchor: 'Right'}, pointStyle);
+
+        //核查数据
+        jsPlumb.addEndpoint('check_data', {uuid: 'check_data_l', anchor: 'Left'}, pointStyle);
+        jsPlumb.addEndpoint('check_data', {uuid: 'check_data_r', anchor: 'Right'}, pointStyle);
+        jsPlumb.addEndpoint('check_data', {uuid: 'check_data_t', anchor: 'Top'}, pointStyle);
+        jsPlumb.addEndpoint('check_data', {uuid: 'check_data_b', anchor: 'Bottom'}, pointStyle);
+
+        //跳纤
+        jsPlumb.addEndpoint('jump', {uuid: 'jump_l', anchor: 'Left'}, pointStyle);
+        jsPlumb.addEndpoint('jump', {uuid: 'jump_r', anchor: 'Right'}, pointStyle);
+
+        //末端光缆施工
+        jsPlumb.addEndpoint('end', {uuid: 'end_l', anchor: 'Left'}, pointStyle);
+        jsPlumb.addEndpoint('end', {uuid: 'end_r', anchor: 'Right'}, pointStyle);
+
+        //安装设备
+        jsPlumb.addEndpoint('install_device', {uuid: 'install_device_l', anchor: 'Left'}, pointStyle);
+        jsPlumb.addEndpoint('install_device', {uuid: 'install_device_r', anchor: 'Right'}, pointStyle);
+        jsPlumb.addEndpoint('install_device', {uuid: 'install_device_t', anchor: 'Top'}, pointStyle);
+
+        //组织交维
+        jsPlumb.addEndpoint('organization', {uuid: 'organization_l', anchor: 'Left'}, pointStyle);
+        jsPlumb.addEndpoint('organization', {uuid: 'organization_r', anchor: 'Right'}, pointStyle);
+
+        //确认交维
+        jsPlumb.addEndpoint('confirm', {uuid: 'confirm_l', anchor: 'Left'}, pointStyle);
+        jsPlumb.addEndpoint('confirm', {uuid: 'confirm_r', anchor: 'Right'}, pointStyle);
+
+        //确认交维
+        jsPlumb.addEndpoint('archive', {uuid: 'archive_l', anchor: 'Left'}, pointStyle);
+
+        //系统方案设计
+        jsPlumb.addEndpoint('system_scheme_design', {uuid: 'system_scheme_design_l', anchor: 'Left'}, pointStyle);
+        jsPlumb.addEndpoint('system_scheme_design', {uuid: 'system_scheme_design_r', anchor: 'Right'}, pointStyle);
+
+        //现场方案设计
+        jsPlumb.addEndpoint('scene_scheme_design', {uuid: 'scene_scheme_design_l', anchor: 'Left'}, pointStyle);
+        jsPlumb.addEndpoint('scene_scheme_design', {uuid: 'scene_scheme_design_r', anchor: 'Right'}, pointStyle);
+
+        //网管审批
+        jsPlumb.addEndpoint('webmaster_verify', {uuid: 'webmaster_verify_l', anchor: 'Left'}, pointStyle);
+        jsPlumb.addEndpoint('webmaster_verify', {uuid: 'webmaster_verify_r', anchor: 'Right'}, pointStyle);
+        jsPlumb.addEndpoint('webmaster_verify', {uuid: 'webmaster_verify_t', anchor: 'Top'}, pointStyle);
+
+        //预覆盖工单
+        jsPlumb.addEndpoint('cover_order', {uuid: 'cover_order_l', anchor: 'Left'}, pointStyle);
+        jsPlumb.addEndpoint('cover_order', {uuid: 'cover_order_r', anchor: 'Right'}, pointStyle);
+
+        //预覆盖工单设计
+        jsPlumb.addEndpoint('cover_order_design', {uuid: 'cover_order_design_l', anchor: 'Left'}, pointStyle);
+        jsPlumb.addEndpoint('cover_order_design', {uuid: 'cover_order_design_r', anchor: 'Right'}, pointStyle);
+
+        //预覆盖工单施工
+        jsPlumb.addEndpoint('cover_order_work', {uuid: 'cover_order_work_l', anchor: 'Left'}, pointStyle);
+        jsPlumb.addEndpoint('cover_order_work', {uuid: 'cover_order_work_r', anchor: 'Right'}, pointStyle);
+
+        //预覆盖工单完工
+        jsPlumb.addEndpoint('cover_order_finish', {uuid: 'cover_order_finish_l', anchor: 'Left'}, pointStyle);
+        jsPlumb.addEndpoint('cover_order_finish', {uuid: 'cover_order_finish_r', anchor: 'Right'}, pointStyle);
+        jsPlumb.addEndpoint('cover_order_finish', {uuid: 'cover_order_finish_t', anchor: 'Top'}, pointStyle);
+
+
+        //预覆盖工单归档
+        jsPlumb.addEndpoint('cover_order_archive', {uuid: 'cover_order_archive_l', anchor: 'Left'}, pointStyle);
+//        jsPlumb.addEndpoint('cover_order_archive', {uuid: 'cover_order_archive_t', anchor: 'Top'}, pointStyle);
+
+
+//        jsPlumb.connect({uuids: ['business_get_r', 'esop_l']});
+        let test=jsPlumb.connect({uuids: ['business_get_b', 'map_query_l']});
+        jsPlumb.connect({uuids: ['esop_r', 'business_verify_l']});
+        jsPlumb.connect({uuids: ['business_verify_r', 'electric_seal_l']});
+        jsPlumb.connect({uuids: ['electric_seal_r', 'contract_signing_l']});
+        jsPlumb.connect({uuids: ['contract_signing_r', 'contract_upload_l']});
+        jsPlumb.connect({uuids: ['contract_upload_r', 'order_collection_l']});
+        jsPlumb.connect({uuids: ['order_collection_r', 'business_second_verify_l']});
+        jsPlumb.connect({uuids: ['business_second_verify_r', 'service_open_bill_dispatch_center_l']});
+        jsPlumb.connect({uuids: ['service_open_bill_dispatch_center_r', 'server_opening_data_l']});
+        jsPlumb.connect({uuids: ['server_opening_data_r', 'server_opening_archive_l']});
+        jsPlumb.connect({uuids: ['server_opening_archive_r', 'business_acceptance_l']});
+
+        jsPlumb.connect({uuids: ['map_query_r', 'build_l']});
+        jsPlumb.connect({uuids: ['map_query_t', 'esop_b']});
+        jsPlumb.connect({uuids: ['build_r', 'resource_judge_l']});
+        jsPlumb.connect({uuids: ['resource_judge_r', 'create_order_l']});
+        jsPlumb.connect({uuids: ['electric_seal_b', 'create_order_t']});
+        jsPlumb.connect({uuids: ['create_order_r', 'design_l']});
+        jsPlumb.connect({uuids: ['design_r', 'verify_l']});
+        jsPlumb.connect({uuids: ['verify_r', 'check_data_l']});
+        jsPlumb.connect({uuids: ['check_data_t', 'jump_l']});
+        jsPlumb.connect({uuids: ['check_data_r', 'end_l']});
+        jsPlumb.connect({uuids: ['jump_r', 'install_device_t']});
+        jsPlumb.connect({uuids: ['end_r', 'install_device_l']});
+        jsPlumb.connect({uuids: ['install_device_r', 'organization_l']});
+
+        jsPlumb.connect({uuids: ['organization_r', 'confirm_l']});
+        jsPlumb.connect({uuids: ['confirm_r', 'archive_l']});
+
+        jsPlumb.connect({uuids: ['resource_judge_b', 'scene_scheme_design_l']});
+
+        jsPlumb.connect({uuids: ['scene_scheme_design_r', 'system_scheme_design_l']});
+        jsPlumb.connect({uuids: ['system_scheme_design_r', 'webmaster_verify_l']});
+        jsPlumb.connect({uuids: ['webmaster_verify_t', 'create_order_b']});
+
+        jsPlumb.connect({uuids: ['webmaster_verify_r', 'cover_order_l']});
+        jsPlumb.connect({uuids: ['cover_order_r', 'cover_order_design_l']});
+        jsPlumb.connect({uuids: ['cover_order_design_r', 'cover_order_work_l']});
+        jsPlumb.connect({uuids: ['cover_order_work_r', 'cover_order_finish_l']});
+
+        jsPlumb.connect({uuids: ['cover_order_finish_r', 'cover_order_archive_l']});
+        jsPlumb.connect({uuids: ['cover_order_finish_t', 'check_data_b']});
+
+//        jsPlumb.connect({uuids: ['cover_order_archive_t', 'check_data_b']});
+
+
+//        jsPlumb.connect({
+//            source: 'business_get',
+//            target: 'esop',
+//            endpoint: 'Dot'
+//        })
+    })
+    let processList='${processList}'
+    let coverList='${coverList}'
+    if(processList!=''){
+        processList=JSON.parse(processList);
+        for(let i=0;i<processList.length;i++){
+            $("#"+processList[i]).addClass("active")
+        }
+    }
+    if(coverList!=''){
+        coverList=JSON.parse(coverList);
+        for(let i=0;i<coverList.length;i++){
+            $("#"+coverList[i]).addClass("active")
+        }
+    }
+</script>
+</body>
+
+</html>

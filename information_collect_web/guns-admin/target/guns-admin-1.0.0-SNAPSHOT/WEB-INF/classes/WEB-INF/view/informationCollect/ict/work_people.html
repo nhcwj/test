@@ -1,0 +1,145 @@
+<div id="workpeople" hidden>
+    <div style="height: 15px"></div>
+    <#title info="施工人员指派" />
+    <div class="row" style="margin-top: 20px;margin-bottom: 20px">
+        <div class="col-sm-4">
+            <#label id="order_num1" name="MICT订单号" value="${orderInfo.order_no}" />
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label class="col-sm-4 control-label">产品编号</label>
+                <div class="col-sm-8">
+                    <input class="form-control" value="${orderInfo_plus.product_no}"  id="product_no" name="product_no" placeholder="请输入" >
+                </div>
+            </div>
+        </div>
+    </div>
+    @for(order_type in order_type_list){
+        <div style=" border-bottom: 1px #20BE84 solid;"></div>
+        <div class="row" style="margin-top: 20px;margin-bottom: 20px">
+            <div class="col-sm-4">
+                <#label id="services_package_${order_type.id}" name="服务包大类" value="${order_type.services_package}" />
+            </div>
+            <div class="col-sm-4">
+                <#label id="services_package_son_${order_type.id}" name="服务包细项" value="${order_type.services_package_son}" />
+            </div>
+            <div class="col-sm-4">
+                <#label id="package_num_${order_type.id}" name="服务包数量" value="${order_type.package_num}" />
+            </div>
+        </div>
+        <div class="row" style="margin-top: 20px;margin-bottom: 20px">
+            <div class="col-sm-4">
+                <div style="margin-left: -25px" class="form-group">
+                    <label class="col-sm-3 control-label">实施人员</label>
+                    <div class="col-sm-5">
+                        <input class="form-control" value="${order_type.implement_people}"  id="implement_people_${order_type.id}" name="implement_people${order_type.id}" placeholder="单行输入">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div  class="form-group">
+                    <label class="col-sm-3 control-label">实施人员电话</label>
+                    <div class="col-sm-5">
+                        <input class="form-control" value="${order_type.implement_people_phone}"  id="implement_people_phone_${order_type.id}" name="implement_people_phone${order_type.id}" placeholder="单行输入">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    @}
+    @if(orderInfo.order_status=="施工人员指派"&&orderInfo.status=="1" &&check_show){
+    <div class="row" style="margin-top: 20px">
+        <div class="col-sm-offset-2 col-sm-9">
+            @if(hasAllButton){
+            <button type="button" class="btn btn-primary " style="background-color: #20BE84;margin-left: 100px"
+                    onclick="workPeople_submit()">
+                提交
+            </button>
+            <button type="button" class="btn btn-primary " style="background-color: #20BE84;margin-left: 100px"
+                    onclick="hangup()">
+                挂起
+            </button>
+            <button type="button" class="btn btn-primary " style="background-color: #20BE84;margin-left: 100px"
+                    onclick="disuse()">
+                作废
+            </button>
+            <button type="button" class="btn btn-primary " style="background-color: #20BE84;margin-left: 80px"
+                    onclick="cancle()">
+                返回
+            </button>
+            @}
+
+        </div>
+    </div>
+    @}
+
+
+</div>
+
+<script>
+    var type_id='${type_id_list}'
+    function workPeople_submit() {
+        var implement_people=''
+        var implement_people_phone=''
+        for(var i=0;i<type_id.split(",").length;i++){
+            if(implement_people==''){
+                implement_people=$('#implement_people_'+type_id.split(",")[i]).val()
+
+            }else {
+                implement_people=implement_people+','+$('#implement_people_'+type_id.split(",")[i]).val()
+
+            }
+            if(implement_people_phone==''){
+                implement_people_phone=$('#implement_people_phone_'+type_id.split(",")[i]).val()
+            }else {
+                implement_people_phone=implement_people_phone+','+$('#implement_people_phone_'+type_id.split(",")[i]).val()
+            }
+        }
+        console.log(type_id)
+        console.log(implement_people)
+        console.log(implement_people_phone)
+        OrderEdits.clearData();
+        OrderEdits.firstStepCollectData();
+        OrderEdits.orderInfo['id'] = '${orderInfo.id}';
+        OrderEdits.orderInfoPlus['id']='${orderInfo_plus.id}';
+        if($("#product_no").val()!=''){
+            OrderEdits.orderInfoPlus['product_no']=$("#product_no").val()
+        }
+        OrderEdits.orderInfo['order_status'] = '施工环节';
+        Feng.confirm("是否提交？",function () {
+            var ajax = new $ax(Feng.ctxPath + "/ict_pc/update_orderType?type_id="+type_id+"&implement_people="+implement_people+"&implement_people_phone="+implement_people_phone, function (data) {
+                window.parent.Order.table.refresh();
+                var index = parent.layer.getFrameIndex(window.name)
+                parent.layer.close(index);
+            }, function (data) {
+                Feng.error("一层提交失败");
+            });
+            ajax.start();
+
+            var ajax1 = new $ax(Feng.ctxPath + "/ict_pc/updateIctOrder", function (data) {
+                if('商机单受理,初步订单审核,设计环节,订单确认,正式订单审核'.indexOf(temp)!=-1){
+                    Feng.success("编辑成功");
+                    window.parent.Order.table.refresh();
+                    var index = parent.layer.getFrameIndex(window.name)
+                    parent.layer.close(index);
+                }else{
+                    var ajax2 = new $ax(Feng.ctxPath + "/ict_pc/updateIctInfo", function (data) {
+                        Feng.success("编辑成功");
+                        window.parent.Order.table.refresh();
+                        var index = parent.layer.getFrameIndex(window.name)
+                        parent.layer.close(index);
+                    }, function (data) {
+                        Feng.error("三层提交失败");
+                    });
+                    ajax2.set(OrderEdits.orderInfoPlus)
+                    ajax2.start();
+                }
+            }, function (data) {
+                Feng.error("二层提交失败");
+            });
+            ajax1.set(OrderEdits.orderInfo)
+            ajax1.start();
+        })
+
+    }
+</script>

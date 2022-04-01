@@ -1,0 +1,203 @@
+@layout("/common/_container.html"){
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>附件操作</h5>
+            </div>
+            <div class="ibox-content">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="col-sm-3">
+                            <#commonSelect id="project_state" name="项目阶段" labelWidth="4" inputWidth="8">
+                                <option value="">请选择</option>
+                                <option value="初验">初验</option>
+                                <option value="试运行">试运行</option>
+                                <option value="项目规划">项目规划</option>
+                                <option value="项目启动">项目启动</option>
+                                <option value="项目实施">项目实施</option>
+                                <option value="终验">终验</option>
+                                <option value="交维与归档">交维与归档</option>
+                            </#commonSelect>
+                        </div>
+                        <div class="col-sm-3">
+                            <#commonSelect id="is_need" name="是否必须上传:" labelWidth="4" inputWidth="8">
+                                <option value="">请选择</option>
+                                <option value="是">是</option>
+                                <option value="否">否</option>
+                            </#commonSelect>
+                        </div>
+                        <div class="col-sm-3">
+                            <#commonInput name="附件名称:" id="file_name" labelWidth="4" inputWidth="8" placeholder="请输入"/>
+                        </div>
+                        <div class="col-sm-3" style="text-align: center">
+                            <!--<button type="button" class="btn btn-primary " style="background-color: #20BE84" onclick="more_other()" id="more">-->
+                            <!--<span>更多</span>&nbsp;<i class="fa fa-angle-down"></i>-->
+                            <!--</button>-->
+                            <button type="button" class="btn btn-primary " style="background-color: #20BE84;margin-left: 10px" id="query" onclick="choose()">
+                                查询
+                            </button>
+
+                            <button type="button" class="btn btn-primary " style="background-color: #20BE84;margin-left: 10px" onclick="clearAll()" id="return">
+                                重置
+                            </button>
+
+                            <button type="button" class="btn btn-primary " style="background-color: #20BE84;margin-left: 10px" id="edit" onclick="choose_edit()">
+                                确定
+                            </button>
+                        </div>
+                </div>
+            </div>
+            <br>
+            <br>
+            <#table id="FileListTable"/>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    var informationFileList = {
+        id: "FileListTable",	//表格id
+        seItem: null,		//选中的条目
+        table: null,
+        layerIndex: -1,
+        name:"清单",
+    };
+    var informationFileData={};
+    informationFileList.initColumn = function () {
+        return [
+            {field: 'selectItem',visible:true,radio:false},
+            {title: '序号', field: 'id', visible: true, align: 'center',sortable:true , valign: 'middle',formatter:function(value){
+                    return value;
+                }},
+            {title: '项目阶段', field: 'project_state', visible: true, align: 'center',sortable:true , valign: 'middle',formatter:function(value){
+                    if(value==""||value==null){
+                        return '<span style="color:red;">--</span>'
+                    }else{
+                        return value;
+                    }
+                }},
+            {title: '附件名称', field: 'file_name', visible: true, align: 'center',sortable:true , valign: 'middle',formatter:function(value,row){
+                    if(value==""||value==null){
+                        return '<span style="color:red;">--</span>'
+                    }else{
+                        return value;
+                    }
+                }},
+            {title: '新建时间', field: 'add_time', visible: true, align: 'center',sortable:true , valign: 'middle',formatter:function(value){
+                    if(value==""||value==null){
+                        return '<span style="color:red;">--</span>'
+                    }else{
+                        return value
+                    }
+                }},
+            {title: '是否必须上传', field: 'is_need', visible: true, align: 'center',sortable:true , valign: 'middle',formatter:function(value){
+                    if(value==""||value==null){
+                        return '<span style="color:red;">--</span>'
+                    }else{
+                        return value;
+                    }
+                }},
+            {title: '状态', field: 'status', visible: true, align: 'center',sortable:true , valign: 'middle',formatter:function(value,row){
+                    if(value==""||value==null||value=='停用'){
+                        return '<span style="color:red;">停用</span>'
+                    }else{
+                        return '<span style="color:green;">启用</span>';
+                    }
+                }},
+
+
+        ];
+    };
+    var defaultColunms = informationFileList.initColumn();
+    var table = new BSTable(informationFileList.id, "/informationFile/getFileList",defaultColunms,600);
+    table.setQueryParams(informationFileData)
+    table.setPaginationType("client");
+    informationFileList.table = table.init();
+
+    function clearAll(){
+        $('#is_need').val('')
+        $('#file_name').val('')
+        $('#project_state').val('')
+    }
+    function choose(){
+        set('is_need').set('file_name').set('project_state')
+        table.refresh(informationFileData)
+    }
+    function goback(){
+        table.refresh(informationFileData)
+    }
+
+    function open_status(id){
+        Feng.confirm("确认启用吗",function () {
+            var ajax = new $ax(Feng.ctxPath + "/informationFile/update_fileStatus?status=启用&id="+id, function(data){
+                Feng.success("启用成功!");
+                table.refresh(informationFileData)
+                // window.parent.refreshTable();
+                // var index = parent.layer.getFrameIndex(window.name)
+                // parent.layer.close(index);
+            },function(data){
+                Feng.error("启用失败!" + data.responseJSON.message + "!");
+            });
+            ajax.start();
+        })
+    }
+    function close_status(id){
+        Feng.confirm("确认停用吗",function () {
+            var ajax = new $ax(Feng.ctxPath + "/informationFile/update_fileStatus?status=停用&id="+id, function(data){
+                Feng.success("停用成功!");
+                table.refresh(informationFileData)
+                // window.parent.refreshTable();
+                // var index = parent.layer.getFrameIndex(window.name)
+                // parent.layer.close(index);
+            },function(data){
+                Feng.error("停用失败!" + data.responseJSON.message + "!");
+            });
+            ajax.start();
+        })
+    }
+    function set (key, value) {
+        if (typeof key == "object") {
+            for (var i in key) {
+                if (typeof i == "function")
+                    continue;
+                this.informationFileData[i] = key[i];
+            }
+        } else {
+            this.informationFileData[key] = (typeof value == "undefined") ? $("#" + key).val() : value;
+        }
+        return this;
+    }
+    function choose_edit(){
+        var file_list_id=''
+        var selected = $('#FileListTable').bootstrapTable('getSelections');
+        if(selected.length == 0){
+            Feng.info("请先选中表格中的某一记录！");
+            return false;
+        }else{
+           for(let i=0;i<selected.length;i++){
+               if(i==0){
+                   file_list_id=selected[i].id;
+               }else {
+                   file_list_id=file_list_id+','+selected[i].id;
+               }
+
+           }
+           c(file_list_id)
+        }
+        Feng.confirm("确认选择附件？",function () {
+            var ajax = new $ax(Feng.ctxPath + "/informationFile/update_fileRole?id="+'${id}'+"&file_list_id="+file_list_id, function(data){
+                Feng.success("提交成功!");
+                var index = parent.layer.getFrameIndex(window.name)
+                parent.layer.close(index);
+                window.parent.goback()
+            },function(data){
+                Feng.error("提交失败!" + data.responseJSON.message + "!");
+            });
+            ajax.start();
+        })
+    }
+</script>
+
+@}

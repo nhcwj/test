@@ -1,0 +1,176 @@
+<div class="submitDiv" style="display: none">
+    <input  type = "file" id="file" name="file"  multiple = "multiple" >
+</div>
+<div id="baseinfo">
+
+    <div style="height: 20px"></div>
+    <#title info="联系人信息" />
+    <div style="height: 20px"></div>
+
+    <div class="row">
+        <div class="col-sm-4">
+            <#label id="project_manager_name" name="项目经理姓名" value="${info.project_manager_name}" disabled="disabled"  />
+        </div>
+        <div class="col-sm-4">
+            <#label id="part_leader" name="分管领导" value="${info.part_leader}" disabled="disabled"  />
+        </div>
+        <div class="col-sm-4">
+            <#label id="project_manager_phone" name="项目经理联系电话" value="${info.project_manager_phone}" disabled="disabled"  />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+            <#label id="net_ICT_hold_specialist" name="网格ICT支撑专员" value="${info.net_ICT_hold_specialist}" disabled="disabled"  />
+        </div>
+    </div>
+
+    <div style="height: 20px"></div>
+    <#title info="基本信息" />
+    <div style="height: 20px"></div>
+
+    <div class="row">
+        <div class="col-sm-4">
+            <#label id="is_deep_integration" name="是否深度自主集成:" value="${info.is_deep_integration}" disabled="disabled"  />
+        </div>
+        <div class="col-sm-4">
+            <#label id="hurry_level" name="紧急程度" value="${info.hurry_level}" disabled="disabled"  />
+        </div>
+        <div class="col-sm-4">
+            <#label id="profession" name="行业" value="${info.profession}" disabled="disabled"  />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+            <#label id="is_select" name="是否已甄选" value="${info.is_select}" disabled="disabled"  />
+        </div>
+        <div class="col-sm-4">
+            <#label id="integration_name" name="集成商名称" value="${info.integration_name}" disabled="disabled"  />
+        </div>
+        <div class="col-sm-4">
+            <#label id="money_mode" name="资金模式" value="${info.money_mode}" disabled="disabled"  />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+            <#label id="manage_unit" name="监理单位" value="${info.manage_unit}" disabled="disabled"  />
+        </div>
+    </div>
+
+    <div class="row">
+        <label class="col-sm-1 control-label" style="font-size: 12px;color: #4C4B4B;font-family: 微软雅黑;
+                                            padding: 0;margin-top: 5px;text-align: right">
+            <text>附件下载:</text>
+        </label>
+        <div class="col-sm-9" style="margin-top: 5px;">
+            <div id="uploadFile_dom" style="margin-left: 10px">
+
+            </div>
+        </div>
+    </div>
+
+    <#title info="计划时间" />
+    <div style="height: 20px"></div>
+    <div class="row">
+        <div class="col-sm-4">
+            <#label id="is_deep_integration" name="项目启动计划完成时间" value="${info.project_start_plan_finish_time}" disabled="disabled"  />
+        </div>
+        <div class="col-sm-4">
+            <#label id="is_deep_integration" name="项目规划计划完成时间" value="${info.project_program_plan_finish_time}" disabled="disabled"  />
+        </div>
+        <div class="col-sm-4">
+            <#label id="is_deep_integration" name="项目实施计划完成时间" value="${info.project_implement_plan_finish_time}" disabled="disabled"  />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+            <#label id="is_deep_integration" name="初验计划完成时间" value="${info.initial_plan_finish_time}" disabled="disabled"  />
+        </div>
+        <div class="col-sm-4">
+            <#label id="is_deep_integration" name="试运行计划完成时间" value="${info.run_plan_finish_time}" disabled="disabled"  />
+        </div>
+        <div class="col-sm-4">
+            <#label id="is_deep_integration" name="终验计划完成时间" value="${info.end_plan_finish_time}" disabled="disabled"  />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+            <#label id="is_deep_integration" name="交维与归档计划完成时间" value="${info.archive_plan_finish_time}" disabled="disabled"  />
+        </div>
+    </div>
+
+
+
+</div>
+<script>
+    let type=1;
+    let other_file = '${other_file}'
+
+    $(function () {
+        initFileInput("file");
+        if (other_file!=undefined && other_file!=null && other_file!=''){
+            other_file = JSON.parse(other_file)
+            let html=''
+            other_file.forEach((item, index) => {
+                html +='<div><a href="#" style="margin-right: 15px;" onclick="downloadFile(\''+item.file_path+'\',\''+item.file_name+'\')">'+item.file_name+'</a></div>'
+            })
+            $("#uploadFile_dom").append(html)
+        }
+    })
+
+    function  initFileInput(ctrlName){
+        var control = $('#' + ctrlName);
+        control.fileinput({
+            language: 'zh', //设置语言
+            uploadUrl: "/workOrder/uploadFiles", //上传的地址
+            uploadAsync: false, //默认异步上传,,false为同步上传
+            showUpload: false, //是否显示上传按钮
+            showRemove: true, //显示移除按钮
+            showPreview: false, //是否显示预览
+            showCaption: true,//是否显示标题
+            browseClass: "btn btn-primary", //按钮样式
+            dropZoneEnabled:false,//是否显示拖拽区域
+            //dropZoneEnabled: true,//是否显示拖拽区域
+            //minImageWidth: 50, //图片的最小宽度
+            //minImageHeight: 50,//图片的最小高度
+            //maxImageWidth: 1000,//图片的最大宽度
+            //maxImageHeight: 1000,//图片的最大高度
+            //maxFileSize: 0,//单位为kb，如果为0表示不限制文件大小
+            //minFileCount: 0,
+            maxFileCount: 10, //表示允许同时上传的最大文件个数
+            enctype: 'multipart/form-data',
+            validateInitialCount: true,
+            previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+            msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
+            uploadExtraData: function (previewId, index) {   //额外参数
+//                var obj = UserInfoDlg.userInfoData;
+                return {};
+            }
+        });
+        //导入文件上传完成之后的事件
+        $("#file").on("filebatchuploadsuccess", function (event, data, previewId, index) {
+            let fileList=data.response.fileList;
+            let html=''
+            data.files.forEach((item,i)=>{
+                let fileName=item.name;
+//                let pointIndex=fileName.indexOf(".");
+//                if(fileName.length>20){
+//                    let prefix=fileName.substring(0,15);
+//                    let suffix=fileName.substring(pointIndex);
+//                    fileName=prefix+"..."+suffix;
+//                }
+                html='<div><span>'+fileName+'&nbsp<span data-file="'+fileList[i]+'" data-index="'+i+'" data-type="'+type+'"  data-name="'+item.name+'" style="color:red;font-size: 16px;text-align: right;cursor: pointer" onclick="remove(this)" class="remove">X</span></span>&nbsp&nbsp</div>'
+                $("#uploadFile_dom").append(html);
+                uploadFile.push(fileList[i]);
+            })
+            $("#loading").modal('hide')
+        });
+        $("#file").on("filebatchselected", function(event, f) {
+            $('#file').fileinput("upload");
+            $("#loading").modal('show')
+        });
+    }
+
+    function downloadFile(filePath,fileName) {
+        window.location.href="/base/downloadFile?fileName="+fileName+"&filePath="+filePath;
+    }
+</script>

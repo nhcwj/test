@@ -1,0 +1,89 @@
+<div id="skConfirm" hidden>
+    <div style="height: 15px"></div>
+    <#title info="首款/全款确认" />
+    <div class="row" style="margin-top: 20px">
+        <div class="col-sm-4">
+            <div class="form-group" style="display:flex;align-items: center">
+                <label class="col-sm-4 control-label" style="padding-top: 0">
+                    是否通过
+                </label>
+                <div class="col-sm-8">
+                    <select class="form-control"  id="first_is_pass"  name="first_is_pass">
+                        <option value="">请选择</option>
+                        <option value="是">是</option>
+                        <option value="否">否</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label class="col-sm-4 control-label">意见</label>
+                <div class="col-sm-8">
+                    <input class="form-control" value="${orderInfo_plus.first_suggest}"  id="first_suggest" name="first_suggest" placeholder="单行输入">
+                </div>
+            </div>
+        </div>
+    </div>
+    @if(orderInfo.order_status=="首款/全款确认"&&orderInfo.status=="1"&&check_show){
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="form-group" style="display:flex;align-items: center">
+                <label class="col-sm-4 control-label" style="padding-top: 0">
+                    备注
+                </label>
+                <div class="col-sm-8">
+                    <textarea class="form-control" onmousedown="clickTextArea(event,this)" value=""  id="sk_step_remark" name="sk_step_remark" rows="5">
+                    </textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    @}
+
+    @if(orderInfo.order_status=="首款/全款确认"&&orderInfo.status=="1"&&check_show){
+    <div class="row" style="margin-top: 20px">
+        <div class="col-sm-offset-2 col-sm-9">
+            @if(hasAllButton){
+                <button type="button" class="btn btn-primary " style="background-color: #20BE84;margin-left: 100px"
+                        onclick="skConfirm_submit()">
+                    提交
+                </button>
+                <button type="button" class="btn btn-primary " style="background-color: #20BE84;margin-left: 100px"
+                        onclick="refund()">
+                    退单
+                </button>
+            @}
+            @if(hasAllButton||hasSpecialButton){
+                <button type="button" class="btn btn-primary " style="background-color: #20BE84;margin-left: 100px"
+                        onclick="hangup()">
+                    挂起
+                </button>
+                <button type="button" class="btn btn-primary " style="background-color: #20BE84;margin-left: 100px"
+                        onclick="backbefore()">
+                    退回上一步
+                </button>
+                <button type="button" class="btn btn-primary " style="background-color: #20BE84;margin-left: 80px"
+                        onclick="cancle()">
+                    返回
+                </button>
+            @}
+
+        </div>
+    </div>
+    @}
+</div>
+
+<script>
+    function skConfirm_submit() {
+        OrderEdits.clearData();
+        OrderEdits.skConfirmCollectData();
+        OrderEdits.orderInfo['id'] = '${orderInfo.id}';
+        OrderEdits.orderInfoPlus['id']='${orderInfo_plus.id}';
+        OrderEdits.orderInfo['order_status'] = '施工人员指派';
+        if($("#sk_step_remark").val()!=''){
+            OrderEdits.remark=$("#sk_step_remark").val().replaceAll(" ","");
+        }
+        submit()
+    }
+</script>

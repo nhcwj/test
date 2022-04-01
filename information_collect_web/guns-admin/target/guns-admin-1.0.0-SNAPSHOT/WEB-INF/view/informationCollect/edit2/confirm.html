@@ -1,0 +1,69 @@
+<link rel="stylesheet" href="${ctxPath}/static/css/plugins/bootstrap-select/bootstrap-select.min.css">
+<script src="${ctxPath}/static/js/plugins/bootstrap-select/bootstrap-select.min.js"></script>
+<script src="${ctxPath}/static/js/plugins/bootstrap-select/defaults-zh_CN.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/static/css/steps.css">
+<!-- DICT系统订单列表-->
+<style>
+    .form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
+        background-color: #f8f8f8;
+    }
+
+    .btn-default {
+        color: #6f6c6c;
+        background-color: #fffdfd;
+    }
+</style>
+<div id="confirm" hidden>
+    <div style="height: 15px"></div>
+    <div class="submitDiv" style="display: none">
+        <input type="file" id="file" name="file" multiple="multiple">
+    </div>
+    <#title info="订单确认" />
+    <div class="row" style="margin-top: 20px">
+        <div class="col-sm-offset-1 col-sm-10" style="display: flex;align-items: center">
+            <div>
+                <label class="control-label " style="font-size: 12px;
+                              color: #4C4B4B;
+                              font-family: 微软雅黑;
+                              padding: 0;margin: 5px 0px 5px 0px;text-align: right">客户附件 :&nbsp;</label>
+            </div>
+            <div id="d_client_contract_file" class="" style="">
+
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <#label value="${orderInfo.is_pass_client}" name="是否通过" placeholder="" id="is_pass_client2"/>
+    </div>
+    <div class="row">
+        <#label value="${orderInfo.client_idea}" name="意见" placeholder="" id="client_idea2"/>
+    </div>
+</div>
+
+<script src="${ctxPath}/static/js/viewer.min.js"></script>
+<script>
+    let client_contract_files = '${client_contract_file}';
+
+    initFile();
+
+    //初始化文件
+    function initFile() {
+        if (client_contract_files !== '') {
+            client_contract_files=JSON.parse(client_contract_files);
+            let html = '';
+            for (let i = 0; i < client_contract_files.length; i++) {
+                let fileName = client_contract_files[i].file_name;
+                let filePath = client_contract_files[i].file_path;
+                html += '<div>' + fileName + '&nbsp<span data-path="' + filePath + '" data-name="' + fileName + '" style="color:red;font-size: 14px;text-align: right;cursor: pointer" onclick="download(this)" class="download">下载</span></div>'
+            }
+            $("#d_client_contract_file").html(html);
+        }
+    }
+
+    //下载
+    function download(a) {
+        let filePath = $(a).data("path");
+        let fileName = $(a).data("name")
+        window.location.href = "/base/downloadFile?fileName=" + fileName + "&filePath=" + filePath;
+    }
+</script>

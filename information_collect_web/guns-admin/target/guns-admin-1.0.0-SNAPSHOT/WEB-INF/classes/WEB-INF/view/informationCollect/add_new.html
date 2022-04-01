@@ -1,0 +1,496 @@
+@layout("/common/new_container.html"){
+<style>
+    .errorTip {
+        border: 2px solid red !important;
+        box-shadow:0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    }
+</style>
+<div class="ibox float-e-margins">
+    <div class="ibox-content">
+        <div class="submitDiv" style="display: none">
+            <input  type = "file" id="file" name="file"  multiple = "multiple" >
+        </div>
+        <div class="form-horizontal" id="buildForm">
+            <#title info="项目信息" />
+            <div style="height: 20px"></div>
+            <div class="row">
+                <div class="col-sm-8">
+                    <#commonInput name="项目名称:" id="project_name" labelWidth="2" inputWidth="10" placeholder="请输入" required="1" value="${info.project_name}"/>
+                </div>
+                <div class="col-sm-4">
+                    <#commonInput name="DICI系统编号:" id="DICI_system_num" labelWidth="4" inputWidth="8" value="${info.DICI_system_num}" placeholder="请输入" required="1"/>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <#commonSelect id="dept" name="分公司/部门:" labelWidth="4" inputWidth="8" required="1">
+                        <option value="系统集成佛山分公司">系统集成佛山分公司</option>
+                        <option value="禅城分公司">禅城分公司</option>
+                        <option value="南海分公司">南海分公司</option>
+                        <option value="顺德分公司">顺德分公司</option>
+                        <option value="高明分公司">高明分公司</option>
+                        <option value="三水分公司">三水分公司</option>
+                        <option value="市政企">市政企</option>
+                    </#commonSelect>
+            </div>
+                <div class="col-sm-4">
+                    <#commonSelect id="is_important" name="是否重点项目:" labelWidth="4" inputWidth="8" required="1" >
+                        <option value="">请选择</option>
+                        <option value="是">是</option>
+                        <option value="否">否</option>
+                    </#commonSelect>
+                </div>
+                <div class="col-sm-4">
+                    <#commonSelect id="time_progress_situation" name="时间进度情况:" labelWidth="4" inputWidth="8" required="1">
+                        <option value="">请选择</option>
+                        <option value="落后">落后</option>
+                        <option value="正常">正常</option>
+                        <option value="终验">终验</option>
+                    </#commonSelect>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <#commonInput name="合同编号:" id="contract_num" labelWidth="4" inputWidth="8" placeholder="请输入" required="1" value="${info.contract_num}"/>
+                </div>
+                <div class="col-sm-4">
+                    <#commonInput name="项目金额(万元):" id="project_money" type="Number" value="${info.project_money}" labelWidth="4" inputWidth="8" placeholder="请输入" required="1"/>
+                </div>
+                <div class="col-sm-4">
+                    <#commonSelect id="pay_manager" name="交付经理:" labelWidth="4" inputWidth="8">
+                        <option value="">请选择</option>
+                        @for(user in payManagerList){
+                        <option value="${user.name}">${user.name}</option>
+                        @}
+                    </#commonSelect>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-sm-4">
+                    <#commonSelect id="pay_assistant" name="交付助理:" labelWidth="4" inputWidth="8">
+                        <option value="">请选择</option>
+                        @for(user in payAssistantList){
+                        <option value="${user.name}">${user.name}</option>
+                        @}
+                    </#commonSelect>
+                </div>
+            </div>
+
+            <div style="height: 20px"></div>
+            <#title info="联系人信息" />
+            <div style="height: 20px"></div>
+
+            <div class="row">
+                <div class="col-sm-4">
+                    <#commonInput name="项目经理姓名:" id="project_manager_name" value="${info.project_manager_name}" labelWidth="4" inputWidth="8" placeholder="请输入"/>
+                </div>
+                <div class="col-sm-4">
+                    <#commonInput name="分管领导:" id="part_leader" labelWidth="4" value="${info.part_leader}" inputWidth="8" placeholder="请输入"/>
+                </div>
+                <div class="col-sm-4">
+                    <#commonInput name="项目经理联系电话:" id="project_manager_phone" value="${info.project_manager_phone}" labelWidth="4" inputWidth="8" placeholder="请输入"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <#commonInput name="网格ICT支撑专员:" id="net_ICT_hold_specialist" value="${info.net_ICT_hold_specialist}" labelWidth="4" inputWidth="8" placeholder="请输入"/>
+                </div>
+            </div>
+
+            <div style="height: 20px"></div>
+            <#title info="基本信息" />
+            <div style="height: 20px"></div>
+
+            <div class="row">
+                <div class="col-sm-4">
+                    <#commonSelect id="is_deep_integration" name="是否深度自主集成:(判断标准见批注)" labelWidth="4" inputWidth="8">
+                        <option value="">请选择</option>
+                        <option value="是">是</option>
+                        <option value="否">否</option>
+                        <option value="待定">待定</option>
+                    </#commonSelect>
+                </div>
+                <div class="col-sm-4">
+                    <#commonSelect id="hurry_level" name="紧急程度:" labelWidth="4" inputWidth="8">
+                        <option value="">请选择</option>
+                        <option value="一级">一级</option>
+                        <option value="二级">二级</option>
+                        <option value="三级">三级</option>
+                    </#commonSelect>
+                </div>
+                <div class="col-sm-4">
+                    <#commonSelect id="profession" name="行业:" labelWidth="4" inputWidth="8">
+                        <option value="">请选择</option>
+                        <option value="党政">党政</option>
+                        <option value="工业能源">工业能源</option>
+                        <option value="交通">交通</option>
+                        <option value="教育">教育</option>
+                        <option value="金融">金融</option>
+                        <option value="农商">农商</option>
+                        <option value="医疗">医疗</option>
+                        <option value="执法">执法</option>
+                        <option value="互联网">互联网</option>
+                    </#commonSelect>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <#commonSelect id="is_select" name="是否已甄选:" labelWidth="4" inputWidth="8">
+                        <option value="">请选择</option>
+                        <option value="是">是</option>
+                        <option value="否">否</option>
+                    </#commonSelect>
+                </div>
+
+                <div class="col-sm-8">
+                    <#commonInput name="资金模式:" value="${info.money_mode}"  id="money_mode" labelWidth="2" inputWidth="10" placeholder="请输入"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-8">
+                    <#commonInput name="集成商名称:" value="${info.integration_name}"  id="integration_name" labelWidth="2" inputWidth="10" placeholder="请输入"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-8">
+                    <#commonInput name="监理单位:" value="${info.manage_unit}"  id="manage_unit" labelWidth="2" inputWidth="10" placeholder="请输入"/>
+                </div>
+            </div>
+
+            <div class="row">
+                <label class="col-sm-1 control-label" style="font-size: 12px;color: #4C4B4B;font-family: 微软雅黑;
+                                            padding: 0;margin-top: 5px;text-align: right">
+                    <text>附件上传:</text>
+                </label>
+                <div class="col-sm-9" style="display: flex">
+                    <div >
+                        <button type="button" class="btn btn-primary " style="background-color: #20BE84" onclick="upload()" id="uploadFile">
+                            选择文件
+                        </button>
+                    </div>
+                    <div id="uploadFile_dom" style="margin-left: 10px">
+
+                    </div>
+                </div>
+            </div>
+
+            <#title info="计划时间" />
+            <div style="height: 20px"></div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="col-sm-5 control-label"><span style="color:red;font-size: 16px;vertical-align: sub;text-align: right">*</span>项目启动计划完成时间</label>
+                        <div class="col-sm-7">
+                            <input class="form-control" onclick="laydate({istime: false, format: 'YYYY-MM-DD'})" value="${info.project_start_plan_finish_time}" readonly id="project_start_plan_finish_time"
+                                   name="project_start_plan_finish_time" placeholder="请选择时间">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="col-sm-5 control-label"><span style="color:red;font-size: 16px;vertical-align: sub;text-align: right">*</span>项目规划计划完成时间</label>
+                        <div class="col-sm-7">
+                            <input class="form-control" onclick="laydate({istime: false, format: 'YYYY-MM-DD'})" value="${info.project_program_plan_finish_time}" readonly id="project_program_plan_finish_time"
+                                   name="project_program_plan_finish_time" placeholder="请选择时间">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="col-sm-5 control-label"><span style="color:red;font-size: 16px;vertical-align: sub;text-align: right">*</span>项目实施计划完成时间</label>
+                        <div class="col-sm-7">
+                            <input class="form-control" onclick="laydate({istime: false, format: 'YYYY-MM-DD'})" value="${info.project_implement_plan_finish_time}" readonly id="project_implement_plan_finish_time"
+                                   name="project_implement_plan_finish_time" placeholder="请选择时间">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="col-sm-5 control-label"><span style="color:red;font-size: 16px;vertical-align: sub;text-align: right">*</span>初验计划完成时间</label>
+                        <div class="col-sm-7">
+                            <input class="form-control" onclick="laydate({istime: false, format: 'YYYY-MM-DD'})" value="${info.initial_plan_finish_time}" readonly id="initial_plan_finish_time"
+                                   name="initial_plan_finish_time" placeholder="请选择时间">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="col-sm-5 control-label"><span style="color:red;font-size: 16px;vertical-align: sub;text-align: right">*</span>试运行计划完成时间</label>
+                        <div class="col-sm-7">
+                            <input class="form-control" onclick="laydate({istime: false, format: 'YYYY-MM-DD'})" value="${info.run_plan_finish_time}" readonly id="run_plan_finish_time"
+                                   name="run_plan_finish_time" placeholder="请选择时间">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="col-sm-5 control-label"><span style="color:red;font-size: 16px;vertical-align: sub;text-align: right">*</span>终验计划完成时间</label>
+                        <div class="col-sm-7">
+                            <input class="form-control" onclick="laydate({istime: false, format: 'YYYY-MM-DD'})" value="${info.end_plan_finish_time}" readonly id="end_plan_finish_time"
+                                   name="end_plan_finish_time" placeholder="请选择时间">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="col-sm-5 control-label"><span style="color:red;font-size: 16px;vertical-align: sub;text-align: right">*</span>交维与归档计划完成时间</label>
+                        <div class="col-sm-7">
+                            <input class="form-control" onclick="laydate({istime: false, format: 'YYYY-MM-DD'})" value="${info.archive_plan_finish_time}" readonly id="archive_plan_finish_time"
+                                   name="archive_plan_finish_time" placeholder="请选择时间">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="margin-top: 40px; font-size: 14px;">
+                <div class="col-sm-4"></div>
+                <div class="col-sm-1">
+                    <button type="button" class="btn btn-primary" onclick="submit()">保存</button>
+                </div>
+                <div class="col-sm-1">
+                </div>
+                <div class="col-sm-1">
+                    <button type="button" class="btn btn-primary" onclick="cancel()">取消</button>
+                </div>
+                <div class="col-sm-5">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    let InformationCollects = {
+        id:'InformationCollectTable',
+        seItem: null,		//选中的条目
+        table: null,
+        layerIndex:-1,
+        orderInfo:{},
+    }
+
+    let type=1;
+    let uploadFile=[];
+
+    function  initFileInput(ctrlName){
+        var control = $('#' + ctrlName);
+        control.fileinput({
+            language: 'zh', //设置语言
+            uploadUrl: "/workOrder/uploadFiles", //上传的地址
+            uploadAsync: false, //默认异步上传,,false为同步上传
+            showUpload: false, //是否显示上传按钮
+            showRemove: true, //显示移除按钮
+            showPreview: false, //是否显示预览
+            showCaption: true,//是否显示标题
+            browseClass: "btn btn-primary", //按钮样式
+            dropZoneEnabled:false,//是否显示拖拽区域
+            //dropZoneEnabled: true,//是否显示拖拽区域
+            //minImageWidth: 50, //图片的最小宽度
+            //minImageHeight: 50,//图片的最小高度
+            //maxImageWidth: 1000,//图片的最大宽度
+            //maxImageHeight: 1000,//图片的最大高度
+            //maxFileSize: 0,//单位为kb，如果为0表示不限制文件大小
+            //minFileCount: 0,
+            maxFileCount: 10, //表示允许同时上传的最大文件个数
+            enctype: 'multipart/form-data',
+            validateInitialCount: true,
+            previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+            msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
+            uploadExtraData: function (previewId, index) {   //额外参数
+//                var obj = UserInfoDlg.userInfoData;
+                return {};
+            }
+        });
+        //导入文件上传完成之后的事件
+        $("#file").on("filebatchuploadsuccess", function (event, data, previewId, index) {
+            let fileList=data.response.fileList;
+            let html=''
+            data.files.forEach((item,i)=>{
+                let fileName=item.name;
+//                let pointIndex=fileName.indexOf(".");
+//                if(fileName.length>20){
+//                    let prefix=fileName.substring(0,15);
+//                    let suffix=fileName.substring(pointIndex);
+//                    fileName=prefix+"..."+suffix;
+//                }
+                html='<div><span>'+fileName+'&nbsp<span data-file="'+fileList[i]+'" data-index="'+i+'" data-type="'+type+'"  data-name="'+item.name+'" style="color:red;font-size: 16px;text-align: right;cursor: pointer" onclick="remove(this)" class="remove">X</span></span>&nbsp&nbsp</div>'
+                $("#uploadFile_dom").append(html);
+                uploadFile.push(fileList[i]);
+            })
+            $("#loading").modal('hide')
+        });
+        $("#file").on("filebatchselected", function(event, f) {
+            $('#file').fileinput("upload");
+            $("#loading").modal('show')
+        });
+    }
+
+    $(function (){
+        initFileInput("file");
+        $('#dept').val('${info.dept}')
+        $('#is_important').val('${info.is_important}')
+        $('#time_progress_situation').val('${info.time_progress_situation}')
+        $('#pay_manager').val('${info.pay_manager}')
+        $('#pay_assistant').val('${info.pay_assistant}')
+        $('#is_deep_integration').val('${info.is_deep_integration}')
+        $('#hurry_level').val('${info.hurry_level}')
+        $('#profession').val('${info.profession}')
+        $('#is_select').val('${info.is_select}')
+        // var ajax = new $ax(Feng.ctxPath + "/informationCollect/getpay_manger", function (data) {
+        //     console.log(data)
+        //     data.foreach(r=>{
+        //         $('#pay_manager').html('<option value="'+r+'">'+r+'</option>')
+        //     })
+        // }, function (data) {
+        //     Feng.error("下拉框数据加载失败");
+        // });
+        // ajax.start();
+    })
+    InformationCollects.clearData = function () {
+        this.orderInfo = {};
+    };
+    InformationCollects.set = function (key, value) {
+        this.orderInfo[key] = (typeof value == "undefined") ? $("#" + key).val() : value;
+        return this;
+    };
+    InformationCollects.get = function (key) {
+        return $("#" + key).val();
+    };
+    InformationCollects.collectData = function () {
+        this.set('project_name').set('DICI_system_num').set('dept').set('pay_manager').set('pay_assistant')
+            .set('contract_num').set('project_money').set('project_stage').set('stage_activity')
+            .set('time_progress_situation').set('project_manager_name').set('part_leader').set('project_manager_phone')
+            .set('net_ICT_hold_specialist').set('is_deep_integration').set('hurry_level').set('profession')
+            .set('is_select').set('integration_name').set('money_mode').set('manage_unit').set('is_important')
+            .set('project_start_plan_finish_time').set('project_program_plan_finish_time').set('project_implement_plan_finish_time')
+            .set('initial_plan_finish_time').set('run_plan_finish_time')
+            .set('end_plan_finish_time').set('archive_plan_finish_time')
+
+    };
+    function checkInput() {
+        if($("#project_name").val()==""){
+            return tip("项目名称","project_name")
+        }
+        if($("#DICI_system_num").val()==""){
+            return tip("DICI系统编号","DICI_system_num")
+        }
+        if($("#dept").val()==""){
+            return tip("分公司/部门","dept")
+        }
+//        if($("#pay_manager").val()==""){
+//            return tip("交付经理","pay_manager")
+//        }
+//        if($("#pay_assistant").val()==""){
+//            return tip("交付助理","pay_assistant")
+//        }
+        if($("#contract_num").val()==""){
+            return tip("合同编号","contract_num")
+        }
+        if($("#project_money").val()==""){
+            return tip("项目金额","project_money")
+        }
+        if($("#time_progress_situation").val()==""){
+            return tip("时间进度情况","time_progress_situation")
+        }
+        if($("#is_important").val()==""){
+            return tip("是否重点项目","is_important")
+        }
+
+        if($("#project_start_plan_finish_time").val()==""){
+            return tip("项目启动计划完成时间","project_start_plan_finish_time")
+        }
+        if($("#project_program_plan_finish_time").val()==""){
+            return tip("项目规划计划完成时间","project_program_plan_finish_time")
+        }
+        if($("#project_implement_plan_finish_time").val()==""){
+            return tip("项目实施计划完成时间","project_implement_plan_finish_time")
+        }
+        if($("#initial_plan_finish_time").val()==""){
+            return tip("初验计划完成时间","initial_plan_finish_time")
+        }
+        if($("#run_plan_finish_time").val()==""){
+            return tip("试运行计划完成时间","run_plan_finish_time")
+        }
+        if($("#end_plan_finish_time").val()==""){
+            return tip("终验计划完成时间","end_plan_finish_time")
+        }
+        if($("#archive_plan_finish_time").val()==""){
+            return tip("交维与归档计划完成时间","archive_plan_finish_time")
+        }
+
+
+        return true;
+    }
+    function tip(text, id) {
+        swal({
+            text: text + "未填写",
+            timer: 1500,
+            showConfirmButton: false,
+            confirmButtonText: '确定',
+            confirmButtonColor: '#20BE84',
+            type: 'error',
+        })
+        document.body.scrollIntoView({block: 'center'});
+        $("#" + id).addClass("errorTip");
+        setTimeout(function () {
+            $("#" + id).removeClass("errorTip");
+        }, 2000)
+        setTimeout(function () {
+            document.getElementById(id).scrollIntoView({block: 'center'});
+        }, 1500)
+        return false;
+    }
+
+    function submit() {
+        if(checkInput()){
+            Feng.confirm("确认提交吗",function () {
+                InformationCollects.clearData();
+                InformationCollects.collectData();
+                let other_file = ''
+                if(uploadFile.length>0){
+                    uploadFile.forEach((item, index) => {
+                        other_file+=item
+                        other_file+=","
+                    })
+                    other_file = other_file.substring(0, other_file.length-1)
+                }
+                InformationCollects.orderInfo.id='${info.id}'
+                InformationCollects.orderInfo['other_file'] = other_file
+                var ajax = new $ax(Feng.ctxPath + "/informationCollect/insert_information_collect", function (data) {
+                    Feng.success("提交成功");
+                    setInterval(function () {
+                        window.parent.location.reload();
+                    }, 800)
+                }, function (data) {
+                    Feng.error("网络丢失，提交失败");
+                });
+                ajax.set(InformationCollects.orderInfo)
+                ajax.start();
+            })
+        }
+    }
+    
+    function cancel() {
+        var index = parent.layer.getFrameIndex(window.name)
+        parent.layer.close(index);
+    }
+
+    function upload(){
+        $("#file").click()
+    }
+
+    function remove(a) {
+        Feng.confirm("是否确认删除",function () {
+            let fileId=$(a).data("file")
+            $(a).parent().remove();
+            uploadFile.splice(uploadFile.indexOf(fileId),1);
+        })
+    }
+</script>
+@}

@@ -1,0 +1,130 @@
+@layout("/common/new_container.html"){
+<div class="ibox float-e-margins">
+    <div class="ibox-content">
+        <div class="form-horizontal" id="buildForm">
+            <#title info="附件信息" />
+            <div style="height: 20px"></div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <#commonInput name="附件名称:" id="file_name" labelWidth="4" inputWidth="8" placeholder="请输入" required="1"/>
+                </div>
+                <div class="col-sm-4">
+                    <#commonSelect id="project_state" name="项目阶段" labelWidth="4" inputWidth="8">
+                        <option value="">请选择</option>
+                        <option value="初验">初验</option>
+                        <option value="试运行">试运行</option>
+                        <option value="项目规划">项目规划</option>
+                        <option value="项目启动">项目启动</option>
+                        <option value="项目实施">项目实施</option>
+                        <option value="终验">终验</option>
+                        <option value="交维与归档">交维与归档</option>
+                    </#commonSelect>
+                </div>
+                <div class="col-sm-4">
+                    <#commonSelect id="is_need" name="是否必须上传:" labelWidth="4" inputWidth="8">
+                        <option value="">请选择</option>
+                        <option value="是">是</option>
+                        <option value="否">否</option>
+                    </#commonSelect>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-4">
+                    <#commonSelect id="status" name="状态:" labelWidth="4" inputWidth="8">
+                        <option value="启用">启用</option>
+                        <option value="停用">停用</option>
+                    </#commonSelect>
+                </div>
+            </div>
+
+            <div class="row" style="margin-top: 40px; font-size: 14px;">
+                <div class="col-sm-4"></div>
+                <div class="col-sm-1">
+                    <button type="button" class="btn btn-primary" onclick="submit()">保存</button>
+                </div>
+                <div class="col-sm-1">
+                </div>
+                <div class="col-sm-1">
+                    <button type="button" class="btn btn-primary" onclick="cancel()">取消</button>
+                </div>
+                <div class="col-sm-5">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var InformationFileList={}
+    function collectData(){
+        this.set('file_name').set('project_state').set('is_need').set('status')
+    }
+    function cancel() {
+        var index = parent.layer.getFrameIndex(window.name)
+        parent.layer.close(index);
+    }
+    function checkInput() {
+        if($("#file_name").val()==""){
+            return tip("附件名称","file_name")
+        }
+        if($("#project_state").val()==""){
+            return tip("项目阶段","project_state")
+        }
+        if($("#is_need").val()==""){
+            return tip("是否必须上传","is_need")
+        }
+        return true;
+    }
+    function tip(text, id) {
+        swal({
+            text: text + "未填写",
+            timer: 1500,
+            showConfirmButton: false,
+            confirmButtonText: '确定',
+            confirmButtonColor: '#20BE84',
+            type: 'error',
+        })
+        document.body.scrollIntoView({block: 'center'});
+        $("#" + id).addClass("errorTip");
+        setTimeout(function () {
+            $("#" + id).removeClass("errorTip");
+        }, 2000)
+        setTimeout(function () {
+            document.getElementById(id).scrollIntoView({block: 'center'});
+        }, 1500)
+        return false;
+    }
+    function submit() {
+        if(checkInput()){
+            Feng.confirm("确认提交吗",function () {
+                collectData();
+                var ajax = new $ax(Feng.ctxPath + "/informationFile/insert_fileList", function (data) {
+                    Feng.success("提交成功");
+                    setInterval(function () {
+                        var index = parent.layer.getFrameIndex(window.name)
+                        parent.layer.close(index);
+                        window.parent.goback()
+                    }, 800)
+                }, function (data) {
+                    Feng.error("提交失败");
+                });
+                ajax.set(InformationFileList)
+                ajax.start();
+            })
+        }
+    }
+    function set (key, value) {
+        if (typeof key == "object") {
+            for (var i in key) {
+                if (typeof i == "function")
+                    continue;
+                this.InformationFileList[i] = key[i];
+            }
+        } else {
+            this.InformationFileList[key] = (typeof value == "undefined") ? $("#" + key).val() : value;
+        }
+        return this;
+    }
+</script>
+@}

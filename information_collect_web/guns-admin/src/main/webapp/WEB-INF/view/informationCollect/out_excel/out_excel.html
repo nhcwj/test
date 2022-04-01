@@ -1,0 +1,342 @@
+@layout("/common/_container.html"){
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>全量清单</h5>
+            </div>
+            <div class="ibox-content">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="col-sm-3">
+                            <#commonSelect id="dept" name="分公司:" labelWidth="4" inputWidth="8">
+                                <option value="">请选择</option>
+                                <option value="市属集团">市属集团</option>
+                                <option value="禅城分公司">禅城分公司</option>
+                                <option value="南海分公司">南海分公司</option>
+                                <option value="顺德分公司">顺德分公司</option>
+                                <option value="高明分公司">高明分公司</option>
+                                <option value="三水分公司">三水分公司</option>
+                                <option value="省级">省级</option>
+                            </#commonSelect>
+                        </div>
+                        <div class="col-sm-3">
+                            <#commonInput name="DICI系统编号:" id="DICI_system_num" labelWidth="4" inputWidth="8" placeholder="请输入"/>
+                        </div>
+                        <div class="col-sm-3">
+                            <#commonInput name="项目名称:" id="project_name" labelWidth="4" inputWidth="8" placeholder="请输入"/>
+                        </div>
+                        <div class="col-sm-3">
+                            <#commonInput name="交付经理:" id="pay_manager" labelWidth="4" inputWidth="8" placeholder="请输入"/>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="col-sm-3">
+                            <#commonInput name="交付助理:" id="pay_assistant" labelWidth="4" inputWidth="8" placeholder="请输入"/>
+                        </div>
+                        <div class="col-sm-3">
+                            <#commonSelect id="project_stage" name="项目阶段" labelWidth="4" inputWidth="8">
+                                <option value="">请选择</option>
+                                <option value="初验">初验</option>
+                                <option value="试运行">试运行</option>
+                                <option value="项目规划">项目规划</option>
+                                <option value="项目启动">项目启动</option>
+                                <option value="项目实施">项目实施</option>
+                                <option value="终验">终验</option>
+                            </#commonSelect>
+                        </div>
+                    <div class="col-sm-3">
+                        <#commonSelect id="time_progress_situation" name="时间进度情况:" labelWidth="4" inputWidth="8">
+                            <option value="">请选择</option>
+                            <option value="落后">落后</option>
+                            <option value="正常">正常</option>
+                            <option value="终验">终验</option>
+                        </#commonSelect>
+                    </div>
+                        <div class="col-sm-3" style="text-align: center">
+                            <!--<button type="button" class="btn btn-primary " style="background-color: #20BE84" onclick="more_other()" id="more">-->
+                            <!--<span>更多</span>&nbsp;<i class="fa fa-angle-down"></i>-->
+                            <!--</button>-->
+                            <button type="button" class="btn btn-primary " style="background-color: #20BE84;margin-left: 10px" id="query" onclick="choose_edit_see()">
+                                查询
+                            </button>
+
+                            <button type="button" class="btn btn-primary " style="background-color: #20BE84;margin-left: 10px" onclick="clearAll()" id="return">
+                                重置
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <br>
+                <#table id="informationTable"/>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div style="margin-left: 2%;width: 96%">
+
+</div>
+
+<script>
+    var information = {
+        id: "informationTable",	//表格id
+        seItem: null,		//选中的条目
+        table: null,
+        layerIndex: -1,
+        name:"清单",
+    };
+    var informationData={};
+    information.initColumn = function () {
+        return [
+            {field: 'selectItem',visible:true,radio:true},
+            {title: '序号', field: 'id', visible: true, align: 'center',sortable:true , valign: 'middle',formatter:function(value){
+                    return value;
+                }},
+            {title: '项目名称', field: 'project_name', visible: true, align: 'center',sortable:true , valign: 'middle',formatter:function(value){
+                    if(value==""||value==null){
+                        return '<span style="color:red;">--</span>'
+                    }else{
+                        return value;
+                    }
+
+                }},
+            {title: 'DICI系统编号', field: 'dICI_system_num', visible: true, align: 'center',sortable:true , valign: 'middle',formatter:function(value){
+                    if(value==""||value==null){
+                        return '<span style="color:red;">--</span>'
+                    }else{
+                        return value;
+                    }
+                }},
+            {title: '分公司/部门', field: 'dept', visible: true, align: 'center',sortable:true , valign: 'middle',formatter:function(value){
+                    if(value==""||value==null){
+                        return '<span style="color:red;">--</span>'
+                    }else{
+                        return value;
+                    }
+                }},
+            {title: '交付经理', field: 'pay_manager', visible: true, align: 'center',sortable:true , valign: 'middle',formatter:function(value,row){
+                    if(value==""||value==null){
+                        return '<span style="color:red;">--</span>'
+                    }else{
+                        return value
+                    }
+                }},
+            {title: '交付助理', field: 'pay_assistant', visible: true, align: 'center',sortable:true , valign: 'middle',formatter:function(value){
+                    if(value==""||value==null){
+                        return '<span style="color:red;">--</span>'
+                    }else{
+                        return value
+                    }
+                }},
+            {title: '合同编号', field: 'contract_num', visible: true, align: 'center',sortable:true , valign: 'middle',formatter:function(value){
+                    if(value==""||value==null){
+                        return '<span style="color:red;">--</span>'
+                    }else{
+                        return value;
+                    }
+                }},
+            {title: '项目金额(万元)', field: 'project_money', visible: true, align: 'center',sortable:true , valign: 'middle',formatter:function(value){
+                    if(value==""||value==null){
+                        return '<span style="color:red;">--</span>'
+                    }else{
+                        return value;
+                    }
+                }},
+            {title: '项目阶段（省公司）', field: 'project_stage', visible: true, align: 'center',sortable:true , valign: 'middle',formatter:function(value){
+                    if(value==""||value==null){
+                        return '<span style="color:red;">--</span>'
+                    }else{
+                        return value;
+                    }
+                }},
+            {title: '阶段活动(省公司)', field: 'stage_activity', visible: true, align: 'center',sortable:true ,valign: 'middle',formatter:function(value){
+                    if(value==""||value==null){
+                        return '<span style="color:red;">--</span>'
+                    }
+                    else{
+                        return value;
+                    }
+                }},
+            {title: '是否重点项目', field: 'is_important', visible: true, align: 'center',sortable:true ,valign: 'middle',formatter:function(value){
+                    if(value==""||value==null){
+                        return '<span style="color:red;">--</span>'
+                    }
+                    else{
+                        return value;
+                    }
+                }},
+            {title: '时间进度情况', field: 'time_progress_situation', visible: true, align: 'center',sortable:true ,valign: 'middle',formatter:function(value){
+                    if(value==""||value==null){
+                        return '<span style="color:red;">--</span>'
+                    }
+                    else{
+                        return value;
+                    }
+                }},
+            {title: '项目经理姓名', field: 'project_manager_name', visible: true, align: 'center',sortable:true ,valign: 'middle',formatter:function(value){
+                    if(value==""||value==null){
+                        return '<span style="color:red;">--</span>'
+                    }
+                    else{
+                        return value;
+                    }
+                }},
+            {title: '分管领导', field: 'part_leader', visible: true, align: 'center',sortable:true ,valign: 'middle',formatter:function(value){
+                    if(value==""||value==null){
+                        return '<span style="color:red;">--</span>'
+                    }
+                    else{
+                        return value;
+                    }
+                }},
+            {title: '项目经理联系电话', field: 'project_manager_phone', visible: true, align: 'center',sortable:true ,valign: 'middle',formatter:function(value){
+                    if(value==""||value==null){
+                        return '<span style="color:red;">--</span>'
+                    }
+                    else{
+                        return value;
+                    }
+                }},
+            {title: '网络ICT支撑专员', field: 'net_ICT_hold_specialist', visible: true, align: 'center',sortable:true ,valign: 'middle',formatter:function(value){
+                    if(value==""||value==null){
+                        return '<span style="color:red;">--</span>'
+                    }
+                    else{
+                        return value;
+                    }
+                }},
+            {title: '是否深度自主集成(判断标准见批注)', field: 'is_deep_integration', visible: true, align: 'center',sortable:true ,valign: 'middle',formatter:function(value){
+                    if(value==""||value==null){
+                        return '<span style="color:red;">--</span>'
+                    }
+                    else{
+                        return value;
+                    }
+                }},
+            {title: '紧急程度', field: 'hurry_level', visible: true, align: 'center',sortable:true ,valign: 'middle',formatter:function(value){
+                    if(value==""||value==null){
+                        return '<span style="color:red;">--</span>'
+                    }
+                    else{
+                        return value;
+                    }
+                }},
+            {title: '行业', field: 'profession', visible: true, align: 'center',sortable:true ,valign: 'middle',formatter:function(value){
+                    if(value==""||value==null){
+                        return '<span style="color:red;">--</span>'
+                    }
+                    else{
+                        return value;
+                    }
+                }},
+            {title: '是否已甄选', field: 'is_select', visible: true, align: 'center',sortable:true ,valign: 'middle',formatter:function(value){
+                    if(value==""||value==null){
+                        return '<span style="color:red;">--</span>'
+                    }
+                    else{
+                        return value;
+                    }
+                }},
+            {title: '集成商名称', field: 'integration_name', visible: true, align: 'center',sortable:true ,valign: 'middle',formatter:function(value){
+                    if(value==""||value==null){
+                        return '<span style="color:red;">--</span>'
+                    }
+                    else{
+                        return value;
+                    }
+                }},
+            {title: '资金模式', field: 'money_mode', visible: true, align: 'center',sortable:true ,valign: 'middle',formatter:function(value){
+                    if(value==""||value==null){
+                        return '<span style="color:red;">--</span>'
+                    }
+                    else{
+                        return value;
+                    }
+                }},
+            {title: '监理单位', field: 'manage_unit', visible: true, align: 'center',sortable:true ,valign: 'middle',formatter:function(value){
+                    if(value==""||value==null){
+                        return '<span style="color:red;">--</span>'
+                    }
+                    else{
+                        return value;
+                    }
+                }},
+            {title: '环节', field: 'current_process', visible: true, align: 'center',sortable:true ,valign: 'middle',formatter:function(value){
+                    if(value==""||value==null){
+                        return '<span style="color:red;">--</span>'
+                    }
+                    else{
+                        return value;
+                    }
+                }},
+            {title: '决策人选择部门', field: 'choose_dept', visible: true, align: 'center',sortable:true ,valign: 'middle',formatter:function(value){
+                    if(value==""||value==null){
+                        return '<span style="color:red;">--</span>'
+                    }
+                    else{
+                        return value;
+                    }
+                }},
+        ];
+    };
+    var defaultColunms = information.initColumn();
+    var table = new BSTable(information.id, "/informationCollect/getContent?ongoing=ongoing",defaultColunms,600);
+    $(function () {
+        table.setQueryParams(informationData)
+        table.setPaginationType("client");
+        information.table = table.init();
+    });
+    function refreshTable(){
+        information.table.refresh()
+    }
+    function openSeeInfo(value){
+        var index = layer.open({
+            type: 2,
+            title: '查看',
+            area: ['1350px', '600px'], //宽高
+            fix: false, //不固定
+            maxmin: true,
+            content: Feng.ctxPath + '/informationCollect/edit_see?id='+value,
+        });
+        this.layerIndex = index
+    }
+    function choose_edit_see(){
+        set('dept').set('DICI_system_num').set('project_name').set('pay_manager')
+            .set('pay_assistant').set('project_stage').set('time_progress_situation')
+        console.log(informationData)
+
+        table.refresh(informationData)
+    }
+    function clearAll(){
+        clear('dept')
+        clear('DICI_system_num')
+        clear('project_name')
+        clear('pay_manager')
+        clear('pay_assistant')
+        clear('project_stage')
+        clear('time_progress_situation')
+    }
+    function clear(key){
+        $("#" + key).val(null)
+    }
+    function set (key, value) {
+        if (typeof key == "object") {
+            for (var i in key) {
+                if (typeof i == "function")
+                    continue;
+                this.informationData[i] = key[i];
+            }
+        } else {
+            this.informationData[key] = (typeof value == "undefined") ? $("#" + key).val() : value;
+        }
+        return this;
+    }
+</script>
+@}

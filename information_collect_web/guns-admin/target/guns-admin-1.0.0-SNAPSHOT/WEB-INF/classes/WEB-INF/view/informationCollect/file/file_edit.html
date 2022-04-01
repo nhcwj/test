@@ -1,0 +1,180 @@
+<div style="margin-top: 40px" id="file" hidden>
+    <div class="row">
+        <div class="col-sm-3">
+            <#commonSelect id="project_state" name="项目阶段" labelWidth="4" inputWidth="8">
+                <option value="">请选择</option>
+                <option value="初验">初验</option>
+                <option value="试运行">试运行</option>
+                <option value="项目规划">项目规划</option>
+                <option value="项目启动">项目启动</option>
+                <option value="项目实施">项目实施</option>
+                <option value="终验">终验</option>
+                <option value="交维与归档">交维与归档</option>
+            </#commonSelect>
+    </div>
+    <div class="col-sm-3">
+        <#commonSelect id="is_need" name="是否必须上传:" labelWidth="4" inputWidth="8">
+        <option value="">请选择</option>
+        <option value="是">是</option>
+        <option value="否">否</option>
+    </#commonSelect>
+</div>
+<div class="col-sm-3">
+    <#commonInput name="附件名称:" id="file_name" labelWidth="4" inputWidth="8" placeholder="请输入"/>
+</div>
+<div class="col-sm-3" style="text-align: center">
+    <!--<button type="button" class="btn btn-primary " style="background-color: #20BE84" onclick="more_other()" id="more">-->
+    <!--<span>更多</span>&nbsp;<i class="fa fa-angle-down"></i>-->
+    <!--</button>-->
+    <button type="button" class="btn btn-primary " style="background-color: #20BE84;margin-left: 10px" id="query" onclick="choose()">
+        查询
+    </button>
+
+    <button type="button" class="btn btn-primary " style="background-color: #20BE84;margin-left: 10px" onclick="clearAll()" id="return">
+        重置
+    </button>
+    <!--                            <button type="button" class="btn btn-primary " style="display: none;background-color: #20BE84;margin-left: 10px" id="edit" onclick="choose_edit()">-->
+    <!--                                编辑-->
+    <!--                            </button>-->
+</div>
+</div>
+<div class="row">
+<!--    <button type="button" class="btn btn-primary " style="background-color: #20BE84;margin-left: 10px" onclick="choose_file()">-->
+<!--        选择所需上传文件-->
+<!--    </button>-->
+</div>
+<br>
+<#table id="FileListTable"/>
+</div>
+
+<script>
+    var informationFileList = {
+        id: "FileListTable",	//表格id
+        seItem: null,		//选中的条目
+        table: null,
+        layerIndex: -1,
+        name:"清单",
+    };
+    var informationFileData={};
+    informationFileList.initColumn = function () {
+        return [
+            {field: 'selectItem',visible:true,radio:true},
+            {title: '序号', field: 'id', visible: true, align: 'center',sortable:true , valign: 'middle',formatter:function(value){
+                    return value;
+                }},
+            {title: '项目阶段', field: 'project_state', visible: true, align: 'center',sortable:true , valign: 'middle',formatter:function(value){
+                    if(value==""||value==null){
+                        return '<span style="color:red;">--</span>'
+                    }else{
+                        return value;
+                    }
+                }},
+            {title: '附件名称', field: 'file_name', visible: true, align: 'center',sortable:true , valign: 'middle',formatter:function(value,row){
+                    if(value==""||value==null){
+                        return '<span style="color:red;">--</span>'
+                    }else{
+                        return value;
+                    }
+                }},
+            {title: '是否必须上传', field: 'is_need', visible: true, align: 'center',sortable:true , valign: 'middle',formatter:function(value){
+                    if(value==""||value==null){
+                        return '<span style="color:red;">--</span>'
+                    }else{
+                        return value;
+                    }
+                }},
+            {title: '状态', field: 'status', visible: true, align: 'center',sortable:true , valign: 'middle',formatter:function(value,row){
+                    if(value==""||value==null||value=='停用'){
+                        return '<span style="color:red;">停用</span>'
+                    }else{
+                        return '<span style="color:green;">启用</span>';
+                    }
+                }},
+            {title: '已上传文件', field: 'file_map', visible: true, align: 'center',sortable:true , valign: 'middle',formatter:function(value){
+                    if(value==""||value==null){
+                        return '<span style="color:red;">无</span>'
+                    }else{
+                        let html=''
+
+                        for(let v in value){
+                            html+=`<a href="#" onclick="downloadfile(\'`+value[v].filePath+`\',\'`+value[v].filename+`\')">`+value[v].filename+`</a></br>`
+                        }
+                        return html;
+                    }
+                }},
+            {title: '操作', field: 'id', visible: true, align: 'center',sortable:true , valign: 'middle',formatter:function(value){
+                    return `<button type="button" class="btn btn-primary " style="background-color: #20BE84;margin-left: 10px" id="query" onclick="upload_file(\'`+value+`\')">
+                            操作
+                        </button>`
+                }},
+
+        ];
+    };
+    var defaultColunms = informationFileList.initColumn();
+    var table = new BSTable(informationFileList.id, "/informationFile/getFileListByOrderId_normal?id="+'${info.id}',defaultColunms,400);
+    table.setQueryParams(informationFileData)
+    table.setPaginationType("client");
+    informationFileList.table = table.init();
+
+
+    function clearAll(){
+        $('#is_need').val('')
+        $('#file_name').val('')
+        $('#project_state').val('')
+    }
+    function choose(){
+        set('is_need').set('file_name').set('project_state')
+        table.refresh(informationFileData)
+    }
+    function goback(){
+        table.refresh(informationFileData)
+    }
+    function goto_file(){
+        table.refresh(informationFileData)
+    }
+
+    function set (key, value) {
+        if (typeof key == "object") {
+            for (var i in key) {
+                if (typeof i == "function")
+                    continue;
+                this.informationFileData[i] = key[i];
+            }
+        } else {
+            this.informationFileData[key] = (typeof value == "undefined") ? $("#" + key).val() : value;
+        }
+        return this;
+    }
+    function downloadfile(path,fileName){
+        // c(fileName)
+        window.location.href="/base/downloadFile?fileName="+fileName+"&filePath="+path;
+    }
+    function upload_file(id){
+        var index = layer.open({
+            type: 2,
+            title: '文件操作',
+            area: ['600px', '400px'], //宽高
+            fix: false, //不固定
+            maxmin: true,
+            content: Feng.ctxPath + '/informationFile/uploadFileById?id='+id+'&informationId='+'${info.id}'
+        });
+        this.layerIndex = index;
+    }
+    function go_back_table(){
+        // go_back()
+        table.refresh(informationFileData)
+
+    }
+    function choose_file(){
+        var index = layer.open({
+            type: 2,
+            title: '附件选择',
+            area: ['1200px', '500px'], //宽高
+            fix: false, //不固定
+            maxmin: true,
+            content: Feng.ctxPath + '/informationFile/choose_file?id='+'${info.id}'
+        });
+        this.layerIndex = index;
+    }
+</script>
+

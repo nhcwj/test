@@ -1,0 +1,109 @@
+@layout("/common/new_container.html"){
+<style lang="scss">
+
+    .example {
+        margin: auto;
+        position: absolute;
+        top: 0; left: 0; bottom: 0; right: 0;
+        width: 200px;
+        height: 200px;
+        /*background-color: lightskyblue;*/
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .title{
+        padding: 20px;
+        border-bottom: 1px solid #c8c8c8;
+    }
+    .comment_list{
+        margin-top: 20px;
+        padding: 20px;
+    }
+    .comment_list_item{
+        margin-top: 30px;
+    }
+    .comment_list_item_content{
+        margin-top: 20px;
+        margin-left: 50px;
+    }
+</style>
+<div class="modal fade" id="loadingModal">
+    <div class="example">
+        <div class="sk-chase">
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+        </div>
+        <div style="font-weight: bold;font-size: 18px;color: white;margin-top: 10px">数据加载中...</div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-content">
+                <div class="row">
+                    <div class="title">
+                        <div>标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题</div>
+                        <div style="display: flex;justify-content: flex-end">
+                            <div>
+                                <button type="button" class="btn btn-primary " style="background-color: #20BE84" onclick="save()" id="save">
+                                    转给
+                                </button>
+                                <button type="button" class="btn btn-primary " style="background-color: #20BE84" onclick="submit()" id="submit">
+                                    答复
+                                </button>
+                                <button type="button" class="btn btn-primary " style="background-color: #20BE84" onclick="batchUpload()" id="batchUpload">
+                                    解决
+                                </button>
+                                <button type="button" class="btn btn-primary " style="background-color: #20BE84" onclick="batchUpload()" id="batchUpload">
+                                    催办
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="comment_list">
+                        <div class="comment_list_item">
+                            <div class="comment_list_item_logo">
+                                <img src="/static/img/user.png">
+                                <span>用户</span>
+                            </div>
+                            <div class="comment_list_item_content">
+                                <div>文字文字文字文字文字文字</div>
+                            </div>
+                        </div>
+                        <div class="comment_list_item">
+                            <div class="comment_list_item_logo">
+                                <img src="/static/img/user.png">
+                                <span>用户</span>
+                            </div>
+                            <div class="comment_list_item_content">
+                                <div>文字文字文字文字文字文字</div>
+                            </div>
+                        </div>
+                        <div class="comment_list_item">
+                            <div class="comment_list_item_logo">
+                                <img src="/static/img/user.png">
+                                <span>用户</span>
+                            </div>
+                            <div class="comment_list_item_content">
+                                <div>文字文字文字文字文字文字文字</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<script>
+
+</script>
+@}

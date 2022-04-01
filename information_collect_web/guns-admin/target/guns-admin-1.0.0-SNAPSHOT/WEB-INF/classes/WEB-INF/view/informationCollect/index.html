@@ -1,0 +1,111 @@
+@layout("/common/new_container.html"){
+
+<style>
+    input::-webkit-input-placeholder{
+        font-size: 12px;
+        color: #000000;
+        font-family: 微软雅黑;
+    }
+    .btn-primary{
+        padding: 5px 20px;
+    }
+    .W25 .th-inner{
+        width: 25px !important;
+    }
+    .split{
+        height: 1px;
+        width:100%;
+        background-color: #BBBBBB;
+        margin-top: 5px;
+        margin-bottom: 25px;
+    }
+    .topBtn{
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 5px;
+    }
+    .chooseBtn{
+        background-color: #15da8f;
+        font-weight: bold;
+    }
+</style>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>数据看板</h5>
+            </div>
+            <div class="ibox-content">
+                <div class="row">
+                    <div class="col-sm-5" style="padding: 0px;height: 35px;margin-left:15px; display: flex;">
+                        <div id="topSelect" style="display: flex;font-size: 14px;color: #000000;background-color:#ebf9f4;">
+                            <div class="topBtn chooseBtn" style="width: 150px">全大市情况</div>
+                            <div class="topBtn" style="width: 150px">重点项目</div>
+                            <div class="topBtn" style="width: 150px">全量售中项目情况</div>
+                            <div class="topBtn" style="width: 150px">重点项目情况</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="split"></div>
+                <div id="qdsqk" class="row" style="width: 94%;margin-left: 2%">
+                    @include("/informationCollect/statistics/qdsqk.html"){}
+                </div>
+                <div id="key_project" class="row" style="width: 94%;margin-left: 2%">
+                    @include("/informationCollect/statistics/key_project.html"){}
+                </div>
+                <div id="all_doing_project_station" class="row" style="width: 94%;margin-left: 2%">
+                    @include("/informationCollect/statistics/all_doing_project_station.html"){}
+                </div>
+                <div id="key_project_station" class="row" style="width: 94%;margin-left: 2%">
+                    @include("/informationCollect/statistics/key_project_station.html"){}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(function (){
+        $("#key_project").hide()
+        $("#key_project_station").hide()
+        $("#all_doing_project_station").hide()
+    })
+    $(".topBtn").click(function () {
+        if ($(this).hasClass("chooseBtn")) {
+
+        }else {
+            $(".topBtn").removeClass("chooseBtn")
+            $(this).addClass("chooseBtn")
+            console.log($(this).text())
+            if($(this).text()=='全大市情况'){
+                $("#qdsqk").show()
+                $("#key_project").hide()
+                $("#key_project_station").hide()
+                $("#all_doing_project_station").hide()
+
+            }else if($(this).text()=='重点项目') {
+                $("#qdsqk").hide()
+                $("#key_project").show()
+                $("#key_project_station").hide()
+                $("#all_doing_project_station").hide()
+
+            }else if($(this).text()=='重点项目情况') {
+                $("#qdsqk").hide()
+                $("#key_project").hide()
+                $("#key_project_station").show()
+                $("#all_doing_project_station").hide()
+
+            }else if($(this).text()=='全量售中项目情况') {
+                $("#qdsqk").hide()
+                $("#key_project").hide()
+                $("#key_project_station").hide()
+                $("#all_doing_project_station").show()
+
+            }
+        }
+    })
+</script>
+@}

@@ -1,0 +1,182 @@
+@layout("/common/new_container.html"){
+<!--<link href="${ctxPath}/static/css/hover.css" rel="stylesheet">-->
+<!--<link href="${ctxPath}/static/css/spinkit.css" rel="stylesheet">-->
+
+<style lang="scss">
+    .tab.active{
+        background-color: #20BE84;
+        color: white;
+        font-weight: bold;
+    }
+    .tab{
+        cursor: pointer;
+        padding: 15px;
+        font-weight: bold;
+        background-color: #EBF9F4;
+        border-radius: 10px;
+        margin-right: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-sizing: border-box;
+        transition-duration: 0.5s;
+    }
+    /*.tab:hover{*/
+        /*box-shadow: 1px 1px 1px #20BE84 ;*/
+        /*transform: scale3d(1.1,1.1,1.1);*/
+    /*}*/
+    .box{
+        padding: 20px;
+    }
+    .example {
+        margin: auto;
+        position: absolute;
+        top: 0; left: 0; bottom: 0; right: 0;
+        width: 200px;
+        height: 200px;
+        /*background-color: lightskyblue;*/
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+</style>
+<div class="modal fade" id="loadingModal">
+    <div class="example">
+        <div class="sk-wave">
+            <div class="sk-wave-rect" style="background-color:#20BE84 "></div>
+            <div class="sk-wave-rect"  style="background-color:#20BE84 "></div>
+            <div class="sk-wave-rect"  style="background-color:#20BE84 "></div>
+            <div class="sk-wave-rect"  style="background-color:#20BE84 "></div>
+            <div class="sk-wave-rect"  style="background-color:#20BE84 "></div>
+        </div>
+        <div style="font-weight: bold;font-size: 18px;color: white;margin-top: 10px">数据加载中...</div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-content">
+                <div class="row row-lg" >
+                    <div class="tabDiv" style="display: flex;justify-content: center;box-sizing: border-box;flex-wrap: wrap">
+                        <div class="tab hvr-underline-from-center" data-type="flow_img" data-src="/flowInfo/FlowChart">流程图</div>
+                        <div class="tab hvr-underline-from-center" data-type="statics" data-src="/flowInfo/OrderStatistics">流转记录</div>
+                        <div class="tab hvr-underline-from-center" data-type="batch" data-src="/flowInfo/BatchDownloadFilePage">批量下载</div>
+
+                        <div class="tab hvr-underline-from-center" data-type="befor_build_info" data-src="/qyw/beforeInfo/build">资源准备单</div>
+                        <div class="tab hvr-underline-from-center" data-type="resource_judge" data-src="/qyw/ttDesignResourceJudge/resourceJudge">资源判断</div>
+                        <div class="tab hvr-underline-from-center" data-type="site_scheme_design" data-src="/qyw/engineering/local_scene_design" id="local_tab">本地网现场资源准备工单</div>
+
+                    </div>
+                    <!--流程图 -->
+                    <div class="col-sm-12 box" id="flow_img" style="display: none">
+
+                    </div>
+                    <!--统计 -->
+                    <div class="col-sm-12 box" id="statics" style="display: none">
+
+                    </div>
+                    <!--批量下载 -->
+                    <div class="col-sm-12 box" id="batch" style="display: none">
+
+                    </div>
+                    <div class="col-sm-12 box" id="befor_build_info" style="display: none">
+
+                    </div>
+                    <div class="col-sm-12 box" id="resource_judge" style="display: none">
+
+                    </div>
+
+                    <div class="col-sm-12 box" id="site_scheme_design" style="display: none">
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<script>
+    let orderId='${orderId}';
+    let flow='${type}'
+
+    function calcPageHeight(doc) {
+        var cHeight = Math.max(doc.body.clientHeight, doc.documentElement.clientHeight)
+        var sHeight = Math.max(doc.body.scrollHeight, doc.documentElement.scrollHeight)
+        var height = Math.max(cHeight, sHeight)
+        height=height<500?600:height
+        return height
+    }
+    function createFrame(id,src,params) {
+        if(params!==''){
+            html='<iframe id="'+id+'_frame" scrolling="yes"  width="100%" src="'+src+params+'" frameborder="0"></iframe>';
+        }else{
+            html='<iframe id="'+id+'_frame" scrolling="yes" width="100%" src="'+src+'" frameborder="0"></iframe>';
+        }
+        $("#"+id).html(html);
+        let temp = document.getElementById(id+"_frame");
+        $("#loadingModal").modal('show')
+        temp.onload=function () {
+            var iDoc = temp.contentDocument || temp.document || temp.contentWindow
+            var height = calcPageHeight(iDoc);
+            temp.style.height = height + 'px'
+            $("#loadingModal").modal('hide')
+        }
+    }
+    let stepList=['流程图','统计','批量下载','前勘单','资源判断','本地网现场前勘工单'];
+
+    let stepName='${stepName}';
+    var endIndex=stepList.findIndex((value)=>value==stepName);
+    endIndex=endIndex+1;
+    let count=stepList.length-endIndex;
+    for(let i=0;i<count;i++){
+        $(".tab").eq(endIndex).remove();
+    }
+    let tabList=$(".tab");
+    let have_tab=false;
+
+    for(let i=0;i<tabList.length;i++){
+        console.log($(tabList[i]).html());
+        if($(tabList[i]).html()===stepName){
+            $(".tab").eq(i).addClass("active");
+            let id=$(tabList[i]).data("type");
+            let src=$(tabList[i]).data("src");
+            $("#"+id).css("display",'');
+            let params='?orderId='+orderId+'&type='+flow
+            console.log(params);
+            createFrame(id,src,params)
+            have_tab=true;
+            break;
+        }
+    }
+    if(!have_tab){
+            $("#local_tab").addClass("active");
+            let id=$("#local_tab").data("type");
+            let src=$("#local_tab").data("src");
+            $("#"+id).css("display",'');
+            let params='?orderId='+orderId+'&type='+flow
+            createFrame(id,src,params);
+    }
+    $(".tab").click(function () {
+        let type=$(this).data("type");
+        let src=$(this).data("src");
+        $(".tab").removeClass("active");
+        $(this).addClass("active");
+        $(".box").css("display","none");
+        $("#"+type).css("display",'');
+        let html=$("#"+type).html().replace(/\s*/g,"");;
+        if(html){
+
+        }else{
+            let params='?orderId='+orderId+'&type='+flow;
+            console.log(params);
+            createFrame(type,src,params)
+        }
+    })
+
+</script>
+@}

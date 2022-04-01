@@ -1,0 +1,258 @@
+<div id="baseinfo" hidden>
+    <#title info="项目信息" />
+    <div style="height: 20px"></div>
+    <div class="row">
+        <div class="col-sm-8">
+            <#commonInput name="项目名称:" id="project_name" labelWidth="2" inputWidth="10" placeholder="请输入" value="${info.project_name}" required="1"/>
+        </div>
+        <div class="col-sm-4">
+            <#commonInput name="合同编号:" id="contract_num" labelWidth="4" inputWidth="8" placeholder="请输入" value="${info.contract_num}" required="1"/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+            <#commonInput name="DICI系统编号:" id="DICI_system_num" labelWidth="4" inputWidth="8" placeholder="请输入" value="${info.DICI_system_num}" required="1"/>
+        </div>
+        <div class="col-sm-4">
+            <#commonSelect id="dept" name="分公司/部门:" labelWidth="4" inputWidth="8" required="1">
+                <option value="">请选择</option>
+                <option value="系统集成佛山分公司">系统集成佛山分公司</option>
+                <option value="禅城分公司">禅城分公司</option>
+                <option value="南海分公司">南海分公司</option>
+                <option value="顺德分公司">顺德分公司</option>
+                <option value="高明分公司">高明分公司</option>
+                <option value="三水分公司">三水分公司</option>
+                <option value="市政企">市政企</option>
+            </#commonSelect>
+        </div>
+        <div class="col-sm-4">
+            <#commonInput name="项目金额(万元):" id="project_money" type="Number" labelWidth="4" inputWidth="8" placeholder="请输入" value="${info.project_money}" required="1"/>
+        </div>
+</div>
+<div class="row">
+    <div class="col-sm-4">
+        <#commonSelect id="pay_manager" name="交付经理:" labelWidth="4" inputWidth="8" required="1">
+        <option value="">请选择</option>
+        @for(user in payManagerList){
+        <option value="${user.name}">${user.name}</option>
+        @}
+    </#commonSelect>
+</div>
+<div class="col-sm-4">
+    <#commonSelect id="pay_assistant" name="交付助理:" labelWidth="4" inputWidth="8" required="1">
+        <option value="">请选择</option>
+        @for(user in payAssistantList){
+        <option value="${user.name}">${user.name}</option>
+        @}
+
+    </#commonSelect>
+</div>
+
+</div>
+
+<div class="split"></div>
+<div class="row">
+
+    <div class="col-sm-4">
+        <#label id="time_progress_situation" name="时间进度情况" value="${info.time_progress_situation}" disabled="disabled"/>
+    </div>
+</div>
+<div class="split"></div>
+
+<div style="height: 20px"></div>
+<#title info="联系人信息" />
+<div style="height: 20px"></div>
+
+<div class="row">
+    <div class="col-sm-4">
+        <#commonInput name="项目经理姓名:" id="project_manager_name" labelWidth="4" inputWidth="8" placeholder="请输入" value="${info.project_manager_name}"/>
+    </div>
+    <div class="col-sm-4">
+        <#commonInput name="分管领导:" id="part_leader" labelWidth="4" inputWidth="8" placeholder="请输入" value="${info.part_leader}"/>
+    </div>
+    <div class="col-sm-4">
+        <#commonInput name="项目经理联系电话:" id="project_manager_phone" labelWidth="4" inputWidth="8" placeholder="请输入" value="${info.project_manager_phone}"/>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-4">
+        <#commonInput name="网格ICT支撑专员:" id="net_ICT_hold_specialist" labelWidth="4" inputWidth="8" placeholder="请输入" value="${info.net_ICT_hold_specialist}"/>
+    </div>
+</div>
+
+<div style="height: 20px"></div>
+<#title info="基本信息" />
+<div style="height: 20px"></div>
+
+<div class="row">
+    <div class="col-sm-4">
+        <#commonSelect id="is_deep_integration" name="是否深度自主集成:(判断标准见批注)" labelWidth="4" inputWidth="8">
+        <option value="">请选择</option>
+        <option value="是">是</option>
+        <option value="否">否</option>
+        <option value="待定">待定</option>
+    </#commonSelect>
+</div>
+<div class="col-sm-4">
+    <#commonSelect id="hurry_level" name="紧急程度:" labelWidth="4" inputWidth="8">
+    <option value="">请选择</option>
+    <option value="一级">一级</option>
+    <option value="二级">二级</option>
+    <option value="三级">三级</option>
+</#commonSelect>
+</div>
+<div class="col-sm-4">
+    <#commonSelect id="profession" name="行业:" labelWidth="4" inputWidth="8">
+    <option value="">请选择</option>
+    <option value="党政">党政</option>
+    <option value="工业能源">工业能源</option>
+    <option value="交通">交通</option>
+    <option value="教育">教育</option>
+    <option value="金融">金融</option>
+    <option value="农商">农商</option>
+    <option value="医疗">医疗</option>
+    <option value="执法">执法</option>
+    <option value="互联网">互联网</option>
+</#commonSelect>
+</div>
+</div>
+<div class="row">
+    <div class="col-sm-4">
+        <#commonSelect id="is_select" name="是否已甄选:" labelWidth="4" inputWidth="8">
+        <option value="">请选择</option>
+        <option value="是">是</option>
+        <option value="否">否</option>
+    </#commonSelect>
+    </div>
+    <div class="col-sm-8">
+        <#commonInput name="资金模式:" id="money_mode" labelWidth="2" inputWidth="10" placeholder="请输入" value="${info.money_mode}"/>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-8">
+        <#commonInput name="集成商名称:" id="integration_name" labelWidth="2" inputWidth="10" placeholder="请输入" value="${info.integration_name}"/>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-8">
+        <#commonInput name="监理单位:" id="manage_unit" labelWidth="2" inputWidth="10" placeholder="请输入" value="${info.manage_unit}"/>
+    </div>
+</div>
+
+
+<div class="row" style="margin-top: 40px; font-size: 14px;">
+    <div class="col-sm-4"></div>
+    <div class="col-sm-1">
+        <button type="button" class="btn btn-primary" onclick="submit_base_info()">保存</button>
+    </div>
+    <div class="col-sm-1">
+    </div>
+    <div class="col-sm-1">
+        <button type="button" class="btn btn-primary" onclick="go_back()">取消</button>
+    </div>
+    <div class="col-sm-5">
+    </div>
+</div>
+</div>
+<script>
+    $("#dept").val("${info.dept}")
+    $("#pay_manager").val("${info.pay_manager}")
+    $("#stage_activity").val("${info.stage_activity}")
+    $("#time_progress_situation").val("${info.time_progress_situation}")
+    $("#is_deep_integration").val("${info.is_deep_integration}")
+    $("#hurry_level").val("${info.hurry_level}")
+    $("#profession").val("${info.profession}")
+    $("#is_select").val("${info.is_select}")
+    $("#pay_assistant").val("${info.pay_assistant}")
+
+    let InformationCollects = {
+        id:'InformationCollectTable',
+        seItem: null,		//选中的条目
+        table: null,
+        layerIndex:-1,
+        orderInfo:{},
+    }
+    InformationCollects.clearData = function () {
+        this.orderInfo = {};
+    };
+    InformationCollects.set = function (key, value) {
+        this.orderInfo[key] = (typeof value == "undefined") ? $("#" + key).val() : value;
+        return this;
+    };
+    InformationCollects.get = function (key) {
+        return $("#" + key).val();
+    };
+    InformationCollects.collectData = function () {
+        this.set('project_name').set('DICI_system_num').set('dept').set('pay_manager').set('pay_assistant')
+            .set('contract_num').set('project_money')
+            .set('time_progress_situation').set('project_manager_name').set('part_leader').set('project_manager_phone')
+            .set('net_ICT_hold_specialist').set('is_deep_integration').set('hurry_level').set('profession')
+            .set('is_select').set('integration_name').set('money_mode').set('manage_unit')
+    };
+    function checkInput1() {
+        if($("#project_name").val()==""){
+            return tip("项目名称","project_name")
+        }
+        if($("#DICI_system_num").val()==""){
+            return tip("DICI系统编号","DICI_system_num")
+        }
+        if($("#dept").val()==""){
+            return tip("分公司/部门","dept")
+        }
+//        if($("#pay_manager").val()==""){
+//            return tip("交付经理","pay_manager")
+//        }
+//        if($("#pay_assistant").val()==""){
+//            return tip("交付助理","pay_assistant")
+//        }
+        if($("#contract_num").val()==""){
+            return tip("合同编号","contract_num")
+        }
+        if($("#project_money").val()==""){
+            return tip("项目金额","project_money")
+        }
+        if($("#time_progress_situation").val()==""){
+            return tip("时间进度情况","time_progress_situation")
+        }
+        return true;
+    }
+    function tip(text, id) {
+        swal({
+            text: text + "未填写",
+            timer: 1500,
+            showConfirmButton: false,
+            confirmButtonText: '确定',
+            confirmButtonColor: '#20BE84',
+            type: 'error',
+        })
+        document.body.scrollIntoView({block: 'center'});
+        $("#" + id).addClass("errorTip");
+        setTimeout(function () {
+            $("#" + id).removeClass("errorTip");
+        }, 2000)
+        setTimeout(function () {
+            document.getElementById(id).scrollIntoView({block: 'center'});
+        }, 1500)
+        return false;
+    }
+
+    function submit_base_info() {
+        if(checkInput1()){
+            Feng.confirm("确认保存吗",function () {
+                InformationCollects.clearData();
+                InformationCollects.collectData();
+                InformationCollects.orderInfo.id = "${info.id}"
+                var ajax = new $ax(Feng.ctxPath + "/informationCollect/update_information_collect", function (data) {
+                    Feng.success("提交成功");
+                    setInterval(function () {
+                        go_back();
+                    }, 800)
+                }, function (data) {
+                    Feng.error("下拉框数据加载失败");
+                });
+                ajax.set(InformationCollects.orderInfo)
+                ajax.start();
+            })
+        }
+    }
+</script>

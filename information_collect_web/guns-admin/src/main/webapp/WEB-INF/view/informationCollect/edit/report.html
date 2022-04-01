@@ -1,0 +1,229 @@
+<link rel="stylesheet" type="text/css" href="/static/css/steps.css">
+<div id="report" hidden>
+
+    <div style="height: 20px"></div>
+    <#title info="周报" />
+    <div style="height: 20px"></div>
+    <div class="row">
+        <div class="col-sm-3">
+            <button onclick="add_weekreport(this)" type="button" class="btn btn-primary " style="background-color: #20BE84" >
+                新增周报
+            </button>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="steps col-sm-2" style="margin-left: 20px" id="report_time">
+            <!--<div class="step step-completed-h">-->
+                <!--<div class="step-main-h" style="color: #76c474;">2021年9月23日 12：13</div>-->
+            <!--</div>-->
+            <!--<div class="step-line-h step-completed-h"></div>-->
+            <!--<div class="step step-completed-h">-->
+                <!--<div class="step-main-h" style="color: #76c474;">2021年9月21日 12：13</div>-->
+            <!--</div>-->
+            <!--<div class="step-line-h step-completed-h"></div>-->
+            <!--<div class="step step-completed-h">-->
+                <!--<div class="step-main-h" style="color: #76c474;">2021年9月20日 12：13</div>-->
+            <!--</div>-->
+            <!--<div class="step-line-h step-completed-h"></div>-->
+            <!--<div class="step"></div>-->
+
+        </div>
+        <div class="col-sm-8" id="report_detail_info">
+            <div style="height: 20px"></div>
+            <!--<div style="font-weight: bold;margin-top: 35px;margin-left:-190px;border: 2px solid  #76c474;border-radius:2px;width: 100%;height: 165px;">-->
+                <!--<div class="row" style="margin-left: 50px;margin-top: 15px">-->
+                    <!--本周推进情况: XXXXXXX-->
+                <!--</div>-->
+                <!--<div class="row" style="margin-left: 50px;margin-top: 10px">-->
+                    <!--难点: XXXXXXX-->
+                <!--</div>-->
+                <!--<div class="row" style="margin-left: 50px;margin-top: 10px">-->
+                    <!--需协调的问题: XXXXXXX-->
+                <!--</div>-->
+                <!--<div class="row" style="margin-left: 50px;margin-top: 10px">-->
+                    <!--下周计划: XXXXXXX-->
+                <!--</div>-->
+                <!--<div class="row" style="margin-left: 50px;margin-top: 10px">-->
+                    <!--备注: XXXXXXX-->
+                <!--</div>-->
+            <!--</div>-->
+
+            <!--<div style="font-weight: bold;margin-top: 35px;margin-left:-190px;border: 2px solid  #76c474;border-radius:2px;width: 100%;height: 165px;">-->
+                <!--<div class="row" style="margin-left: 50px;margin-top: 15px">-->
+                    <!--本周推进情况: XXXXXXX-->
+                <!--</div>-->
+                <!--<div class="row" style="margin-left: 50px;margin-top: 10px">-->
+                    <!--难点: XXXXXXX-->
+                <!--</div>-->
+                <!--<div class="row" style="margin-left: 50px;margin-top: 10px">-->
+                    <!--需协调的问题: XXXXXXX-->
+                <!--</div>-->
+                <!--<div class="row" style="margin-left: 50px;margin-top: 10px">-->
+                    <!--下周计划: XXXXXXX-->
+                <!--</div>-->
+                <!--<div class="row" style="margin-left: 50px;margin-top: 10px">-->
+                    <!--备注: XXXXXXX-->
+                <!--</div>-->
+            <!--</div>-->
+
+            <!--<div style="font-weight: bold;margin-top: 35px;margin-left:-190px;border: 2px solid  #76c474;border-radius:2px;width: 100%;height: 165px;">-->
+                <!--<div class="row" style="margin-left: 50px;margin-top: 15px">-->
+                    <!--本周推进情况: XXXXXXX-->
+                <!--</div>-->
+                <!--<div class="row" style="margin-left: 50px;margin-top: 10px">-->
+                    <!--难点: XXXXXXX-->
+                <!--</div>-->
+                <!--<div class="row" style="margin-left: 50px;margin-top: 10px">-->
+                    <!--需协调的问题: XXXXXXX-->
+                <!--</div>-->
+                <!--<div class="row" style="margin-left: 50px;margin-top: 10px">-->
+                    <!--下周计划: XXXXXXX-->
+                <!--</div>-->
+                <!--<div class="row" style="margin-left: 50px;margin-top: 10px">-->
+                    <!--备注: XXXXXXX-->
+                <!--</div>-->
+            <!--</div>-->
+        </div>
+    </div>
+
+    <div class="row" style="margin-top: 40px; font-size: 14px;">
+        <div class="col-sm-4"></div>
+        <div class="col-sm-1">
+            <button type="button" class="btn btn-primary" id="report_btn" onclick="saveReportData()">保存</button>
+        </div>
+        <div class="col-sm-1">
+        </div>
+        <div class="col-sm-1">
+            <button type="button" onclick="go_back()" class="btn btn-primary">取消</button>
+        </div>
+        <div class="col-sm-5">
+        </div>
+    </div>
+</div>
+
+<script>
+    //需提交的对象
+    var weekly_report={}
+    var Weekly={
+        layerIndex:-2,
+        initData:function () {
+            $("#report_detail_info").html('<div style="height: 20px"></div>');
+            $("#report_time").html('');
+            for(let i=weekly_report.report_info.length-1;i>=0;i--){
+                let current_week=weekly_report.report_info[i];
+                let push_info=current_week.push_info;
+                let difficulty=current_week.difficulty;
+                let problem=current_week.problem;
+                let next_week_plan=current_week.next_week_plan;
+                let remark=current_week.remark;
+                let add_time=current_week.add_time;
+                let Report_Html='<div style="font-weight: bold;margin-top: 35px;margin-left:-190px;border: 2px solid  #76c474;border-radius:2px;width: 100%;height: 365px;">'+
+                    '<div class="row" style="margin-left: 50px;margin-top: 15px;width: 90%">本周推进情况:<div style="font-weight: normal">'+
+                    push_info.replaceAll("n","").replaceAll("t"," ").replaceAll("& #41;","").substr(0,200)+
+                    '</div></div>'+
+                    '<div class="row" style="margin-left: 50px;margin-top: 10px;width: 90%">难点:<div style="font-weight: normal">'+
+                    difficulty.replaceAll("n","").replaceAll("t"," ").replaceAll("& #41;","").substr(0,100)+
+                    '</div></div>'+
+                    '<div class="row" style="margin-left: 50px;margin-top: 10px;width: 90%"> 需协调的问题:<div style="font-weight: normal">'+
+                    problem.replaceAll("n","").replaceAll("t"," ").replaceAll("& #41;","").substr(0,100)+
+                    '</div></div>'+
+                    '<div class="row" style="margin-left: 50px;margin-top: 10px;width: 90%">下周计划:<div style="font-weight: normal">'+
+                    next_week_plan.replaceAll("n","").replaceAll("t"," ").replaceAll("& #41;","").substr(0,100)+
+                    '</div></div>'+
+                    '<div class="row" style="margin-left: 50px;margin-top: 10px;width: 90%">备注:<div style="font-weight: normal">'+
+                    remark.replaceAll("n","").replaceAll("t"," ").replaceAll("& #41;","").substr(0,100)+'' +
+                    '</div><a href="javascript:void(0)" onclick="change_weekreport('+i+')" style="margin-left: 80%">修改</a><a href="javascript:void(0)" onclick="see_weekreport('+i+')" style="margin-left: 5%">查看详情</a></div>'
+                    +'</div>'
+                let Report_Time='<div class="step step-completed-h">'+
+                    '<div class="step-main-h" style="color: #76c474;">'+add_time+'</div></div>';
+                Report_Time+='<div class="step-line-h-w step-completed-h"></div>';
+                $("#report_detail_info").append(Report_Html);
+                $("#report_time").append(Report_Time);
+            }
+            if(weekly_report.report_info.length>0){
+                let Report_Time='<div class="step"></div>';
+                $("#report_time").append(Report_Time);
+            }
+        }
+    }
+    var information_id='${info.id}';
+    getReportInfo();
+    function getReportInfo() {
+        var ajax = new $ax(Feng.ctxPath + "/informationCollect/getReportInfo", function (data) {
+            if(data.id!=''){
+                //非首次编辑
+                weekly_report=data;
+                weekly_report.report_info=JSON.parse(weekly_report.report_info)
+                Weekly.initData();
+            }else{
+                weekly_report.information_collect_id=information_id;
+                weekly_report.report_info=[];
+                //首次编辑
+            }
+        }, function (data) {
+
+        });
+        ajax.set("information_id",information_id);
+        ajax.start();
+    }
+    function change_weekreport(i){
+        var index = layer.open({
+            type: 2,
+            title: '修改',
+            area: ['1000px', '550px'], //宽高
+            fix: false, //不固定
+            maxmin: true,
+            content: Feng.ctxPath + '/informationCollect/change_weekreport?current_week='+i
+        });
+        Weekly.layerIndex = index;
+    }
+    function see_weekreport(i){
+        var index = layer.open({
+            type: 2,
+            title: '新建',
+            area: ['1000px', '550px'], //宽高
+            fix: false, //不固定
+            maxmin: true,
+            content: Feng.ctxPath + '/informationCollect/see_weekreport?see=nosee&current_week='+i
+        });
+        Weekly.layerIndex = index;
+    }
+    function add_weekreport(){
+        var index = layer.open({
+            type: 2,
+            title: '新建',
+            area: ['1000px', '550px'], //宽高
+            fix: false, //不固定
+            maxmin: true,
+            content: Feng.ctxPath + '/informationCollect/add_weekreport'
+        });
+        Weekly.layerIndex = index;
+    }
+    let submitFlag=false;
+    function saveReportData() {
+        Feng.confirm("确认保存吗",function () {
+            if(!submitFlag) {
+                submitFlag = true;
+                weekly_report.report_info = JSON.stringify(weekly_report.report_info).replace(/[\\]/g, '');
+                var ajax = new $ax(Feng.ctxPath + "/informationCollect/editReportInfo", function (data) {
+                    if (data.code == 200) {
+                        $("#report_btn").attr("disabled", false);
+                        Feng.success("保存成功");
+                        go_back();
+                        // window.parent.refreshTable();
+//                    if (!weekly_report.hasOwnProperty("id")) {
+//                        weekly_report.id = data.data.id;
+//                    }
+//                    weekly_report.report_info = JSON.parse(weekly_report.report_info)
+                    }
+                }, function (data) {
+                    submitFlag = false;
+                    $("#report_btn").attr("disabled", false);
+                });
+                ajax.set(weekly_report);
+                ajax.start()
+            }
+        })
+    }
+</script>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebContextManager">
+    <option name="state">
+      <map>
+        <entry key="file://$PROJECT_DIR$/../guns-admin/src/main/webapp/WEB-INF/view/informationCollect/edit.html" value="file://$PROJECT_DIR$/../guns-admin/src/main/webapp/WEB-INF/view/informationCollect" />
+        <entry key="file://$PROJECT_DIR$/../guns-admin/src/main/webapp/WEB-INF/view/informationCollect/edit2/first_order_check.html" value="file://$PROJECT_DIR$/../guns-admin/src/main/webapp/WEB-INF/view/informationCollect/edit2" />
+        <entry key="file://$PROJECT_DIR$/../guns-admin/src/main/webapp/WEB-INF/view/informationCollect/ict/goback_list.html" value="file://$PROJECT_DIR$/../guns-admin/src/main/webapp/WEB-INF/view/informationCollect/ict" />
+        <entry key="file://$PROJECT_DIR$/../guns-admin/src/main/webapp/WEB-INF/view/qyw/bussiness_out_excel/bussiness_out_excel.html" value="file://$PROJECT_DIR$/../guns-admin/src/main/webapp/WEB-INF/view/qyw/bussiness_out_excel" />
+        <entry key="file://$PROJECT_DIR$/../guns-admin/src/main/webapp/WEB-INF/view/qyw/statistics/dxm_table/qyw.html" value="file://$PROJECT_DIR$/../guns-admin/src/main/webapp/WEB-INF/view/qyw/statistics/dxm_table" />
+      </map>
+    </option>
+  </component>
+</project>

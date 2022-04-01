@@ -1,0 +1,97 @@
+@layout("/common/new_container.html"){
+<style>
+    input::-webkit-input-placeholder{
+        font-size: 12px;
+        color: #000000;
+        font-family: 微软雅黑;
+    }
+    .btn-primary{
+        padding: 5px 20px;
+    }
+    .W25 .th-inner{
+        width: 25px !important;
+    }
+    .split{
+        height: 1px;
+        width:100%;
+        background-color: #BBBBBB;
+        margin-top: 5px;
+        margin-bottom: 25px;
+    }
+    .topBtn{
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 5px;
+    }
+    .chooseBtn{
+        background-color: #15da8f;
+        font-weight: bold;
+    }
+</style>
+
+<div class="ibox float-e-margins" >
+    <div class="ibox-content">
+        <div class="form-horizontal">
+            <div class="row">
+                <div class="col-sm-5" style="padding: 0px;height: 35px;margin-left:15px; display: flex;">
+                    <div id="topSelect" style="display: flex;font-size: 14px;color: #000000;background-color:#ebf9f4;">
+                        <div id="baseBtn" class="topBtn" style="width: 120px;display:none;">流程图</div>
+                        <div id="timeBtn" class="topBtn" style="width: 120px;">初步订单审核</div>
+                        <div id="weekBtn" class="topBtn" style="width: 120px;">设计环节</div>
+                        <div id="confirmBtn" class="topBtn" style="width: 120px;">订单确认</div>
+                        <div id="budgetBtn" class="topBtn" style="width: 120px;display:none;">正式订单审核</div>
+                        <div id="appraiseBtn" class="topBtn" style="width: 120px;display:none;">首款确认</div>
+                        <div id="file_upload" class="topBtn" style="width: 120px;display:none;">施工环节</div>
+                        <div id="file_upload2" class="topBtn" style="width: 120px;display:none;">尾款确认</div>
+                    </div>
+                </div>
+            </div>
+
+            @include("/informationCollect/edit2/first_order_check.html"){}
+            @include("/informationCollect/edit2/design.html"){}
+            @include("/informationCollect/edit2/confirm.html"){}
+        </div>
+
+    </div>
+</div>
+<script>
+    $(function () {
+        $('#timeBtn').addClass("chooseBtn")
+        $("#first_order_check").show()
+    })
+    $(".topBtn").click(function () {
+        if ($(this).hasClass("chooseBtn")) {
+
+        }else {
+            $(".topBtn").removeClass("chooseBtn")
+            $(this).addClass("chooseBtn")
+            console.log($(this).text())
+            if($(this).text()=='流程图'){
+            }else if($(this).text()=='初步订单审核'){
+                $("#design").hide()
+                $("#confirm").hide()
+                $("#first_order_check").show()
+            }else if($(this).text()=='设计环节'){
+                $("#first_order_check").hide()
+                $("#confirm").hide()
+                $("#design").show()
+            }else if($(this).text()=='订单确认'){
+                $("#confirm").show()
+                $("#first_order_check").hide()
+                $("#design").hide()
+            }else if($(this).text()=='正式订单审核'){
+            }else if($(this).text()=='首款确认'){
+            }else if($(this).text()=='施工环节'){
+
+            }else if($(this).text()=='尾款确认'){
+
+            }
+        }
+    })
+    function go_back(){
+        window.parent.location.reload()
+    }
+</script>
+@}

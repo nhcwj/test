@@ -1,0 +1,135 @@
+<div id="work" hidden>
+    <div style="height: 15px"></div>
+    <#title info="施工环节" />
+    @for(order_type in order_type_list){
+    <div style=" border-bottom: 1px #20BE84 solid;"></div>
+    <div class="row" style="margin-top: 20px;margin-bottom: 20px">
+        <div class="col-sm-4">
+            <#label id="services_package${order_type.id}" name="服务包大类" value="${order_type.services_package}" />
+        </div>
+        <div class="col-sm-4">
+            <#label id="services_package_son${order_type.id}" name="服务包细项" value="${order_type.services_package_son}" />
+        </div>
+        <div class="col-sm-4">
+            <label style="margin-bottom: 2px" class="col-sm-5 control-label ">
+            <p class="text-right "><strong><span class="text-primary" style="font-size: 13px;
+            color: #4C4B4B;
+            font-family: 微软雅黑;
+            padding: 0;margin: 0;text-align: right">客户验收证明附件</span> <span class="text-danger"></span></strong></p>
+        </label>
+            <div class="col-sm-7" style="display: flex">
+                @if(order_type.over_files!=null && order_type.over_files!=""){
+                <div>
+                    已上传附件
+                </div>
+
+                @}else{
+                <div>
+                    <button type="button" class="btn btn-primary " style="background-color: #20BE84"
+                            onclick="uploadFile(5,'${order_type.id}')" id="uploadFile5">
+                        选择文件
+                    </button>
+                </div>
+                <div id="file_dom5_${order_type.id}" style="margin-left: 10px">
+
+                </div>
+                @}
+            </div>
+        </div>
+    </div>
+    @}
+
+    @if(orderInfo.order_status=="施工环节"&&orderInfo.status=="1"&&check_show){
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="form-group" style="display:flex;align-items: center">
+                <label class="col-sm-4 control-label" style="padding-top: 0">
+                    备注
+                </label>
+                <div class="col-sm-8">
+                    <textarea class="form-control" onmousedown="clickTextArea(event,this)" value=""  id="work_step_remark" name="work_step_remark" rows="5">
+                    </textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    @}
+
+    @if(orderInfo.order_status=="施工环节"&&orderInfo.status=="1"&&check_show){
+    <div class="row" style="margin-top: 20px">
+        <div class="col-sm-offset-2 col-sm-9">
+            @if(hasAllButton){
+                <button type="button" class="btn btn-primary " style="background-color: #20BE84;margin-left: 100px"
+                        onclick="work_submit()">
+                    提交
+                </button>
+                <button type="button" class="btn btn-primary " style="background-color: #20BE84;margin-left: 100px"
+                        onclick="refund()">
+                    退单
+                </button>
+            @}
+            @if(hasAllButton||hasSpecialButton){
+                <button type="button" class="btn btn-primary " style="background-color: #20BE84;margin-left: 100px"
+                        onclick="hangup()">
+                    挂起
+                </button>
+                <button type="button" class="btn btn-primary " style="background-color: #20BE84;margin-left: 100px"
+                        onclick="backbefore()">
+                    退回上一步
+                </button>
+            @}
+            <button type="button" class="btn btn-primary " style="background-color: #20BE84;margin-left: 80px"
+                    onclick="cancle()">
+                返回
+            </button>
+        </div>
+    </div>
+    @}
+</div>
+
+<script>
+    var type_id='${type_id_list}'
+    var work_files=''
+    function work_submit() {
+        Feng.confirm("是否提交？",function () {
+            var ajax = new $ax(Feng.ctxPath + "/ict_pc/update_orderType_work?files="+work_files, function (data) {
+                Feng.success("编辑成功");
+                OrderEdits.clearData();
+                OrderEdits.workCollectData();
+                OrderEdits.orderInfoPlus.client_receive_files=client_receive_files;
+                OrderEdits.orderInfo['id'] = '${orderInfo.id}';
+                OrderEdits.orderInfoPlus['id']='${orderInfo_plus.id}';
+                OrderEdits.orderInfo['order_status'] = data;
+                var ajax = new $ax(Feng.ctxPath + "/ict_pc/updateIctOrder", function (data) {
+                    if('商机单受理,初步订单审核,设计环节,订单确认,正式订单审核'.indexOf(temp)!=-1){
+                        window.parent.Order.table.refresh();
+                        var index = parent.layer.getFrameIndex(window.name)
+                        parent.layer.close(index);
+                    }else{
+                        var ajax2 = new $ax(Feng.ctxPath + "/ict_pc/updateIctInfo", function (data) {
+                            Feng.success("编辑成功");
+                            window.parent.Order.table.refresh();
+                            var index = parent.layer.getFrameIndex(window.name)
+                            parent.layer.close(index);
+                        }, function (data) {
+                            Feng.error("下拉框数据加载失败");
+                        });
+                        ajax2.set(OrderEdits.orderInfoPlus)
+                        ajax2.start();
+                    }
+                }, function (data) {
+                    Feng.error("下拉框数据加载失败");
+                });
+                ajax.set(OrderEdits.orderInfo)
+                ajax.start();
+
+            }, function (data) {
+                Feng.error("下拉框数据加载失败");
+
+            });
+            ajax.start();
+        })
+
+
+    }
+</script>

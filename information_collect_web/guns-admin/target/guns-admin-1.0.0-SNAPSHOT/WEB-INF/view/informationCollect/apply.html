@@ -1,0 +1,296 @@
+@layout("/common/_container.html"){
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>提单人清单</h5>
+            </div>
+            <div class="ibox-content">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="col-sm-3">
+                            <#commonSelect id="dept" name="分公司:" labelWidth="4" inputWidth="8">
+                                <option value="">请选择</option>
+                                <option value="市属集团">市属集团</option>
+                                <option value="禅城分公司">禅城分公司</option>
+                                <option value="南海分公司">南海分公司</option>
+                                <option value="顺德分公司">顺德分公司</option>
+                                <option value="高明分公司">高明分公司</option>
+                                <option value="三水分公司">三水分公司</option>
+                                <option value="省级">省级</option>
+                            </#commonSelect>
+                        </div>
+                        <div class="col-sm-3">
+                            <#commonInput name="DICI系统编号:" id="DICI_system_num" labelWidth="4" inputWidth="8" placeholder="请输入"/>
+                        </div>
+                        <div class="col-sm-3">
+                            <#commonInput name="项目名称:" id="project_name" labelWidth="4" inputWidth="8" placeholder="请输入"/>
+                        </div>
+                        <div class="col-sm-3">
+                            <#commonInput name="交付经理:" id="pay_manager" labelWidth="4" inputWidth="8" placeholder="请输入"/>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="col-sm-3">
+                            <#commonInput name="交付助理:" id="pay_assistant" labelWidth="4" inputWidth="8" placeholder="请输入"/>
+                        </div>
+                        <div class="col-sm-3">
+                            <#commonSelect id="project_stage" name="项目阶段" labelWidth="4" inputWidth="8">
+                                <option value="">请选择</option>
+                                <option value="初验">初验</option>
+                                <option value="试运行">试运行</option>
+                                <option value="项目规划">项目规划</option>
+                                <option value="项目启动">项目启动</option>
+                                <option value="项目实施">项目实施</option>
+                                <option value="终验">终验</option>
+                            </#commonSelect>
+                        </div>
+                    <div class="col-sm-3">
+                        <#commonSelect id="time_progress_situation" name="时间进度情况:" labelWidth="4" inputWidth="8">
+                            <option value="">请选择</option>
+                            <option value="落后">落后</option>
+                            <option value="正常">正常</option>
+                            <option value="终验">终验</option>
+                        </#commonSelect>
+                    </div>
+                        <div class="col-sm-3" style="text-align: center">
+                            <!--<button type="button" class="btn btn-primary " style="background-color: #20BE84" onclick="more_other()" id="more">-->
+                            <!--<span>更多</span>&nbsp;<i class="fa fa-angle-down"></i>-->
+                            <!--</button>-->
+                            <button type="button" class="btn btn-primary " style="background-color: #20BE84;margin-left: 10px" id="query" onclick="choose_edit_see()">
+                                查询
+                            </button>
+
+                            <button type="button" class="btn btn-primary " style="background-color: #20BE84;margin-left: 10px" onclick="clearAll()" id="return">
+                                重置
+                            </button>
+                            <button type="button" class="btn btn-primary " style="background-color: #20BE84;margin-left: 10px" id="add_new" onclick="add_new_click()">
+                                新建
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <br>
+                <#table id="informationTable"/>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div style="margin-left: 2%;width: 96%">
+
+</div>
+
+<script>
+    var information = {
+        id: "informationTable",	//表格id
+        seItem: null,		//选中的条目
+        table: null,
+        layerIndex: -1,
+        name:"清单",
+    };
+    var informationData={};
+    information.initColumn = function () {
+        return [
+            {field: 'selectItem',visible:true,radio:true},
+            {title: '序号', field: 'id', visible: true, align: 'center',sortable:true , valign: 'middle',formatter:function(value){
+                    return value;
+                }},
+            {title: '环节', field: 'current_process', visible: true, align: 'center',sortable:true , valign: 'middle',formatter:function(value){
+                if(value=="退回"){
+                    return '<span style="color:red;">退回</span>';
+                }else if(value=="作废"){
+                    return '<span style="color:#aa00bb;">作废</span>';
+                }
+                else{
+                    return value;
+                }
+
+                }},
+            {title: '提单所属分公司', field: 'dept', visible: true, align: 'center',sortable:true , valign: 'middle',formatter:function(value){
+                    if(value==""||value==null){
+                        return '<span style="color:red;">--</span>'
+                    }else{
+                        return value;
+                    }
+                }},
+            {title: '工单分派', field: 'choose_dept', visible: true, align: 'center',sortable:true , valign: 'middle',formatter:function(value){
+                    if(value==""||value==null){
+                        return '<span style="color:red;">--</span>'
+                    }else{
+                        return value;
+                    }
+                }},
+            {title: 'DICI系统编号', field: 'dICI_system_num', visible: true, align: 'center',sortable:true , valign: 'middle',formatter:function(value,row){
+                    if(value==""||value==null){
+                        return '<span style="color:red;">--</span>'
+                    }else{
+                        return '<a href="#" onclick="openSeeInfo(\''+row.id+ '\')">'+ value +'</a>'
+                    }
+                }},
+            {title: '项目名称', field: 'project_name', visible: true, align: 'center',sortable:true , valign: 'middle',formatter:function(value){
+                    if(value==""||value==null){
+                        return '<span style="color:red;">--</span>'
+                    }else{
+                        return value
+                    }
+                }},
+            {title: '交付经理', field: 'pay_manager', visible: true, align: 'center',sortable:true , valign: 'middle',formatter:function(value){
+                    if(value==""||value==null){
+                        return '<span style="color:red;">--</span>'
+                    }else{
+                        return value;
+                    }
+                }},
+            {title: '交付助理', field: 'pay_assistant', visible: true, align: 'center',sortable:true , valign: 'middle',formatter:function(value){
+                    if(value==""||value==null){
+                        return '<span style="color:red;">--</span>'
+                    }else{
+                        return value;
+                    }
+                }},
+            {title: '项目阶段（省公司）', field: 'project_stage', visible: true, align: 'center',sortable:true , valign: 'middle',formatter:function(value){
+                    if(value==""||value==null){
+                        return '<span style="color:red;">--</span>'
+                    }else{
+                        return value;
+                    }
+                }},
+            {title: '时间进度情况', field: 'time_progress_situation', visible: true, align: 'center',sortable:true ,valign: 'middle',formatter:function(value){
+                    if(value==""||value==null){
+                        return '<span style="color:red;">--</span>'
+                    }else if(value=="落后"){
+                        return'<span style="color:red;">落后</span>'
+                    }
+                    else{
+                        return value;
+                    }
+                }},
+            {title: '意见', field: 'back_idea', visible: true, align: 'center',sortable:true , valign: 'middle',formatter:function(value,row) {
+                    if(value==""||value==null){
+                        return '<span style="color:red;">--</span>'
+                    }else{
+                        return value;
+                    }
+                }},
+            {title: '操作', field: 'current_process', visible: true, align: 'center',sortable:true , valign: 'middle',formatter:function(value,row) {
+                    if (value != "退回") {
+                        return '<span style="color:red;">--</span>'
+                    } else {
+                        return '<button type="button" class="btn btn-primary " onclick="add_new_click('+row.id+')" style="background-color: #20BE84;margin-left: 10px">重提</button><button type="button" class="btn btn-danger" onclick="delete_project('+row.id+')" style="margin-left: 10px">作废</button>'
+                    }
+                }}
+
+        ];
+    };
+    var defaultColunms = information.initColumn();
+    var table = new BSTable(information.id, "/informationCollect/getContent_applyUser",defaultColunms,600);
+    $(function () {
+
+        table.setQueryParams(informationData)
+        table.setPaginationType("client");
+        information.table = table.init();
+    });
+    function refreshTable(){
+        information.table.refresh()
+    }
+    function add_new_click(id){
+        if(id==null || id==""){
+            var index = layer.open({
+                type: 2,
+                title: '新建清单',
+                area: ['1350px', '600px'], //宽高
+                fix: false, //不固定
+                maxmin: true,
+                content: Feng.ctxPath + '/informationCollect/add_new'
+            });
+            this.layerIndex = index;
+        }else {
+            var index = layer.open({
+                type: 2,
+                title: '新建清单',
+                area: ['1350px', '600px'], //宽高
+                fix: false, //不固定
+                maxmin: true,
+                content: Feng.ctxPath + '/informationCollect/add_new?id='+id
+            });
+            this.layerIndex = index;
+        }
+
+    }
+    function choose_edit(){
+        var row=$("#informationTable").bootstrapTable('getAllSelections');
+        console.log(row)
+        var index = layer.open({
+            type: 2,
+            title: '编辑',
+            area: ['1350px', '600px'], //宽高
+            fix: false, //不固定
+            maxmin: true,
+            content: Feng.ctxPath + '/informationCollect/edit?id='+row[0].id
+        });
+        this.layerIndex = index
+    }
+    function openSeeInfo(value){
+        var index = layer.open({
+            type: 2,
+            title: '查看',
+            area: ['1350px', '600px'], //宽高
+            fix: false, //不固定
+            maxmin: true,
+            content: Feng.ctxPath + '/informationCollect/edit_see?id='+value,
+        });
+        this.layerIndex = index
+    }
+    function choose_edit_see(){
+        set('dept').set('DICI_system_num').set('project_name').set('pay_manager')
+            .set('pay_assistant').set('project_stage').set('time_progress_situation')
+        console.log(informationData)
+
+        table.refresh(informationData)
+    }
+    function clearAll(){
+        clear('dept')
+        clear('DICI_system_num')
+        clear('project_name')
+        clear('pay_manager')
+        clear('pay_assistant')
+        clear('project_stage')
+        clear('time_progress_situation')
+    }
+    function clear(key){
+        $("#" + key).val(null)
+    }
+    function set (key, value) {
+        if (typeof key == "object") {
+            for (var i in key) {
+                if (typeof i == "function")
+                    continue;
+                this.informationData[i] = key[i];
+            }
+        } else {
+            this.informationData[key] = (typeof value == "undefined") ? $("#" + key).val() : value;
+        }
+        return this;
+    }
+    function delete_project(id){
+        Feng.confirm("确认作废吗",function () {
+            var ajax = new $ax(Feng.ctxPath + "/informationCollect/delete_information_collect?id="+id, function (data) {
+                Feng.success("作废成功");
+                setInterval(function () {
+                    refreshTable()
+                }, 800)
+            }, function (data) {
+                Feng.error("作废失败");
+            });
+            ajax.start();
+        })
+    }
+</script>
+@}

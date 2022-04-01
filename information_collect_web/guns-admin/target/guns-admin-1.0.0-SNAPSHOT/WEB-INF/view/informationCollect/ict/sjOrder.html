@@ -1,0 +1,216 @@
+<div id="sjOrder" hidden>
+    <div style="height: 15px"></div>
+    <#title info="商机单受理" />
+    <div class="row" style="margin-top: 20px">
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label class="col-sm-4 control-label">订单编号</label>
+                <div class="col-sm-8">
+                    <input class="form-control" value="${orderInfo.order_no}" readonly id="order_no" name="order_no" placeholder="单行输入">
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label class="col-sm-4 control-label">下单时间</label>
+                <div class="col-sm-8">
+                    <input class="form-control" value="${orderInfo.order_time}" readonly id="order_time" name="order_time" placeholder="单行输入">
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label class="col-sm-4 control-label">公司名称</label>
+                <div class="col-sm-8">
+                    <input class="form-control" value="${orderInfo.company_name}" id="company_name" name="company_name" placeholder="单行输入">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label class="col-sm-4 control-label">客户姓名</label>
+                <div class="col-sm-8">
+                    <input class="form-control" value="${orderInfo.client_name}" id="client_name" name="client_name" placeholder="单行输入">
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label class="col-sm-4 control-label">客户邮箱地址</label>
+                <div class="col-sm-8">
+                    <input class="form-control" value="${orderInfo.client_email}" id="client_email" name="client_email" placeholder="单行输入">
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label class="col-sm-4 control-label">客户联系方式</label>
+                <div class="col-sm-8">
+                    <input class="form-control" value="${orderInfo.client_link_phone}" id="client_link_phone" name="client_link_phone" placeholder="单行输入">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="form-group" style="display:flex;align-items: center">
+                <label class="col-sm-4 control-label" style="padding-top: 0">
+                    所属区域
+                </label>
+                <div class="col-sm-8">
+                    <select class="form-control"  id="region"  name="region">
+                        <option value="">请选择</option>
+                        <option value="禅城">禅城</option>
+                        <option value="顺德">顺德</option>
+                        <option value="南海">南海</option>
+                        <option value="三水">三水</option>
+                        <option value="高明">高明</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group" style="display:flex;align-items: center">
+                <label class="col-sm-4 control-label" style="padding-top: 0">
+                    镇街
+                </label>
+                <div class="col-sm-8">
+                    <select class="form-control" id="zhen" name="zhen">
+                        <option value="">请选择-镇</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label class="col-sm-4 control-label">详细地址</label>
+                <div class="col-sm-8">
+                    <input class="form-control" value="${orderInfo.address}" id="address" name="address" placeholder="单行输入">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label class="col-sm-4 control-label">ICT产品数量</label>
+                <div class="col-sm-8">
+                    <input class="form-control" value="${orderInfo.ict_num}" id="ict_num" name="ict_num" placeholder="单行输入">
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label class="col-sm-4 control-label">项目预算</label>
+                <div class="col-sm-8">
+                    <input class="form-control" value="${orderInfo.project_budget}" id="project_budget" name="project_budget" placeholder="单行输入">
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group" style="display:flex;align-items: center">
+                <label class="col-sm-4 control-label" style="padding-top: 0">
+                    是否需要支撑
+                </label>
+                <div class="col-sm-8">
+                    <select class="form-control"  id="is_need_support"  name="is_need_support">
+                        <option value="">请选择</option>
+                        <option value="是">是</option>
+                        <option value="否">否</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="margin-bottom: 20px">
+        <div class="col-sm-4">
+            <div class="form-group" style="display:flex;align-items: center">
+                <label class="col-sm-4 control-label" style="padding-top: 0">
+                    ICT产品类别
+                </label>
+                <div class="col-sm-8">
+                    <select class="form-control selectpicker" multiple data-live-search="true"
+                            id="ict_type" name="ict_type" style="">
+                        <option value="AI智慧识别">AI智慧识别</option>
+                        <option value="视频监控">视频监控</option>
+                        <option value="综合布线">综合布线</option>
+                        <option value="智能组网">智能组网</option>
+                        <option value="立体化安防">立体化安防</option>
+                        <option value="IT运维">IT运维</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group" style="display:flex;align-items: center">
+                <label class="col-sm-4 control-label" style="padding-top: 0">
+                    支撑类型
+                </label>
+                <div class="col-sm-8">
+                    <select class="form-control"  id="support_type"  name="support_type">
+                        <option value="">请选择</option>
+                        <option value="前勘">前勘</option>
+                        <option value="产品演示">产品演示</option>
+                        <option value="其他">其他</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-8">
+            <div class="form-group" style="display:flex;align-items: center">
+                <label class="col-sm-2 control-label" style="padding-top: 0">
+                    需求描述
+                </label>
+                <div class="col-sm-10">
+                    <textarea class="form-control"  style="resize: none;"  id="need_desc" name="need_desc" rows="5">${orderInfo.need_desc}</textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    @if(orderInfo.status=="1"&&check_show){
+    <div class="row" style="margin-top: 20px">
+        <div class="col-sm-offset-3 col-sm-2">
+            <button type="button" class="btn btn-primary " style="background-color: #20BE84;margin-left: 100px"
+                    onclick="sjOrder_submit()">
+                修改
+            </button>
+        </div>
+        <div class="col-sm-offset-1 col-sm-2">
+            <button type="button" class="btn btn-primary " style="background-color: #20BE84;margin-left: 80px"
+                    onclick="cancle()">
+                返回
+            </button>
+        </div>
+    </div>
+    @}
+</div>
+
+<script>
+    function sjOrder_submit() {
+        OrderEdits.clearData();
+        OrderEdits.sjOrderCollectData();
+        let region=$("#region").val();
+        let zhen=$("#zhen").val();
+        if(region!=''){
+            OrderEdits.orderInfo.order_region=region+"区";
+        }
+        if(zhen!=''){
+            OrderEdits.orderInfo.order_region=region+"区-"+zhen;
+        }
+        if(OrderEdits.orderInfo.ict_type!=null && OrderEdits.orderInfo.ict_type.length>0){
+            OrderEdits.orderInfo.ict_type=OrderEdits.orderInfo.ict_type.join(",");
+        }
+        OrderEdits.orderInfo['id'] = '${orderInfo.id}';
+        OrderEdits.orderInfoPlus['id']='${orderInfo_plus.id}';
+        OrderEdits.orderInfo['order_status'] = '初步订单审核';
+        OrderEdits.orderInfo.need_desc=OrderEdits.orderInfo.need_desc.replaceAll("\t","");
+        OrderEdits.orderInfo.need_desc=OrderEdits.orderInfo.need_desc.replaceAll(" ","");
+        submit_sjOrder()
+    }
+
+
+</script>

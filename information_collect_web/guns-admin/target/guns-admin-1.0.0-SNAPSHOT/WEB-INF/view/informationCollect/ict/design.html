@@ -1,0 +1,348 @@
+<div id="design" hidden>
+    <div style="height: 15px"></div>
+    <#title info="设计附件" />
+    <div class="row" style="margin-top: 20px">
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label class="col-sm-4 control-label">厂家服务包结算总价</label>
+                <div class="col-sm-8">
+                    <input class="form-control" value="${orderInfo.service_total_price}"  id="service_total_price" name="service_total_price" placeholder="自动带出" readonly>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div style="display: flex">
+                <label style="margin-bottom: 2px"  class="control-label file_label" >
+                    <p class="text-right "><strong><span class="text-primary" style="font-size: 13px;
+            color: #4C4B4B;
+            font-family: 微软雅黑;
+            padding: 0;margin: 0;text-align: right">项目方案附件</span> <span class="text-danger"></span></strong></p>
+                </label>
+                <div style="display: flex;padding-left: 30px;">
+                    <div>
+                        <button type="button" class="btn btn-primary " style="background-color: #20BE84"
+                                onclick="uploadFile(1)" id="uploadFile">
+                            选择文件
+                        </button>
+                    </div>
+                    <div id="file_dom" style="margin-left: 10px">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div style="display: flex">
+                <label style="margin-bottom: 2px" class=" control-label file_label ">
+                    <p class="text-right "><strong><span class="text-primary" style="font-size: 13px;
+            color: #4C4B4B;
+            font-family: 微软雅黑;
+            padding: 0;margin: 0;text-align: right">项目报价附件</span> <span class="text-danger"></span></strong></p>
+                </label>
+                <div style="display: flex;padding-left: 30px;">
+                    <div>
+                        <button type="button" class="btn btn-primary " style="background-color: #20BE84"
+                                onclick="uploadFile(2)" id="uploadFile2">
+                            选择文件
+                        </button>
+                    </div>
+                    <div id="file_dom2" style="margin-left: 10px">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button type="button" class="btn btn-primary " style="background-color: #20BE84;margin-left: 100px"
+            onclick="addServicesPackage()">
+        新增
+    </button>
+
+    <div style=" border-bottom: 1px #20BE84 solid;"></div>
+
+    <div id="bigPackage">
+        <!--<div id="middlePackage" style="border-bottom: 1px #20BE84 solid;margin-top: 20px">-->
+            <!--<div class="row">-->
+                <!--<div class="col-sm-4">-->
+                    <!--<div class="form-group" style="display:flex;align-items: center">-->
+                        <!--<label class="col-sm-4 control-label" style="padding-top: 0">-->
+                            <!--服务包大类:-->
+                        <!--</label>-->
+                        <!--<div class="col-sm-8">-->
+                            <!--<select class="form-control" id="services_package" name="services_package" onchange="test()">-->
+                                <!--<option value="">请选择</option>-->
+                            <!--</select>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="col-sm-4">-->
+                    <!--<div class="form-group" style="display:flex;align-items: center">-->
+                        <!--<label class="col-sm-4 control-label" style="padding-top: 0">-->
+                            <!--服务包细项:-->
+                        <!--</label>-->
+                        <!--<div class="col-sm-8">-->
+                            <!--<select class="form-control" id="services_package_son" name="services_package_son">-->
+                                <!--<option value="">请选择</option>-->
+                            <!--</select>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="col-sm-4">-->
+                    <!--<div class="form-group">-->
+                        <!--<label class="col-sm-4 control-label">合作厂家名称:</label>-->
+                        <!--<div class="col-sm-8">-->
+                            <!--<input class="form-control"  id="company" name="company" placeholder="自动带出" readonly>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="row">-->
+                <!--<div class="col-sm-4">-->
+                    <!--<div class="form-group">-->
+                        <!--<label class="col-sm-4 control-label">服务包数量:</label>-->
+                        <!--<div class="col-sm-8">-->
+                            <!--<input class="form-control"  id="package_num" name="package_num" placeholder="请输入">-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="col-sm-4">-->
+                    <!--<div class="form-group">-->
+                        <!--<label class="col-sm-4 control-label">建设完成时间:</label>-->
+                        <!--<div class="col-sm-8">-->
+                            <!--<input class="form-control" id="build_over_time" name="build_over_time" type="datetime" onclick="laydate({istime: false, format: 'YYYY-MM-DD'})" autocomplete="off" readonly>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="col-sm-4">-->
+                    <!--<div class="form-group">-->
+                        <!--<label class="col-sm-4 control-label">厂家服务包结算价(含税):</label>-->
+                        <!--<div class="col-sm-8">-->
+                            <!--<input class="form-control" id="hs_count" name="hs_count" placeholder="自动带出" readonly>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="form-group">-->
+                        <!--<label class="col-sm-4 control-label">(不含税):</label>-->
+                        <!--<div class="col-sm-8">-->
+                            <!--<input class="form-control"  id="bhs_count" name="bhs_count" placeholder="自动带出" readonly>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    </div>
+    @if(orderInfo.order_status=="设计环节"&&orderInfo.status=="1"&&check_show){
+    <div class="row" style="margin-top: 20px">
+        <div class="col-sm-4">
+            <div class="form-group" style="display:flex;align-items: center">
+                <label class="col-sm-4 control-label" style="padding-top: 0">
+                    备注
+                </label>
+                <div class="col-sm-8">
+                    <textarea class="form-control" onmousedown="clickTextArea(event,this)" value=""  id="design_step_remark" name="design_step_remark" rows="5">
+                    </textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    @}
+    @if(orderInfo.order_status=="设计环节"&&orderInfo.status=="1"&&check_show){
+    <div class="row" style="margin-top: 20px">
+        <div class="col-sm-offset-2 col-sm-9">
+            @if(hasAllButton){
+                <button type="button" class="btn btn-primary " style="background-color: #20BE84;margin-left: 100px"
+                        onclick="design_submit()">
+                    提交
+                </button>
+                <button type="button" class="btn btn-primary " style="background-color: #20BE84;margin-left: 100px"
+                        onclick="refund()">
+                    退单
+                </button>
+            @}
+            @if(hasAllButton||hasSpecialButton){
+                <button type="button" class="btn btn-primary " style="background-color: #20BE84;margin-left: 100px"
+                        onclick="hangup()">
+                    挂起
+                </button>
+                <button type="button" class="btn btn-primary " style="background-color: #20BE84;margin-left: 100px"
+                        onclick="backbefore()">
+                    退回上一步
+                </button>
+            @}
+            <button type="button" class="btn btn-primary " style="background-color: #20BE84;margin-left: 80px"
+                    onclick="cancle()">
+                返回
+            </button>
+        </div>
+    </div>
+    @}
+</div>
+
+<script>
+    var package_num=1;
+
+    function design_submit() {
+        OrderEdits.clearData();
+        OrderEdits.designCollectData();
+        if(project_scheme_files.length>0){
+            project_scheme_files=project_scheme_files.join(",")
+        }else {
+            project_scheme_files=""
+        }
+        if(project_quote_files.length>0){
+            project_quote_files=project_quote_files.join(",")
+        }else {
+            project_quote_files=""
+        }
+        OrderEdits.orderInfo.project_scheme_files=project_scheme_files;
+        OrderEdits.orderInfo.project_quote_files=project_quote_files;
+        OrderEdits.orderInfo['id'] = '${orderInfo.id}';
+        OrderEdits.orderInfoPlus['id']='${orderInfo_plus.id}';
+        OrderEdits.orderInfo['order_status'] = '方案审核';
+        if($("#design_step_remark").val()!=''){
+            OrderEdits.remark=$("#design_step_remark").val().replaceAll(" ","");
+        }
+        submit()
+    }
+    
+    function addServicesPackage() {
+        html_d="<div id=\"middlePackage"+package_num+"\" style=\"border-bottom: 1px #20BE84 solid;margin-top: 20px\">\n" +
+            "            <div class=\"row\">\n" +
+            "                <div class=\"col-sm-4\">\n" +
+            "                    <div class=\"form-group\" style=\"display:flex;align-items: center\">\n" +
+            "                        <label class=\"col-sm-4 control-label\" style=\"padding-top: 0\">\n" +
+            "                            服务包大类:\n" +
+            "                        </label>\n" +
+            "                        <div class=\"col-sm-8\">\n" +
+            "                            <select class=\"form-control\" id=\"services_package"+package_num+"\" name=\"services_package\" onchange=\"package_select("+package_num+")\">\n" +
+            "                            </select>\n" +
+            "                        </div>\n" +
+            "                    </div>\n" +
+            "                </div>\n" +
+            "                <div class=\"col-sm-4\">\n" +
+            "                    <div class=\"form-group\" style=\"display:flex;align-items: center\">\n" +
+            "                        <label class=\"col-sm-4 control-label\" style=\"padding-top: 0\">\n" +
+            "                            服务包细项:\n" +
+            "                        </label>\n" +
+            "                        <div class=\"col-sm-8\">\n" +
+            "                            <select class=\"form-control\" id=\"services_package_son"+package_num+"\" name=\"services_package_son\" onchange=\"son_select("+package_num+")\">\n" +
+            "                                <option value=\"\">请选择</option>\n" +
+            "                            </select>\n" +
+            "                        </div>\n" +
+            "                    </div>\n" +
+            "                </div>\n" +
+            "                <div class=\"col-sm-4\">\n" +
+            "                    <div class=\"form-group\">\n" +
+            "                        <label class=\"col-sm-4 control-label\">合作厂家名称:</label>\n" +
+            "                        <div class=\"col-sm-8\">\n" +
+            "                            <input class=\"form-control\"  id=\"company"+package_num+"\" name=\"company\" placeholder=\"自动带出\" readonly>\n" +
+            "                        </div>\n" +
+            "                    </div>\n" +
+            "                </div>\n" +
+            "            </div>\n" +
+            "            <div class=\"row\">\n" +
+            "                <div class=\"col-sm-4\">\n" +
+            "                    <div class=\"form-group\">\n" +
+            "                        <label class=\"col-sm-4 control-label\">服务包数量:</label>\n" +
+            "                        <div class=\"col-sm-8\">\n" +
+            "                            <input class=\"form-control\"  id=\"package_num"+package_num+"\" name=\"package_num\" type=\"number\" oninput=\"input_package_num("+package_num+")\" placeholder=\"请输入\">\n" +
+            "                        </div>\n" +
+            "                    </div>\n" +
+            "                </div>\n" +
+            "                <div class=\"col-sm-4\">\n" +
+            "                    <div class=\"form-group\">\n" +
+            "                        <label class=\"col-sm-4 control-label\">建设完成时间:</label>\n" +
+            "                        <div class=\"col-sm-8\">\n" +
+            "                            <input class=\"form-control\" id=\"build_over_time"+package_num+"\" name=\"build_over_time\" type=\"datetime\" onclick=\"laydate({istime: false, format: 'YYYY-MM-DD'})\" autocomplete=\"off\" readonly>\n" +
+            "                        </div>\n" +
+            "                    </div>\n" +
+            "                </div>\n" +
+            "                <div class=\"col-sm-4\">\n" +
+            "                    <div class=\"form-group\">\n" +
+            "                        <label class=\"col-sm-4 control-label\">厂家服务包结算价(含税):</label>\n" +
+            "                        <div class=\"col-sm-8\">\n" +
+            "                            <input class=\"form-control\" id=\"give_company_money"+package_num+"\" name=\"give_company_money\" placeholder=\"自动带出\" readonly>\n" +
+            "                        </div>\n" +
+            "                    </div>\n" +
+            "                    <div class=\"form-group\">\n" +
+            "                        <label class=\"col-sm-4 control-label\">(不含税):</label>\n" +
+            "                        <div class=\"col-sm-8\">\n" +
+            "                            <input class=\"form-control\"  id=\"give_company_no_tax_money"+package_num+"\" name=\"give_company_no_tax_money\" placeholder=\"自动带出\" readonly>\n" +
+            "                        </div>\n" +
+            "                    </div>\n" +
+            "                </div>\n" +
+            "            </div>\n" +
+            "        </div>"
+        $("#bigPackage").append(html_d);
+        $("#services_package"+package_num).append(html2)
+        package_num++;
+    }
+    
+    function package_select(num) {
+        var html_d2="<option value=\"\">请选择</option>"
+        var temp_select=$("#services_package"+num).val()
+        for(var d1=0;d1<servicesPackage.length;d1++){
+            if(temp_select==servicesPackage[d1].services_package){
+                html_d2+="\n<option value=\""+servicesPackage[d1].id+"\">"+servicesPackage[d1].services_package_son+"</option>"
+            }
+        }
+        $("#services_package_son"+num).html(html_d2)
+    }
+
+    function son_select(num) {
+        var temp_son=$("#services_package_son"+num+"\r\n option:selected").text()
+        for(var d2=0;d2<servicesPackage.length;d2++){
+            if(temp_son==servicesPackage[d2].services_package_son){
+                $("#company"+num).val(servicesPackage[d2].company)
+//                $("#give_company_money"+num).val(servicesPackage[d2].give_company_money)
+//                $("#give_company_no_tax_money"+num).val(servicesPackage[d2].give_company_no_tax_money)
+            }
+        }
+        cal_service_total_price()
+    }
+    
+    function input_package_num(num) {
+        cal_service_total_price()
+    }
+
+    function cal_service_total_price() {
+        $("#service_total_price").val(0)
+        for(var d3=1;d3<=package_num;d3++){
+            var temp_son2=$("#services_package_son"+d3+"\r\n option:selected").text()
+            for(var d4=0;d4<servicesPackage.length;d4++){
+                if(temp_son2==servicesPackage[d4].services_package_son){
+                    if($("#package_num"+d3).val()!=""){
+                        $("#give_company_money"+d3).val(servicesPackage[d4].give_company_money*$("#package_num"+d3).val())
+                        $("#give_company_no_tax_money"+d3).val(servicesPackage[d4].give_company_no_tax_money*$("#package_num"+d3).val())
+                    }else{
+                        $("#give_company_money"+d3).val(0)
+                        $("#give_company_no_tax_money"+d3).val(0)
+                    }
+                }
+            }
+            if($("#give_company_money"+d3).val()!=""){
+                var temp_service_total_price=$("#give_company_money"+d3).val()
+                if(!isNaN(temp_service_total_price)&&temp_service_total_price!=""){
+                    $("#service_total_price").val(Number($("#service_total_price").val())+Number(temp_service_total_price))
+                }
+            }
+        }
+    }
+
+    function get_design_order_types() {
+        ids="";
+        sell_moneys="";
+        sell_no_tax_moneys="";
+        for(var d3=1;d3<=package_num;d3++){
+            var temp_son2=$("#services_package_son"+d3+"\r\n option:selected").text()
+            for(var d4=0;d4<servicesPackage.length;d4++){
+                if(temp_son2==servicesPackage[d4].services_package_son){
+                    sell_moneys+=servicesPackage[d4].client_money+","
+                    sell_no_tax_moneys+=servicesPackage[d4].client_no_tax_money+","
+                }
+            }
+        }
+        sell_moneys=sell_moneys.substring(0,sell_moneys.length-1);
+        sell_no_tax_moneys=sell_no_tax_moneys.substring(0,sell_no_tax_moneys.length-1);
+    }
+</script>

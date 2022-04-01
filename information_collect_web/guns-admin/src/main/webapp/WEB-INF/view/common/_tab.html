@@ -1,0 +1,120 @@
+<nav class="navbar-default navbar-static-side" role="navigation" style="height:100%;margin-top: 59px;padding: 0;color:white;background-color: white;border-right: 1px solid #b7b7b7;">
+    <div class="nav-close"><i class="fa fa-times-circle"></i>
+    </div>
+    <div class="sidebar-collapse" style="background-color: white">
+        <ul class="nav" id="side-menu" style="">
+            <li class="nav-header" style="padding: 0px 0px;margin-bottom: 20px;margin-top: 20px;">
+                <div class="dropdown profile-element" >
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="#" style="color: black;">
+                        <div style="display: flex;flex-direction: column;align-items:center;justify-content: center">
+                            <img src="/static/img/user.png" style="width: 32px;height: 32px">
+                            <span class="block m-t-xs" style="margin-top: 5px;color:#686868;font-weight: bolder;font-family: 幼圆 ">${shiro.getUser().name}</span>
+                        </div>
+
+                    </a>
+                    <ul class="dropdown-menu animated fadeInRight m-t-xs" style="background-color: #20be84;color: #fff;">
+                        <li><a class="J_menuItem" href="${ctxPath}/mgr/user_info">个人资料</a></li>
+                        <li><a class="J_menuItem" href="${ctxPath}/mgr/user_chpwd">修改密码</a></li>
+                        <li class="divider"></li>
+                        <li><a href="${ctxPath}/logout">安全退出</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="logo-element">
+                </div>
+            </li>
+
+            @for(title in titles){
+            @if(tool.isEmpty(title.children)){
+            <li style="">
+                <a class="J_menuItem" href="${ctxPath}${title.url}" name="tabMenuItem" style="color: #686868;font-size: 15px;display: flex;align-items: center;">
+                    <i class="iconfont ${title.icon}"></i>
+                    <span class="nav-label" style="margin-left: 10px">${title.name}</span>
+                </a>
+            </li>
+            @}else{
+            <li >
+
+                    <a href="#" style="color: #686868;font-size: 15px;font-family: 幼圆;display: flex;align-items: center;justify-content: space-between" class="first_node" >
+                        <div style="position: relative">
+                            <i class="iconfont ${title.icon}" style=""></i>
+                            <span class="nav-label" >${title.name}</span>
+                        </div>
+                        <div>
+                            <span class="fa arrow" style=""></span>
+                        </div>
+
+                    </a>
+
+
+                <ul class="nav nav-second-level" style="">
+                    @for(subTitle in title.children){
+                    @if(tool.isEmpty(subTitle.children) && subTitle.name!='大项目'&& subTitle.name!='业务侧'){
+                    <li style="">
+
+                        <a class="J_menuItem" href="${ctxPath}${subTitle.url}" name="tabMenuItem" style="color: #686868;font-size: 15px;">
+                            <div style="display: flex;align-items: center">
+                                <div><i class="iconfont ${subTitle.icon}"></i></div>
+                                <div>${subTitle.name}</div>
+                            </div>
+                        </a>
+                    </li>
+                    @}else if(subTitle.name=='大项目'){
+                    <li style="">
+
+                        <a class="J_menuItem" href="http://36.133.74.19:8082${subTitle.url}" name="tabMenuItem" style="color: #686868;font-size: 15px;">
+                            <div style="display: flex;align-items: center">
+                                <div><i class="iconfont ${subTitle.icon}"></i></div>
+                                <div>${subTitle.name}</div>
+                            </div>
+                        </a>
+                    </li>
+                    @}else if(subTitle.name=='业务侧'){
+                    <li style="">
+
+                        <a class="J_menuItem" href="http://36.133.74.19:8082${subTitle.url}" name="tabMenuItem" style="color: #686868;font-size: 15px;">
+                            <div style="display: flex;align-items: center">
+                                <div><i class="iconfont ${subTitle.icon}"></i></div>
+                                <div>${subTitle.name}</div>
+                            </div>
+                        </a>
+                    </li>
+                    @}else{
+                    <li style="">
+
+                        <a href="#" style="color: #686868;font-size: 15px;font-family: 幼圆;display: flex;align-items: center;justify-content: space-between" class="second_node">
+                            <div>
+                                <i class="iconfont ${subTitle.icon}"></i>
+                                ${subTitle.name}
+                            </div>
+                            <div>
+                                <span class="fa arrow" style=""></span>
+                            </div>
+                        </a>
+
+
+                        <ul class="nav nav-third-level" style="">
+                            @for(thirdTitle in subTitle.children){
+                            <li style="">
+
+                                    <a class="J_menuItem" href="${ctxPath}${thirdTitle.url}?menuId=${subTitle.id}" style="color: #686868;font-size: 15px;display: flex;align-items: center" name="tabMenuItem">
+                                        <div style="display: flex;font-family: 幼圆">
+                                            <i class="iconfont ${thirdTitle.icon}"></i>
+                                            <span>${thirdTitle.name}<span>
+                                        </div>
+                                    </a>
+
+                            </li>
+                            @}
+                        </ul>
+                    </li>
+                    @}
+                    @}
+                </ul>
+            </li>
+            @}
+            @}
+
+        </ul>
+    </div>
+</nav>

@@ -1,0 +1,45 @@
+<link rel="stylesheet" type="text/css" href="/static/css/steps.css">
+<div id="log_edit" hidden>
+
+
+    <div style="height: 20px"></div>
+    <#title info="日志" />
+    <div style="height: 20px"></div>
+
+    <div class="row">
+        <div class="steps col-sm-2" style="margin-left: 20px">
+            @for(l in log){
+            <div class="step step-completed-h">
+                <div class="step-main-h" style="color: #76c474;">${l.operate_time}</div>
+            </div>
+            <div class="step-line-h step-completed-h"></div>
+            @}
+
+            <div class="step"></div>
+
+        </div>
+        <div class="col-sm-8">
+            <div style="height: 20px"></div>
+            @for(l in log){
+            <div style="font-weight: bold;margin-top: 35px;margin-left:-190px;border: 2px solid  #76c474;border-radius:2px;width: 100%;height: 165px;">
+                <div class="row" style="margin-left: 50px;margin-top: 15px">
+                    操作人:${l.name}
+                </div>
+                <div class="row" style="margin-left: 50px;margin-top: 10px">
+                    电话: ${l.phone}
+                </div>
+                <div class="row" style="margin-left: 50px;margin-top: 10px">
+                    客户电话:${l.client_phone}
+                </div>
+                <div class="row" style="margin-left: 50px;margin-top: 10px">
+                    操作环节:${l.process}
+                </div>
+                <div class="row" style="margin-left: 50px;margin-top: 10px">
+                    操作详情:${l.content}
+                </div>
+            </div>
+            @}
+
+        </div>
+    </div>
+</div>

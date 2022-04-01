@@ -1,0 +1,365 @@
+<link rel="stylesheet" href="${ctxPath}/static/css/plugins/bootstrap-select/bootstrap-select.min.css">
+<script src="${ctxPath}/static/js/plugins/bootstrap-select/bootstrap-select.min.js"></script>
+<script src="${ctxPath}/static/js/plugins/bootstrap-select/defaults-zh_CN.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/static/css/steps.css">
+<!-- DICT系统订单列表-->
+<style>
+    .form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
+        background-color: #f8f8f8;
+    }
+
+    .btn-default {
+        color: #6f6c6c;
+        background-color: #fffdfd;
+    }
+</style>
+<div id="design" hidden>
+    <div style="height: 15px"></div>
+    <div class="submitDiv" style="display: none">
+        <input type="file" id="file" name="file" multiple="multiple">
+    </div>
+    <#title info="设计附件" />
+    <div class="row" style="margin-top: 20px">
+        <div class="col-sm-4">
+            <label class="col-sm-3 control-label" style="font-size: 12px;
+            color: #4C4B4B;
+            font-family: 微软雅黑;
+            padding: 0;margin: 5px 0px 5px 0px;text-align: right">项目方案</label>
+            <div class="col-sm-9">
+                <button onclick="upload_one()" type="button" class="btn btn-primary "
+                        style="background-color: #20BE84" id="uploadFile">
+                    上传文件
+                </button>
+                <div id="mutual_report_file" style="padding: 10px">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+            <label class="col-sm-3 control-label" style="font-size: 12px;
+            color: #4C4B4B;
+            font-family: 微软雅黑;
+            padding: 0;margin: 5px 0px 5px 0px;text-align: right">项目报价</label>
+            <div class="col-sm-9">
+                <button onclick="upload_two()" type="button" class="btn btn-primary "
+                        style="background-color: #20BE84" id="uploadFile2">
+                    上传文件
+                </button>
+                <div id="confirm_mutual_file" style="padding: 10px">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+            <label class="col-sm-3 control-label" style="font-size: 12px;
+            color: #4C4B4B;
+            font-family: 微软雅黑;
+            padding: 0;margin: 5px 0px 5px 0px;text-align: right">项目合同</label>
+            <div class="col-sm-9">
+                <button onclick="upload_three()" type="button" class="btn btn-primary "
+                        style="background-color: #20BE84" id="uploadFile3">
+                    上传文件
+                </button>
+                <div id="client_confirm_file" style="padding: 10px">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ibox-content" style="background-color: #bfcbd9">
+        <div class="form-horizontal" id="landForm">
+            <#title info="订单信息" />
+            <div class="row" style="margin-top: 30px">
+                <div class="col-sm-3 col-sm-offset-1">
+                    <#label value="${orderInfo.order_number}" name="订单编号" placeholder="" id="order_number1"/>
+                </div>
+                <div class="col-sm-3">
+                    <#label value="${orderInfo.apply_time}" name="下单时间" placeholder="" id="apply_time1"/>
+                </div>
+                <div class="col-sm-3">
+                    <#label value="${orderInfo.order_status}" name="订单状态" placeholder="" id="order_status1"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3 col-sm-offset-1">
+                    <#label value="${orderInfo.company_name}" name="公司名称" placeholder="" id="company_name1"/>
+                </div>
+                <div class="col-sm-3">
+                    <#label value="${orderInfo.custom_name}" name="客户姓名" placeholder="" id="custom_name1"/>
+                </div>
+                <div class="col-sm-3">
+                    <#label value="${orderInfo.custom_phone}" name="客户联系方式" placeholder="" id="custom_phone1"/>
+                </div>
+            </div>
+            <div class="row" style="margin-bottom: 20px">
+                <div class="col-sm-3 col-sm-offset-1">
+                    <#label value="${orderInfo.company_city}" name="公司区域" placeholder="" id="company_city1"/>
+                </div>
+                <div class="col-sm-3">
+                    <#label value="${orderInfo.company_address}" name="详细地址" placeholder="" id="company_address1"/>
+                </div>
+                <div class="col-sm-3">
+                    <#label value="${orderInfo.ICT_product}" name="ICT产品类型" placeholder="" id="ICT_product1"/>
+                </div>
+            </div>
+            <#title info="商品信息" />
+            <div class="row" style="margin-top: 30px">
+                <div class="col-sm-3 col-sm-offset-1">
+                    <label style="margin-bottom: 2px" class="col-sm-12 control-label ">
+                        <p class="text-left "><strong><span class="text-primary" style="font-size: 12px;
+        color: #4C4B4B;
+        font-family: 微软雅黑;
+        padding: 0;margin: 0;text-align: right">ICT产品名称</span> : <span class="text-danger">${orderInfo.ICT_product_name}</span></strong>
+                        </p>
+                    </label>
+                </div>
+                <div class="col-sm-3">
+                    <label style="margin-bottom: 2px" class="col-sm-12 control-label ">
+                        <p class="text-left "><strong><span class="text-primary" style="font-size: 12px;
+        color: #4C4B4B;
+        font-family: 微软雅黑;
+        padding: 0;margin: 0;text-align: right">ICT产品数量</span> : <span class="text-danger">${orderInfo.ICT_product_quantity}</span></strong>
+                        </p>
+                    </label>
+                </div>
+                <div class="col-sm-3">
+                    <#label value="${orderInfo.group_code}" name="集团编码" placeholder="" id="group_code1"/>
+                </div>
+            </div>
+            <#title info="联系人信息" />
+            <div class="row">
+                <div class="col-sm-3 col-sm-offset-1">
+                    <#label value="${orderInfo.custom_manager}" name="客户经理" placeholder="" id="custom_manager1"/>
+                </div>
+                <div class="col-sm-3">
+                    <#label value="${orderInfo.custom_manager_phone}" name="客户经理电话" placeholder="" id="custom_manager_phone1"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3 col-sm-offset-1">
+                    <#label value="${orderInfo.qk_info}" name="前勘人员" placeholder="" id="qk_info1"/>
+                </div>
+                <div class="col-sm-3">
+                    <#label value="${orderInfo.qk_phone}" name="前勘人员联系方式" placeholder="" id="qk_phone1"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3 col-sm-offset-1">
+                    <#label value="${orderInfo.ss_info}" name="实施人员" placeholder="" id="ss_info1"/>
+                </div>
+                <div class="col-sm-3">
+                    <#label value="${orderInfo.ss_phone}" name="实施人员联系方式" placeholder="" id="ss_phone1"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3 col-sm-offset-1">
+                    <#label value="${orderInfo.cj}" name="厂家" placeholder="" id="cj1"/>
+                </div>
+                <div class="col-sm-3">
+                    <#label value="${orderInfo.cj_phone}" name="厂家联系方式" placeholder="" id="cj_phone1"/>
+                </div>
+            </div>
+            <!--<div class="row">-->
+                <!--<div class="col-sm-3 col-sm-offset-1">-->
+                    <!--<#label value="${orderInfo.custom_manager}" name="前勘人员" placeholder="" id="custom_manager1"/>-->
+                <!--</div>-->
+                <!--<div class="col-sm-3">-->
+                    <!--<#label value="${orderInfo.custom_manager_phone}" name="前勘人员电话" placeholder="" id="custom_manager_phone1"/>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="row">-->
+                <!--<div class="col-sm-3 col-sm-offset-1">-->
+                    <!--<#label value="${orderInfo.custom_manager}" name="实施人员" placeholder="" id="custom_manager1"/>-->
+                <!--</div>-->
+                <!--<div class="col-sm-3">-->
+                    <!--<#label value="${orderInfo.custom_manager_phone}" name="实施人员电话" placeholder="" id="custom_manager_phone1"/>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="row">-->
+                <!--<div class="col-sm-3 col-sm-offset-1">-->
+                    <!--<#label value="${orderInfo.custom_manager}" name="厂家" placeholder="" id="custom_manager1"/>-->
+                <!--</div>-->
+                <!--<div class="col-sm-3">-->
+                    <!--<#label value="${orderInfo.custom_manager_phone}" name="厂家联系方式" placeholder="" id="custom_manager_phone1"/>-->
+                <!--</div>-->
+            <!--</div>-->
+        </div>
+    </div>
+    @if(orderInfo.curren_process=="设计环节"){
+    <div class="row" style="margin-top: 20px">
+        <div class="col-sm-offset-3 col-sm-7">
+            <button type="button" class="btn btn-primary " style="background-color: #20BE84;margin-left: 100px"
+                    onclick="second_submit()" id="save2">
+                保存
+            </button>
+            <button type="button" class="btn btn-primary " style="background-color: #20BE84;margin-left: 100px"
+                    onclick="second_submit()" id="submit2">
+                提交
+            </button>
+            <button type="button" class="btn btn-primary " style="background-color: #20BE84;margin-left: 80px"
+                    onclick="go_back()" id="cancel">
+                返回
+            </button>
+        </div>
+    </div>
+    @}
+</div>
+
+<script src="${ctxPath}/static/js/viewer.min.js"></script>
+<script>
+    let orderInfoId="${orderInfo.id}"
+    let mutual_report_file = [];
+    let confirm_mutual_file = [];
+    let client_confirm_file = [];
+    var orderInfoData={}
+
+    let type = "";
+
+    function upload_one() {
+        type = 1;
+        $("#file").click();
+    }
+
+    function upload_two() {
+        type = 2;
+        $("#file").click();
+    }
+
+    function upload_three() {
+        type = 3;
+        $("#file").click();
+    }
+
+    function initFileInput(ctrlName) {
+        var control = $('#' + ctrlName);
+        control.fileinput({
+            language: 'zh', //设置语言
+            uploadUrl: "/workOrder/uploadFiles", //上传的地址
+            uploadAsync: false, //默认异步上传,,false为同步上传
+            showUpload: false, //是否显示上传按钮
+            showRemove: true, //显示移除按钮
+            showPreview: false, //是否显示预览
+            showCaption: true,//是否显示标题
+            browseClass: "btn btn-primary", //按钮样式
+            dropZoneEnabled: false,//是否显示拖拽区域
+            //dropZoneEnabled: true,//是否显示拖拽区域
+            //minImageWidth: 50, //图片的最小宽度
+            //minImageHeight: 50,//图片的最小高度
+            //maxImageWidth: 1000,//图片的最大宽度
+            //maxImageHeight: 1000,//图片的最大高度
+            //maxFileSize: 0,//单位为kb，如果为0表示不限制文件大小
+            //minFileCount: 0,
+            maxFileCount: 10, //表示允许同时上传的最大文件个数
+            enctype: 'multipart/form-data',
+            validateInitialCount: true,
+            previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+            msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
+            uploadExtraData: function (previewId, index) {   //额外参数
+//                var obj = UserInfoDlg.userInfoData;
+                return {};
+            }
+        });
+        //导入文件上传完成之后的事件
+        $("#file").on("filebatchuploadsuccess", function (event, data, previewId, index) {
+            console.log(data);
+            let fileList = data.response.fileList;
+            console.log(fileList);
+            let html = ''
+            data.files.forEach((item, i) => {
+                let fileName = item.name;
+                let pointIndex = fileName.indexOf(".");
+                // if (fileName.length > 20) {
+                //     let prefix = fileName.substring(0, 15);
+                //     let suffix = fileName.substring(pointIndex);
+                //     fileName = prefix + "..." + suffix;
+                // }
+                html = '<div>' + fileName + '&nbsp<span data-file="' + fileList[i] + '" data-index="' + i + '" data-type="' + type + '"  data-name="' + item.name + '" style="color:red;font-size: 16px;text-align: right;cursor: pointer" onclick="remove(this)" class="remove">X</span></div>'
+                if (type === 1) {
+                    $("#mutual_report_file").append(html);
+                    mutual_report_file.push(fileList[i]);
+                } else if (type == 2) {
+                    $("#confirm_mutual_file").append(html);
+                    confirm_mutual_file.push((fileList[i]))
+                } else if (type == 3) {
+                    $("#client_confirm_file").append(html);
+                    client_confirm_file.push((fileList[i]))
+                }
+            })
+            if(type<3){
+                $("#loadingTop").modal('hide')
+            }else{
+                $("#loadingBottom").modal('hide')
+            }
+        });
+        $("#file").on("filebatchselected", function (event, files) {
+            $('#file').fileinput("upload");
+            if(type<3){
+                $("#loadingTop").modal('show')
+            }else{
+                $("#loadingBottom").modal('show')
+            }
+        });
+    }
+
+    initFileInput("file");
+
+    function remove(a) {
+        Feng.confirm("是否确认删除", function () {
+            let type = $(a).data("type");
+            let fileId = $(a).data("file")
+            $(a).parent().remove();
+            if (type === 1) {
+                mutual_report_file.splice(mutual_report_file.indexOf(fileId), 1);
+            } else if (type == 2) {
+                confirm_mutual_file.splice(confirm_mutual_file.indexOf(fileId), 1);
+            } else if (type == 3) {
+                client_confirm_file.splice(client_confirm_file.indexOf(fileId), 1);
+            }
+        })
+    }
+    function second_submit() {
+        orderInfoData.id=orderInfoId;
+        orderInfoData.curren_process='订单确认'
+        if (mutual_report_file.length > 0) {
+            let fileList = mutual_report_file.join(",");
+            orderInfoData.project_file = fileList;
+        }else{
+            Feng.alert('请上传项目方案')
+            orderInfoData.project_file = "";
+            return;
+        }
+        if (confirm_mutual_file.length > 0) {
+            let fileList = confirm_mutual_file.join(",");
+            orderInfoData.money_file = fileList;
+        }else{
+            Feng.alert('请上传项目报价')
+            orderInfoData.money_file = "";
+            return;
+        }
+        if (client_confirm_file.length > 0) {
+            let fileList = client_confirm_file.join(",");
+            orderInfoData.contract_file = fileList;
+        }else{
+            Feng.alert('请上传项目合同')
+            orderInfoData.contract_file = "";
+            return;
+        }
+        Feng.confirm("是否提交？",function () {
+            var ajax = new $ax(Feng.ctxPath + "/orderInfo_temp/second_submit", function (data) {
+                Feng.success("编辑成功");
+                window.parent.Order.table.refresh();
+                var index = parent.layer.getFrameIndex(window.name)
+                parent.layer.close(index);
+            }, function (data) {
+                Feng.error("下拉框数据加载失败");
+            });
+
+            ajax.set(orderInfoData)
+            ajax.start();
+        })
+    }
+</script>

@@ -1,0 +1,412 @@
+@layout("/common/_container.html"){
+<link rel="stylesheet" href="${ctxPath}/static/css/plugins/bootstrap-select/bootstrap-select.min.css">
+<script src="${ctxPath}/static/js/plugins/bootstrap-select/bootstrap-select.min.js"></script>
+<script src="${ctxPath}/static/js/plugins/bootstrap-select/defaults-zh_CN.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/static/css/steps.css">
+<!-- DICT系统订单列表-->
+<style>
+    .form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
+        background-color: #f8f8f8;
+    }
+
+    .btn-default {
+        color: #6f6c6c;
+        background-color: #fffdfd;
+    }
+</style>
+<div class="ibox float-e-margins" xmlns="http://www.w3.org/1999/html">
+    <div class="ibox-content">
+        <div class="form-horizontal" id="landForm">
+            <div class="submitDiv" style="display: none">
+                <input type="file" id="file" name="file" multiple="multiple">
+            </div>
+            <#title info="订单状态" />
+            <div class="split"></div>
+            <!-- 订单状态 -->
+            <div class="row" style="margin-top: 10px;height: 200px">
+                <div class="steps col-sm-offset-1 col-sm-10" id="project_first_time_step" style="display: flex">
+                    <div class="step"
+                         style="background-color:#fff; border-color: #267af5;margin: 0px;width: 24px;height:24px;">
+                        <div class="step-text" style="color: #267af5">✓</div>
+                    </div>
+                    <div style="display: flex;flex-direction: column;margin-top: 3px;">
+                        <div style="width: 70px;margin-left: 5px;">下单成功</div>
+                        <div style="margin-left:5px;width: 70px;margin-top: 15px;" id="xdcg_dom">2022-1-6</div>
+                    </div>
+                    <!--<div class="step-line-new" style="height: 1px;background-color:#267af5;"></div>-->
+                    <div class="step-line-new" style="height: 1px;background-color:#267af5;"></div>
+                    <div class="step"
+                         style="width: 24px;height:24px;margin: 0px;background-color:#267af5;border-color: #267af5;border-radius: 50%;border-width: 1px;">
+                        <div class="step-text" style="color: #fff;">2</div>
+                    </div>
+                    <div style="display: flex;flex-direction: column;margin-top: 3px;">
+                        <div style="width: 70px;margin-left: 5px;">设计环节</div>
+                        <div style="margin-left:5px;width: 70px;margin-top: 15px;" id="sjhj_dom">2022-1-6</div>
+                    </div>
+                    <!--<div class="step-line-new" style="height: 1px;"></div>-->
+                    <div class="step-line-new" style="height: 1px;"></div>
+                    <div class="step" style="width: 24px;height: 24px;margin: 0px;">
+                        <div class="step-text">3</div>
+                    </div>
+                    <div style="display: flex;flex-direction: column;margin-top: 3px;">
+                        <div style="width: 70px;margin-left: 5px;">施工环节</div>
+                        <div style="margin-left:5px;width: 70px;margin-top: 15px;" id="sghj_dom">2022-1-6</div>
+                    </div>
+                    <div class="step-line-new" style="height: 1px;"></div>
+                    <div class="step" style="width: 24px;height:24px;margin: 0px;">
+                        <div class="step-text">4</div>
+                    </div>
+                    <div style="display: flex;flex-direction: column;margin-top: 3px;">
+                        <div style="width: 70px;margin-left: 5px;">验收交维</div>
+                        <div style="margin-left:5px;width: 70px;margin-top: 15px;" id="ysjw_dom">2022-1-6</div>
+                    </div>
+                </div>
+            </div>
+            <#title info="订单信息" />
+            <div class="row">
+                <div class="col-sm-3 col-sm-offset-1">
+                    <label style="margin-bottom: 2px" class="col-sm-12 control-label ">
+                        <p class="text-left "><strong><span class="text-primary" style="font-size: 12px;
+            color: #4C4B4B;
+            font-family: 微软雅黑;
+            padding: 0;margin: 0;text-align: left">订单编号</span> : <span
+                                class="text-danger">${orderInfo.order_number}</span></strong></p></label>
+
+                </div>
+                <div class="col-sm-3">
+                    <label style="margin-bottom: 2px" class="col-sm-12 control-label ">
+                        <p class="text-left "><strong><span class="text-primary" style="font-size: 12px;
+            color: #4C4B4B;
+            font-family: 微软雅黑;
+            padding: 0;margin: 0;text-align: right">下单时间</span> : <span
+                                class="text-danger">${orderInfo.down_order_time}</span></strong></p>
+                    </label>
+                </div>
+                <div class="col-sm-3">
+                    <label style="margin-bottom: 2px" class="col-sm-12 control-label ">
+                        <p class="text-left "><strong><span class="text-primary" style="font-size: 12px;
+            color: #4C4B4B;
+            font-family: 微软雅黑;
+            padding: 0;margin: 0;text-align: right">订单状态</span> : <span
+                                class="text-danger">${orderInfo.order_status}</span></strong></p>
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3 col-sm-offset-1">
+                    <label style="margin-bottom: 2px" class="col-sm-12 control-label ">
+                        <p class="text-left "><strong><span class="text-primary" style="font-size: 12px;
+            color: #4C4B4B;
+            font-family: 微软雅黑;
+            padding: 0;margin: 0;text-align: left">公 司 名</span> : <span
+                                class="text-danger">${orderInfo.company_name}</span></strong></p></label>
+
+                </div>
+                <div class="col-sm-3">
+                    <label style="margin-bottom: 2px" class="col-sm-12 control-label ">
+                        <p class="text-left "><strong><span class="text-primary" style="font-size: 12px;
+            color: #4C4B4B;
+            font-family: 微软雅黑;
+            padding: 0;margin: 0;text-align: right">客户姓名</span> : <span
+                                class="text-danger">${orderInfo.custom_name}</span></strong></p></label>
+                </div>
+                <div class="col-sm-3">
+                    <label style="margin-bottom: 2px" class="col-sm-12 control-label ">
+                        <p class="text-left "><strong><span class="text-primary" style="font-size: 12px;
+            color: #4C4B4B;
+            font-family: 微软雅黑;
+            padding: 0;margin: 0;text-align: right">客户联系方式</span> : <span
+                                class="text-danger">${orderInfo.custom_phone}</span></strong></p>
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3 col-sm-offset-1">
+                    <label style="margin-bottom: 2px" class="col-sm-12 control-label ">
+                        <p class="text-left "><strong><span class="text-primary" style="font-size: 12px;
+            color: #4C4B4B;
+            font-family: 微软雅黑;
+            padding: 0;margin: 0;text-align: left">客户经理</span> : <span
+                                class="text-danger" id="manager_id_1" >${orderInfo.custom_manager}</span></strong></p></label>
+
+                </div>
+                <div class="col-sm-3">
+                    <label style="margin-bottom: 2px" class="col-sm-12 control-label ">
+                        <p class="text-left "><strong><span class="text-primary" style="font-size: 12px;
+            color: #4C4B4B;
+            font-family: 微软雅黑;
+            padding: 0;margin: 0;text-align: right">客户经理电话</span> : <span class="text-danger"id="manager_phone" >${orderInfo.custom_manager_phone}</span></strong>
+                        </p>
+                    </label>
+                </div>
+            </div>
+            <div class="row" style="margin-bottom: 20px">
+                <div class="col-sm-offset-1 col-sm-11">
+                    <label style="margin-bottom: 2px" class="col-sm-12 control-label ">
+                        <p class="text-left "><strong><span class="text-primary" style="font-size: 12px;
+            color: #4C4B4B;
+            font-family: 微软雅黑;
+            padding: 0;margin: 0;text-align: right">需求描述</span> : <span class="text-danger">${orderInfo.request_describe}</span></strong>
+                        </p></label>
+                </div>
+            </div>
+            <#title info="商品信息" />
+            <div class="row" style="margin-top: 30px;margin-left: 70px">
+                <div class="col-sm-3">
+                    <#commonInput labelWidth="5" value="${orderInfo.ICT_product_name}" inputWidth="7"
+                    name="ICT产品名称" placeholder="" id="ICT_product_name"/>
+                </div>
+                <div class="col-sm-3">
+                    <#commonInput labelWidth="5" value="${orderInfo.ICT_product_quantity}" inputWidth="7"
+                    name="ICT产品数量" placeholder="" id="ICT_product_quantity"/>
+                </div>
+                <!--<div class="col-sm-3">
+                    <#commonInput labelWidth="5" value="${orderInfo.custom_manager}" inputWidth="7"
+                    name="客户经理" placeholder="" id="custom_manager"/>
+                </div>-->
+                <div class="col-sm-3" id="has_manager">
+                    <label style="margin-bottom: 2px" class="col-sm-12 control-label ">
+                        <p class="text-left "><strong><span class="text-primary" style="font-size: 12px;
+            color: #4C4B4B;
+            font-family: 微软雅黑;
+            padding: 0;margin: 0;text-align: right">客户经理</span> : <span class="text-danger" id="manager_id"></span> <img src="/static/img/close.png" style="margin-left: 10px;" onclick="deleteCustom()"></strong></p></label>
+                </div>
+                <div class="col-sm-3" id="no_manager">
+                    <label style="margin-bottom: 2px" class="col-sm-8 control-label ">
+                        <p class="text-left "><strong><span class="text-primary" style="font-size: 12px;
+            color: #4C4B4B;
+            font-family: 微软雅黑;
+            padding: 0;margin: 0;text-align: right">客户经理</span> :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="border: grey 1px solid; padding: 3px 6px;" onclick="choose_custom()">请选择</span></strong></p></label>
+                </div>
+            </div>
+            <div class="row" style="margin-top: 20px;margin-left: 70px">
+                <div class="col-sm-3">
+                    <#commonInput labelWidth="5" value="${orderInfo.group_code}" inputWidth="7"
+                    name="集团编码" placeholder="" id="group_code"/>
+                </div>
+                <div class="col-sm-3">
+                    <#commonInput labelWidth="5" value="${orderInfo.qk_info}" inputWidth="7"
+                    name="前勘人信息" placeholder="请输入" id="discoveryInfo"/>
+                </div>
+                <div class="col-sm-3">
+                    <#commonInput labelWidth="5" value="${orderInfo.ss_info}" inputWidth="7"
+                    name="实施人信息" placeholder="请输入" id="workInfo"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-5 col-sm-offset-1" style="display: flex">
+                    <label style="margin-bottom: 2px" class="col-sm-3 control-label ">
+                        <p class="text-right "><strong><span class="text-primary" style="font-size: 13px;
+            color: #4C4B4B;
+            font-family: 微软雅黑;
+            padding: 0;margin: 0;text-align: right">附件</span> : <span class="text-danger"></span></strong></p>
+                    </label>
+                    <div class="col-sm-9" style="display: flex">
+                        <div>
+                            <button type="button" class="btn btn-primary " style="background-color: #20BE84"
+                                    onclick="uploadFile()" id="uploadFile">
+                                选择文件
+                            </button>
+                        </div>
+                        <div id="file_dom" style="margin-left: 10px">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row btn-group-m-t" style="">
+            <div class="col-sm-offset-3 col-sm-7">
+                <button type="button" class="btn btn-primary " style="background-color: #20BE84;margin-left: 100px"
+                        onclick="save()" id="save">
+                    保存
+                </button>
+                <button type="button" class="btn btn-primary " style="background-color: #20BE84;margin-left: 80px"
+                        onclick="cancel()" id="cancel">
+                    返回
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    var orderNum = "${orderInfo.order_number}";
+    var orderFiles = '${orderFiles}'
+    var custom_manager = '${orderInfo.client_manager_id}'
+
+    var apply_time = '${orderInfo.apply_time}'
+    var design_time = '${orderInfo.design_time}'
+    var work_time = '${orderInfo.work_time}'
+    var end_time = '${orderInfo.end_time}'
+
+    $("#xdcg_dom").html(apply_time)
+    $("#sjhj_dom").html(design_time)
+    $("#sghj_dom").html(work_time)
+    $("#ysjw_dom").html(end_time)
+
+    if (custom_manager!=null && custom_manager != '' && custom_manager!=undefined){
+        $("#manager_id").html('${orderInfo.custom_manager}')
+        $("#manager_id_1").html('${orderInfo.custom_manager}')
+        $("#manager_phone").html('${orderInfo.custom_manager_phone}')
+        $("#has_manager").show()
+        $("#no_manager").hide()
+    }else{
+        $("#has_manager").hide()
+        $("#no_manager").show()
+    }
+    let orderFile = [];
+
+    var OrderEdits = {
+        setItem: null,
+        table: null,
+        layerIndex: -1,
+        orderInfo: {},
+    }
+
+    function choose_custom() {
+        OrderEdits.layerIndex=openWindow("转派操作",1200,600,"/orderInfo_temp/openAlfredPage?alfred_id="+ '${orderInfo.id}');
+        layer.full(OrderEdits.layerIndex);
+    }
+
+    OrderEdits.chooseCustomWrite = function (user_id, user_name, user_phone) {
+        c(user_id)
+        c(user_name)
+        c(user_phone)
+        $("#manager_id_1").html(user_name)
+        $("#manager_phone").html(user_phone)
+
+        var str = user_name
+        // str += '<img src="/static/img/close.png" style="margin-left: 10px;" onclick="deleteCustom()">'
+
+        $("#manager_id").html(str)
+
+        $("#has_manager").show()
+        $("#no_manager").hide()
+
+        custom_manager = user_id
+    }
+
+    function deleteCustom(){
+        $("#has_manager").hide()
+        $("#no_manager").show()
+
+        $("#manager_id_1").html("")
+        $("#manager_phone").html("")
+        $("#manager_id").html("")
+
+        custom_manager = ''
+    }
+
+    $(function () {
+        if (orderFiles.length > 0) {
+            orderFiles = JSON.parse(orderFiles);
+        }
+        if (orderFiles !== "" && orderFiles !== undefined && orderFiles != null && orderFiles.length > 0) {
+            let html = ''
+            orderFiles.forEach((item, index) => {
+                html = '<div><a href="#" style="margin-right: 15px;" onclick="downloadFile(\'' + item.file_path + '\',\'' + item.file_name + '\')">' + item.file_name + '</a><span data-file="' + item.files + '" data-index="' + index + '"  data-name="' + item.file_name + '" style="color:red;font-size: 16px;text-align: right;cursor: pointer" onclick="remove(this)" class="remove">X</span>&nbsp&nbsp</div>'
+                c("name:" + item.file_name)
+                c("files:" + item.files);
+                orderFile.push(item.files);
+                $("#file_dom").append(html)
+            })
+        }
+        initFileInput("file");
+    })
+
+    function downloadFile(filePath, fileName) {
+        window.location.href = "/base/downloadFile?fileName=" + fileName + "&filePath=" + filePath;
+    }
+
+    function uploadFile() {
+        $("#file").click();
+    }
+
+    function initFileInput(ctrlName) {
+        var control = $('#' + ctrlName);
+        control.fileinput({
+            language: 'zh', //设置语言
+            uploadUrl: "/orderInfo_temp/uploadFiles", //上传的地址
+            uploadAsync: false, //默认异步上传,,false为同步上传
+            showUpload: false, //是否显示上传按钮
+            showRemove: true, //显示移除按钮
+            showPreview: false, //是否显示预览
+            showCaption: true,//是否显示标题
+            browseClass: "btn btn-primary", //按钮样式
+            dropZoneEnabled: false,//是否显示拖拽区域
+            maxFileCount: 10, //表示允许同时上传的最大文件个数
+            enctype: 'multipart/form-data',
+            validateInitialCount: true,
+            previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+            msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
+            uploadExtraData: function (previewId, index) {   //额外参数
+//                var obj = UserInfoDlg.userInfoData;
+                return {};
+            }
+        });
+        //导入文件上传完成之后的事件
+        $("#file").on("filebatchuploadsuccess", function (event, data, previewId, index) {
+            let fileList = data.response.fileList;
+            let html = ''
+            data.files.forEach((item, i) => {
+                let fileName = item.name;
+                let pointIndex = fileName.indexOf(".");
+                html = '<div><span>' + fileName + '&nbsp<span data-file="' + fileList[i] + '" data-index="' + i + '"  data-name="' + item.name + '" style="color:red;font-size: 16px;text-align: right;cursor: pointer" onclick="remove(this)" class="remove">X</span></span>&nbsp&nbsp</div>'
+                $("#file_dom").append(html);
+                orderFile.push(fileList[i]);
+            })
+            $("#loading").modal('hide')
+        });
+        $("#file").on("filebatchselected", function (event, files) {
+            $('#file').fileinput("upload");
+            $("#loading").modal('show')
+        });
+    }
+
+    function remove(a) {
+        Feng.confirm("是否确认删除", function () {
+            let fileId = $(a).data("file")
+            $(a).parent().remove();
+            orderFile.splice(orderFile.indexOf(fileId), 1);
+        })
+    }
+
+    function save() {
+        let files = '';
+        if (orderFile.length > 0) {
+            files = orderFile.join(",");
+        }
+
+        if(custom_manager == null || custom_manager == '' || custom_manager == undefined){
+            return Feng.error("请选择客户经理")
+        }
+
+        OrderEdits.orderInfo['ICT_product_name'] = $.trim($("#ICT_product_name").val());
+        OrderEdits.orderInfo['ICT_product_quantity'] = $.trim($("#ICT_product_quantity").val());
+        OrderEdits.orderInfo['custom_manager_id'] = custom_manager;
+        OrderEdits.orderInfo['custom_manager'] = $("#manager_id_1").html();
+        OrderEdits.orderInfo['group_code'] = $.trim($("#group_code").val());
+        OrderEdits.orderInfo['qk_info'] = $.trim($("#discoveryInfo").val());
+        OrderEdits.orderInfo['ss_info'] = $.trim($("#workInfo").val());
+        OrderEdits.orderInfo['orderNum'] = orderNum;
+        OrderEdits.orderInfo['files'] = files;
+        OrderEdits.orderInfo['id'] = '${orderInfo.id}';
+        Feng.confirm("是否保存？",function () {
+            var ajax = new $ax(Feng.ctxPath + "/orderInfo_temp/edit", function (data) {
+                Feng.success("编辑成功");
+                window.parent.Order.table.refresh();
+                var index = parent.layer.getFrameIndex(window.name)
+                parent.layer.close(index);
+            }, function (data) {
+                Feng.error("下拉框数据加载失败");
+            });
+
+            ajax.set(OrderEdits.orderInfo)
+            ajax.start();
+        })
+    }
+</script>
+
+@}
